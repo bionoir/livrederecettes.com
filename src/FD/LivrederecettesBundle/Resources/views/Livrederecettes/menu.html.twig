@@ -1,0 +1,10 @@
+
+<h3> Les dernières recettes </h3>
+
+<ul>
+    <ul class="nav nav-pills nav-stacked">
+        {% for recette in liste_recettes %}
+            <li><a href="{{ path('livrederecettes_viewRecipe', {'id': recette.id}) }}">{{ recette.titre }}</a></li>
+        {% endfor %}
+    </ul>
+</ul>

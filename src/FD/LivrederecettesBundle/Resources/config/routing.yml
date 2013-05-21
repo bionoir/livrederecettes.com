@@ -1,0 +1,21 @@
+livrederecettes_homepage:
+    pattern:  /
+    defaults: { _controller: FDLivrederecettesBundle:Livrederecettes:homepage }
+    
+livrederecettes_addIngredient:
+    pattern:  /addIngredient
+    defaults: { _controller: FDLivrederecettesBundle:Livrederecettes:homepage }
+    
+livrederecettes_addRecipe:
+    pattern:  /addRecipe
+    defaults: { _controller: FDLivrederecettesBundle:Livrederecettes:homepage }
+    
+livrederecettes_listRecipies:
+    pattern:  /listRecipies
+    defaults: { _controller: FDLivrederecettesBundle:Livrederecettes:homepage }
+    
+livrederecettes_viewRecipe:
+    pattern:  /viewRecipe/{id}
+    defaults: { _controller: FDLivrederecettesBundle:Livrederecettes:homepage }
+    requirements:
+                  id: \d+

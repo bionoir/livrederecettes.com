@@ -1,0 +1,19 @@
+{# src/FD/LivrederecettesBundle/Resources/views/Blog/index.html.twig #}
+{% extends "FDLivrederecettesBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Accueil
+{% endblock %}
+    
+{% block fdalivrederecettes_body %}
+    <h2>Liste des recettes</h2>
+    <ul>
+        {% for recette in liste_recettes %}
+            <li>
+                <a href="{{ path('livrederecettes_viewRecipe', {'id': recette.id}) }}">{{recette.titre }}</a> par {{ recette.auteur }}, le {{ recette.date|date('d/m/Y') }}
+            </li>
+        {% else %}
+            <li>Pas (encore !) de recette!</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,4 @@
+fd_livrederecettes:
+    resource: "@FDLivrederecettesBundle/Resources/config/routing.yml"
+    prefix:   /
+
