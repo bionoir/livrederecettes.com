@@ -1,0 +1,31 @@
+{# src/FD/LivrederecettesBundle/Resources/views/Product/viewProduct.html.twig #}
+{% extends "FDLivrederecettesBundle::layout.html.twig" %}
+ 
+{% block title %}
+    {{ parent() }} - Détail d'un produit
+{% endblock %}
+ 
+{% block fdalivrederecettes_body %}
+ 
+  <h2>{{ product.name }}</h2>
+  
+  <div class="well">
+    Produit de type {{ product.type.value }} dont la saison va du {{ product.seasonStart|date("j F") }} au {{ product.seasonEnd|date("j F") }}.
+  </div>
+  
+  <p>
+    <a href="{{ path('livrederecettes_listProducts') }}" class="btn">
+      <i class="icon-chevron-left"></i>
+      Retour à la liste
+    </a>
+    <a href="{{ path('livrederecettes_modifyProduct', {'id': product.id}) }}" class="btn">
+      <i class="icon-edit"></i>
+      Modifier le produit
+    </a>
+    <a href="{{ path('livrederecettes_deleteProduct', {'id': product.id}) }}" class="btn">
+      <i class="icon-trash"></i>
+      Supprimer le produit
+    </a>
+  </p>
+ 
+{% endblock %}

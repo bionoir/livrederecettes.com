@@ -1,0 +1,120 @@
+{# src/FD/LivrederecettesBundle/Resources/views/Recipe/formRecipe.html.twig #}
+
+
+{# Ici on laisse vide la vue pour l'instant, on la comblera plus tard lorsqu'on saura afficher un formulaire. #}
+{# <div class="well"> #}
+    <form class="well form-horizontal" method="post" {{ form_enctype(form) }}>
+    <div class="control-group">
+        <div class="control-label">
+            {{ form_label(form.title) }}
+        </div>
+        <div class="controls">
+            {{ form_widget(form.title, { 'attr' : {'class' : 'input-block-level'} }) }}
+            {{ form_errors(form.title) }}
+        </div>
+    </div>  
+    
+    <div class="control-group">
+        <div class="control-label">
+            {{ form_label(form.description) }}
+        </div>
+        <div class="controls">
+            {{ form_widget(form.description, { 'attr' : {'class' : 'input-block-level'} }) }}
+            {{ form_errors(form.description) }}
+        </div>
+    </div>  
+    
+    <div class="control-group">
+        <div class="control-label">
+            {{ form_label(form.difficulty) }}
+        </div>
+        <div class="controls">
+            {{ form_widget(form.difficulty, { 'attr' : {'class' : 'input-block-level'} }) }}
+            {{ form_errors(form.difficulty) }}
+        </div>
+    </div>  
+    
+    <div class="control-group">
+        <div class="control-label">
+            {{ form_label(form.preparation) }}
+         </div>
+        <div class="controls">       
+            {{ form_widget(form.preparation, { 'attr' : {'class' : 'input-block-level'} }) }}
+            {{ form_errors(form.preparation) }}
+      </div>
+    </div>  
+    
+    <div class="control-group">
+        <div class="control-label">
+            {{ form_label(form.ingredients) }}
+        </div>
+        <div class="controls">
+            {{ form_widget(form.ingredients, { 'attr' : {'class' : 'input-block-level'} }) }}
+            {{ form_errors(form.ingredients) }}
+        </div>
+    </div>
+            
+      {{ form_rest(form) }}
+            
+      {#      {{ form_widget(form) }}       #}
+            
+      {# Ajout d'un lien pour ajouter un ingredient supplémentaire. #}
+      <a href="#" id="add_ingredient" class="btn">Ajouter un ingredient</a><br /><br />
+      <div class="form-actions">
+        <input type="submit" class="btn btn-primary btn-large" value="Envoyer la recette"/>
+      </div>
+    </form>
+{#</div>#}
+
+
+<script type="text/javascript">
+
+    var number = 2;
+    //alert(typeof number);
+
+    $(document).ready(function(){
+            // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse
+            var $container = $('#fd_livrederecettesbundle_recipetype_ingredients');
+
+            //alert(container);
+
+            // On définit une fonction qui va ajouter un champ
+            function add_ingredient() {
+                // On définit le numéro du champ (en comptant le nombre de champs déjà ajoutés)
+                index = $container.children().length;
+
+                // On ajoute à la fin de la balise <div> le contenu de l'attribut « data-prototype »
+                // Après avoir remplacé la variable __name__ qu'il contient par le numéro du champ
+                var $sub_container = $container.attr('data-prototype').replace(/__name__label__/g, 'Label'+index);
+                $sub_container = $sub_container.remove()
+                $sub_container = $sub_container.replace(/__name__/g, index);
+                $container.append($($sub_container));
+        
+                //$container.append($($container.attr('data-prototype').replace(/__name__/g, index)));
+                
+                // On ajoute également un bouton pour pouvoir supprimer l'ingredient
+                $container.append($('<a href="#" id="delete_ingredient_' + index +'" class="btn btn-danger">Supprimer ingredient</a><br /><br />'));
+
+                // On supprime le champ à chaque clic sur le lien de suppression
+                $('#delete_ingredient_' + index).click(function() {
+                        $(this).prev().remove(); // $(this).prev() est le template ajouté
+                        $(this).remove(); // $(this) est le lien de suppression
+                        return false;
+                });
+            }
+
+            // On ajoute un premier champ directement s'il n'en existe pas déjà un (cas d'un nouvelle recette par exemple)
+            if($container.children().length === 0) {
+                add_ingredient();
+            }
+
+            // On ajoute un nouveau champ à chaque clic sur le lien d'ajout
+            $('#add_ingredient').click(
+                function() {
+                    add_ingredient();
+                    return false;
+                }
+            );
+        }
+    );
+</script>

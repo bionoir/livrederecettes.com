@@ -1,0 +1,31 @@
+{# src/FD/LivrederecettesBundle/Resources/views/Unit/viewUnit.html.twig #}
+{% extends "FDLivrederecettesBundle::layout.html.twig" %}
+ 
+{% block title %}
+    {{ parent() }} - Détail d'une unité de mesure
+{% endblock %}
+ 
+{% block fdalivrederecettes_body %}
+ 
+  <h2>{{ unit.name }}</h2>
+ 
+  <div class="well">
+    {{ unit.value }}
+  </div>
+ 
+  <p>
+    <a href="{{ path('livrederecettes_listUnits') }}" class="btn">
+      <i class="icon-chevron-left"></i>
+      Retour à la liste
+    </a>
+    <a href="{{ path('livrederecettes_modifyUnit', {'id': unit.id}) }}" class="btn">
+      <i class="icon-edit"></i>
+      Modifier l'unité
+    </a>
+    <a href="{{ path('livrederecettes_deleteUnit', {'id': unit.id}) }}" class="btn">
+      <i class="icon-trash"></i>
+      Supprimer l'unité
+    </a>
+  </p>
+ 
+{% endblock %}

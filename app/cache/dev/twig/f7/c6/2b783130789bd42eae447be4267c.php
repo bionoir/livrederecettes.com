@@ -39,7 +39,7 @@ class __TwigTemplate_f7c62b783130789bd42eae447be4267c extends Twig_Template
     public function block_fdalivrederecettes_body($context, array $blocks = array())
     {
         // line 9
-        echo "    <h2>Liste des recettes</h2>
+        echo "    <h3>Liste des recettes</h3>
     <ul>
         ";
         // line 11

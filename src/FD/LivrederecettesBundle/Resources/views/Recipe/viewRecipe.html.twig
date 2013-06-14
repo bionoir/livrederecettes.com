@@ -1,0 +1,49 @@
+{# src/FD/LivrederecettesBundle/Resources/views/Recipe/viewRecipe.html.twig #}
+{% extends "FDLivrederecettesBundle::layout.html.twig" %}
+ 
+{% block title %}
+    {{ parent() }} - Détail d'une recette
+{% endblock %}
+ 
+{% block fdalivrederecettes_body %}
+ 
+  <h2>{{ recipe.title }}</h2>
+  
+  <div class="well">
+    {{ recipe.description }}
+  </div>
+  
+  <div class="well">
+    {{ recipe.difficulty }}
+  </div>
+  
+  <table>
+  {% for ingredient in ingredients %}
+    <tr>
+        <td>{{ ingredient.product.name }}</td>
+        <td>{{ ingredient.quantity }}</td>
+        <td>{{ ingredient.unit.value }}</td>
+    </tr>
+  {% endfor %}
+  </table>
+    
+  <div class="well">
+    {{ recipe.preparation }}
+  </div>
+  
+  <p>
+    <a href="{{ path('livrederecettes_listRecipies') }}" class="btn">
+      <i class="icon-chevron-left"></i>
+      Retour à la liste
+    </a>
+    <a href="{{ path('livrederecettes_modifyRecipe', {'id': recipe.id}) }}" class="btn">
+      <i class="icon-edit"></i>
+      Modifier la recette
+    </a>
+    <a href="{{ path('livrederecettes_deleteType', {'id': recipe.id}) }}" class="btn">
+      <i class="icon-trash"></i>
+      Supprimer la recette
+    </a>
+  </p>
+ 
+{% endblock %}

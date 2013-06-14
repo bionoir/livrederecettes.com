@@ -1,0 +1,21 @@
+{# src/FD/LivrederecettesBundle/Resources/views/Product/listProducts.html.twig #}
+{% extends "FDLivrederecettesBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Liste des produits dans le système
+{% endblock %}
+    
+{% block fdalivrederecettes_body %}
+    <h2>Liste des produits présents dans le système.</h2>
+    <ul>
+        {% for product in products_list %}
+            <li>
+                <a href="{{ path('livrederecettes_viewProduct', {'id': product.id}) }}">{{ product.name }}</a>
+            </li>
+        {% else %}
+            <li>Pas (encore !) de produits dans le système!</li>
+        {% endfor %}
+    </ul>
+    
+    <a class="btn btn-small btn-primary" href="{{ path('livrederecettes_addProduct') }}"><i class="icon-plus"></i> Ajouter un produit</a>
+{% endblock %}

@@ -42,20 +42,18 @@ class __TwigTemplate_7ec32aa49d53bc7bfc5028f3f62a7066 extends Twig_Template
         // line 9
         echo "    ";
         // line 10
-        echo "    <h1>Livre de recettes</h1>
-    <hr>
-        
+        echo "           
     ";
-        // line 14
+        // line 12
         echo "
     ";
-        // line 15
+        // line 13
         $this->displayBlock('fdalivrederecettes_body', $context, $blocks);
     }
 
     public function block_fdalivrederecettes_body($context, array $blocks = array())
     {
-        // line 16
+        // line 14
         echo "    ";
     }
 
@@ -71,6 +69,6 @@ class __TwigTemplate_7ec32aa49d53bc7bfc5028f3f62a7066 extends Twig_Template
 
     public function getDebugInfo()
     {
-        return array (  59 => 16,  53 => 15,  50 => 14,  45 => 10,  43 => 9,  40 => 8,  33 => 5,  30 => 4,  75 => 18,  68 => 16,  54 => 13,  51 => 12,  46 => 11,  42 => 9,  39 => 8,  32 => 5,  29 => 4,);
+        return array (  57 => 14,  51 => 13,  48 => 12,  45 => 10,  43 => 9,  40 => 8,  33 => 5,  30 => 4,);
     }
 }

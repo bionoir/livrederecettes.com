@@ -1,0 +1,25 @@
+{# src/FD/LivrederecettesBundle/Resources/views/Product/modifyProduct.html.twig #}
+{% extends "FDLivrederecettesBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Modifier le produit
+{% endblock %}
+    
+{% block fdalivrederecettes_body %}
+    <h2>Modifier le produit</h2>
+    
+    <h3>Formulaire pour la modification du produit</h3>
+    
+    {% include "FDLivrederecettesBundle:Product:formProduct.html.twig" %}
+    
+    <p>
+        Vous éditez un produit déjà existant.
+    </p>
+    
+    <p>
+        <a href="{{ path('livrederecettes_viewProduct', {'id': product.id}) }}" class="btn">
+        <i class="icon-chevron-left"></i>
+        Retour à la fiche du produit
+        </a>
+  </p>
+{% endblock %}

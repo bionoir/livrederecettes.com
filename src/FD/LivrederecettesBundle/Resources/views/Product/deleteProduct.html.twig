@@ -1,0 +1,23 @@
+{# src/FD/LivrederecettesBundle/Resources/views/Product/deleteProduct.html.twig #}
+{% extends "FDLivrederecettesBundle::layout.html.twig" %}
+ 
+{% block title %}
+    {{ parent() }} - Confirmer suppression du produit
+{% endblock %}
+
+{% block fdalivrederecettes_body %}
+
+    <p> Voulez-vous vraiment supprimer le produit "{{ product.name }}" ? </p>
+    
+    <p>
+        <form action="{{ path('livrederecettes_deleteProduct', {'id': product.id}) }}" method="post">
+            <a href="{{ path('livrederecettes_viewProduct', {'id': product.id}) }}" class="btn">
+                <i class="icon-chevron-left"></i>
+                Retour à la fiche du produit
+            </a>
+            <input type="submit" value="Supprimer" class="btn btn-danger" />
+            {{ form_rest(form) }}
+        </form>
+    </p>
+
+{% endblock %}

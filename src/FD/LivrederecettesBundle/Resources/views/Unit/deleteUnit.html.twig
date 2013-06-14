@@ -1,0 +1,23 @@
+{# src/FD/LivrederecettesBundle/Resources/views/Unit/deleteUnit.html.twig #}
+{% extends "FDLivrederecettesBundle::layout.html.twig" %}
+ 
+{% block title %}
+    {{ parent() }} - Confirmer suppression unité de mesure
+{% endblock %}
+
+{% block fdalivrederecettes_body %}
+
+    <p> Voulez-vous vraiment supprimer l'unité de mesure "{{ unit.name }}" ? </p>
+    
+    <p>
+        <form action="{{ path('livrederecettes_deleteUnit', {'id': unit.id}) }}" method="post">
+            <a href="{{ path('livrederecettes_viewUnit', {'id': unit.id}) }}" class="btn">
+                <i class="icon-chevron-left"></i>
+                Retour à la fiche de l'unité de mesure
+            </a>
+            <input type="submit" value="Supprimer" class="btn btn-danger" />
+            {{ form_rest(form) }}
+        </form>
+    </p>
+    
+{% endblock %}

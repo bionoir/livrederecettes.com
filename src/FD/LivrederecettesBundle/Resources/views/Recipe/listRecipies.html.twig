@@ -1,0 +1,21 @@
+{# src/FD/LivrederecettesBundle/Resources/views/Recipe/listRecipies.html.twig #}
+{% extends "FDLivrederecettesBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Liste des recettes enregistrées dans le système
+{% endblock %}
+    
+{% block fdalivrederecettes_body %}
+    <h3>Liste des recettes présentes dans le système.</h3>
+    <ul>
+        {% for recipe in recipies_list %}
+            <li>
+                <a href="{{ path('livrederecettes_viewRecipe', {'id': recipe.id}) }}">{{ recipe.title }}</a>
+            </li>
+        {% else %}
+            <li>Pas (encore !) de recettes dans le système!</li>
+        {% endfor %}
+    </ul>
+    
+    <a class="btn btn-small btn-primary" href="{{ path('livrederecettes_addRecipe') }}"><i class="icon-plus"></i> Ajouter une recette</a>
+{% endblock %}

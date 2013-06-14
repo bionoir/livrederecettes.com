@@ -1,21 +1,135 @@
 livrederecettes_homepage:
     pattern:  /
     defaults: { _controller: FDLivrederecettesBundle:Livrederecettes:homepage }
+
+# RECIPE section
+
+livrederecettes_listRecipies:
+    pattern:  /listRecipies
+    defaults: { _controller: FDLivrederecettesBundle:Recipe:listRecipies }
+    
+livrederecettes_viewRecipe:
+    pattern:  /viewRecipe/{id}
+    defaults: { _controller: FDLivrederecettesBundle:Recipe:viewRecipe }
+    requirements:
+                  id: \d+
+
+livrederecettes_addRecipe:
+    pattern:  /addRecipe
+    defaults: { _controller: FDLivrederecettesBundle:Recipe:addRecipe }
+
+livrederecettes_modifyRecipe:
+    pattern:  /modifyRecipe/{id}
+    defaults: { _controller: FDLivrederecettesBundle:Recipe:modifyRecipe }
+    requirements:
+                  id: \d+
+    
+livrederecettes_deleteRecipe:
+    pattern:  /deleteRecipe/{id}
+    defaults: { _controller: FDLivrederecettesBundle:Recipe:deleteRecipe }
+    requirements:
+                  id: \d+
+
+# PRODUCT section
+livrederecettes_listProducts:
+    pattern:  /listProducts
+    defaults: { _controller: FDLivrederecettesBundle:Product:listProducts }
+
+livrederecettes_viewProduct:
+    pattern:  /viewProduct/{id}
+    defaults: { _controller: FDLivrederecettesBundle:Product:viewProduct }
+    requirements:
+                  id: \d+
+    
+livrederecettes_addProduct:
+    pattern:  /addProduct
+    defaults: { _controller: FDLivrederecettesBundle:Product:addProduct }
+    
+livrederecettes_modifyProduct:
+    pattern:  /modifyProduct/{id}
+    defaults: { _controller: FDLivrederecettesBundle:Product:modifyProduct }
+    requirements:
+                  id: \d+
+    
+livrederecettes_deleteProduct:
+    pattern:  /deleteProduct/{id}
+    defaults: { _controller: FDLivrederecettesBundle:Product:deleteProduct }
+    requirements:
+                  id: \d+
+
+# INGREDIENT section
+livrederecettes_listIngredients:
+    pattern:  /listIngredients
+    defaults: { _controller: FDLivrederecettesBundle:Livrederecettes:homepage }
+
+livrederecettes_viewIngredient:
+    pattern:  /viewIngredient/{id}
+    defaults: { _controller: FDLivrederecettesBundle:Livrederecettes:homepage }
+    requirements:
+                  id: \d+
     
 livrederecettes_addIngredient:
     pattern:  /addIngredient
     defaults: { _controller: FDLivrederecettesBundle:Livrederecettes:homepage }
     
-livrederecettes_addRecipe:
-    pattern:  /addRecipe
+livrederecettes_modifyIngredient:
+    pattern:  /modifyIngredient
     defaults: { _controller: FDLivrederecettesBundle:Livrederecettes:homepage }
     
-livrederecettes_listRecipies:
-    pattern:  /listRecipies
+livrederecettes_deleteIngredient:
+    pattern:  /deleteIngredient
     defaults: { _controller: FDLivrederecettesBundle:Livrederecettes:homepage }
-    
-livrederecettes_viewRecipe:
-    pattern:  /viewRecipe/{id}
-    defaults: { _controller: FDLivrederecettesBundle:Livrederecettes:homepage }
+
+# UNIT section
+livrederecettes_listUnits:
+  pattern: /listUnits
+  defaults: { _controller: FDLivrederecettesBundle:Unit:listUnits }
+
+livrederecettes_viewUnit:
+    pattern:  /viewUnit/{id}
+    defaults: { _controller: FDLivrederecettesBundle:Unit:viewUnit }
     requirements:
                   id: \d+
+
+livrederecettes_addUnit:
+    pattern:  /addUnit
+    defaults: { _controller: FDLivrederecettesBundle:Unit:addUnit }
+    
+livrederecettes_modifyUnit:
+    pattern:  /modifyUnit/{id}
+    defaults: { _controller: FDLivrederecettesBundle:Unit:modifyUnit }
+    requirements:
+                  id: \d+
+    
+livrederecettes_deleteUnit:
+    pattern:  /deleteUnit/{id}
+    defaults: { _controller: FDLivrederecettesBundle:Unit:deleteUnit }
+    requirements:
+                  id:  \d+
+    
+# TYPE section
+livrederecettes_listTypes:
+  pattern: /listTypes
+  defaults: { _controller: FDLivrederecettesBundle:Type:listTypes }
+
+livrederecettes_viewType:
+    pattern:  /viewType/{id}
+    defaults: { _controller: FDLivrederecettesBundle:Type:viewType }
+    requirements:
+                  id: \d+
+
+livrederecettes_addType:
+    pattern:  /addType
+    defaults: { _controller: FDLivrederecettesBundle:Type:addType }
+    
+livrederecettes_modifyType:
+    pattern:  /modifyType/{id}
+    defaults: { _controller: FDLivrederecettesBundle:Type:modifyType }
+    requirements:
+                  id:  \d+
+    
+livrederecettes_deleteType:
+    pattern:  /deleteType/{id}
+    defaults: { _controller: FDLivrederecettesBundle:Type:deleteType }
+    requirements:
+                  id:  \d+

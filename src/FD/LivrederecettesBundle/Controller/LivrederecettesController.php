@@ -7,6 +7,31 @@ use Symfony\Component\HttpFoundation\Response;
 
 class LivrederecettesController extends Controller
 {
+    private function getErrorMessages(\Symfony\Component\Form\Form $form)
+    {
+        $errors = array();
+
+        if ($form->count() > 0) {
+            foreach ($form->all() as $child) {
+                /**
+                * @var \Symfony\Component\Form\Form $child
+                */
+                if (!$child->isValid()) {
+                    $errors[$child->getName()] = $this->getErrorMessages($child);
+                }
+            }
+        } else {
+            /**
+            * @var \Symfony\Component\Form\FormError $error
+            */
+            foreach ($form->getErrors() as $key => $error) {
+                $errors[] = $error->getMessage();
+            }
+        }
+        
+        return $errors;
+    }
+    
     public function menuAction()
     {
         $liste_recettes = array(
@@ -41,26 +66,7 @@ class LivrederecettesController extends Controller
         // Puis modifiez la ligne du render comme ceci, pour prendre en compte nos articles :
         return $this->render('FDLivrederecettesBundle:Livrederecettes:homepage.html.twig', array('liste_recettes' => $liste_recettes));
     }
-    
-    public function addIngredientAction()
-    {
-        return $this->render('FDLivrederecettesBundle:Livrederecettes:homepage.html.twig');
-    }
-    
-    public function addRecipeAction()
-    {
-        return $this->render('FDLivrederecettesBundle:Livrederecettes:homepage.html.twig');
-    }
-    
-    public function listRecipiesAction()
-    {
-        return $this->render('FDLivrederecettesBundle:Livrederecettes:homepage.html.twig');
-    }
-    
-    public function viewRecipeAction($id)
-    {
-        return $this->render('FDLivrederecettesBundle:Livrederecettes:homepage.html.twig');
-    }
+ 
     
  
 }

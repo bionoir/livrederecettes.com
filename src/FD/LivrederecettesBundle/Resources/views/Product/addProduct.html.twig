@@ -1,0 +1,12 @@
+{# src/FD/LivrederecettesBundle/Resources/views/Product/addProduct.html.twig #}
+{% extends "FDLivrederecettesBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Ajouter un produit
+{% endblock %}
+    
+{% block fdalivrederecettes_body %}
+    <h3>Formulaire pour l'ajout d'un nouveau produit</h3>
+    
+    {% include "FDLivrederecettesBundle:Product:formProduct.html.twig" %}
+{% endblock %}

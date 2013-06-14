@@ -7,6 +7,12 @@
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.css') }}" type="text/css" />
         {% endblock %}
+        {% block javascripts %}
+            {# Ajoutez ces javascripts si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
+            {# <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> #}
+            <script type="text/javascript" src="{{ asset('bootstrap/js/bootstrap.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/fdlivrederecettes/js/jquery-1.10.1.min.js') }}"></script>
+        {% endblock %}
     </head>
     
     <body>
@@ -28,13 +34,23 @@
                 <h3>Le site</h3>
                 <ul class="nav nav-pills nav-stacked">
                     <li><a href="{{ path('livrederecettes_homepage') }}">Accueil</a></li>
-                    <li><a href="{{ path('livrederecettes_addIngredient') }}">Ajouter un ingredient</a></li>
-                    <li><a href="{{ path('livrederecettes_addRecipe') }}">Ajouter une recette</a></li>
+                    <li><a href="{{ path('livrederecettes_listRecipies') }}">Recettes</a></li>
+                    <li><a href="{{ path('livrederecettes_listProducts') }}">Produits</a></li>
+                    <li><a href="{{ path('livrederecettes_listUnits') }}">Unités de mesure</a></li>
+                    <li><a href="{{ path('livrederecettes_listTypes') }}">Types de produit</a></li>
                 </ul>
                 {{ render(controller('FDLivrederecettesBundle:Livrederecettes:menu')) }}
             </div>
-                
+            
             <div id="content" class="span9">
+                {% for typeMessage, flashMessages in app.session.flashbag.all() %}
+                    {% for flashMessage in flashMessages %}
+                        <div class="alert alert-{{ typeMessage }}">
+                            {{ flashMessage|trans }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                    
                 {% block body %}
                 {% endblock %}
             </div>
@@ -45,11 +61,8 @@
                 <p>Dalmasso productions © 2013 and beyond.</p>
             </footer>
         </div>
-            
-        {% block javascripts %}
-            {# Ajoutez ces javascripts si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
-            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-            <script type="text/javascript" src="{{ asset('bootstrap/js/bootstrap.js') }}"></script>
+
+        {% block javascriptsend %}
         {% endblock %}
     </body>
 </html>

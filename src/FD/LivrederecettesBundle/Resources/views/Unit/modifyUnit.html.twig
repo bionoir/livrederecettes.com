@@ -1,0 +1,25 @@
+{# src/FD/LivrederecettesBundle/Resources/views/Unit/modifyUnit.html.twig #}
+{% extends "FDLivrederecettesBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Modifier l'unité de mesure
+{% endblock %}
+    
+{% block fdalivrederecettes_body %}
+    <h2>Modifier une unité</h2>
+    
+    <h3>Formulaire pour la modification d'une unité de mesure</h3>
+    
+    {% include "FDLivrederecettesBundle:Unit:formUnit.html.twig" %}
+    
+    <p>
+        Vous éditez une unité déjà existante.
+    </p>
+    
+    <p>
+        <a href="{{ path('livrederecettes_viewUnit', {'id': unit.id}) }}" class="btn">
+        <i class="icon-chevron-left"></i>
+        Retour à la fiche de l'unité
+        </a>
+  </p>
+{% endblock %}

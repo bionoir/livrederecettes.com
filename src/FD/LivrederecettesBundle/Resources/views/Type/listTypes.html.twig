@@ -1,0 +1,21 @@
+{# src/FD/LivrederecettesBundle/Resources/views/Type/listTypes.html.twig #}
+{% extends "FDLivrederecettesBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Liste des types de produit
+{% endblock %}
+    
+{% block fdalivrederecettes_body %}
+    <h2>Liste des types de produit présents dans le système.</h2>
+    <ul>
+        {% for type in types_list %}
+            <li>
+                <a href="{{ path('livrederecettes_viewType', {'id': type.id}) }}">{{ type.value }}</a>
+            </li>
+        {% else %}
+            <li>Pas (encore !) de types de produit dans le système!</li>
+        {% endfor %}
+    </ul>
+    
+    <a class="btn btn-small btn-primary" href="{{ path('livrederecettes_addType') }}"><i class="icon-plus"></i> Ajouter un type de produit</a>
+{% endblock %}

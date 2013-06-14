@@ -1,0 +1,36 @@
+{# src/FD/LivrederecettesBundle/Resources/views/Product/formProduct.html.twig #}
+ 
+{# Ici on laisse vide la vue pour l'instant, on la comblera plus tard lorsqu'on saura afficher un formulaire. #}
+<div class="well">
+  <form method="post" {{ form_enctype(form) }}>
+    {{ form_label(form.name, 'Nom du produit') }}
+    {{ form_widget(form.name) }}
+    {{ form_errors(form.name) }}
+    
+    {{ form_label(form.seasonStart, 'Début saison') }}
+    {{ form_widget(form.seasonStart.year, { 'attr': {'style': 'display:none'} }) }}
+    {{ form_widget(form.seasonStart.day) }}
+    {{ form_widget(form.seasonStart.month) }}
+    {{ form_errors(form.seasonStart) }}
+    
+    {{ form_label(form.seasonEnd, 'Fin saison') }}
+    {{ form_widget(form.seasonEnd.year, { 'attr': {'style': 'display:none'} }) }}
+    {{ form_widget(form.seasonEnd.day) }}
+    {{ form_widget(form.seasonEnd.month) }}
+    {{ form_errors(form.seasonEnd) }}
+    
+    {{ form_label(form.type, 'Type de produit') }}
+    {{ form_widget(form.type) }}
+    {{ form_errors(form.type) }}     
+          
+    {{ form_rest(form) }}
+    <br/>
+    {# {{ form_widget(form) }}  #}
+    <input type="submit" class="btn btn-primary btn-large" />
+    {% if product is null %}
+        <a href="{{ path(url_cancel) }}"><input type="button" class="btn-large" value="Annuler" /></a>
+    {% else %}
+        <a href="{{ path(url_cancel, {'id': product.id}) }}"><input type="button" class="btn-large" value="Annuler" /></a>
+    {% endif %}
+  </form>
+</div>

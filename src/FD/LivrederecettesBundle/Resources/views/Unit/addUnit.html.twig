@@ -1,0 +1,13 @@
+{# src/FD/LivrederecettesBundle/Resources/views/Unit/addUnit.html.twig #}
+{% extends "FDLivrederecettesBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Ajouter une unité de mesure
+{% endblock %}
+    
+{% block fdalivrederecettes_body %}
+    <h3>Formulaire pour l'ajout d'une nouvelle unité de mesure</h3>
+    
+    {% include "FDLivrederecettesBundle:Unit:formUnit.html.twig" %}
+    
+{% endblock %}

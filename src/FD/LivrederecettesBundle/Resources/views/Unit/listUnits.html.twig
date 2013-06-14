@@ -1,0 +1,21 @@
+{# src/FD/LivrederecettesBundle/Resources/views/Unit/listUnits.html.twig #}
+{% extends "FDLivrederecettesBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Liste des unités de mesure pour les ingredients
+{% endblock %}
+    
+{% block fdalivrederecettes_body %}
+    <h2>Liste des unités de mesure présentes dans le système.</h2>
+    <ul>
+        {% for unit in units_list %}
+            <li>
+                <a href="{{ path('livrederecettes_viewUnit', {'id': unit.id}) }}">{{ unit.name }}</a>
+            </li>
+        {% else %}
+            <li>Pas (encore !) d'unités de mesure dans le système!</li>
+        {% endfor %}
+    </ul>
+    
+    <a class="btn btn-small btn-primary" href="{{ path('livrederecettes_addUnit') }}"><i class="icon-plus"></i> Ajouter une unité de mesure</a>
+{% endblock %}
