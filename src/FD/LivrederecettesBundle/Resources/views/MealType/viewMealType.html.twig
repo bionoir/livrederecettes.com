@@ -1,0 +1,27 @@
+{# src/FD/LivrederecettesBundle/Resources/views/MealType/viewMealType.html.twig #}
+{% extends "FDLivrederecettesBundle::layout.html.twig" %}
+ 
+{% block title %}
+    {{ parent() }} - Détail d'un type de repas
+{% endblock %}
+ 
+{% block fdalivrederecettes_body %}
+ 
+  <h2>{{ mealType.name }}</h2>
+    
+  <p>
+    <a href="{{ path('livrederecettes_listMealTypes') }}" class="btn">
+      <i class="icon-chevron-left"></i>
+      Retour à la liste
+    </a>
+    <a href="{{ path('livrederecettes_modifyMealType', {'id': mealType.id}) }}" class="btn">
+      <i class="icon-edit"></i>
+      Modifier le type de repas
+    </a>
+    <a href="{{ path('livrederecettes_deleteMealType', {'id': mealType.id}) }}" class="btn">
+      <i class="icon-trash"></i>
+      Supprimer le type de repas
+    </a>
+  </p>
+ 
+{% endblock %}

@@ -142,6 +142,8 @@ class UnitController extends Controller
         
         if ($request->getMethod() == 'POST')
         {
+            $form->bind($request);
+            
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->remove($unit);
@@ -157,7 +159,7 @@ class UnitController extends Controller
         $ingrendientRepository = $this->getDoctrine()->getManager()->getRepository('FDLivrederecettesBundle:Ingredient');
         $ingredient = $ingrendientRepository->getIngredientsByUnit($unit->getId());
         
-        if (!is_null($ingredient))
+        if (count($ingredient) > 0)
         {
             $this->get('session')->getFlashBag()->add('error', 'Unité[id='.$id.'] est utilisée par des ingredients et elle ne peut donc pas être effacée!');
             return $this->render('FDLivrederecettesBundle:Unit:viewUnit.html.twig', array('unit' => $unit));

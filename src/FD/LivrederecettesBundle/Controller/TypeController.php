@@ -141,6 +141,8 @@ class TypeController extends Controller
         
         if ($request->getMethod() == 'POST')
         {
+            $form->bind($request);
+            
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
                 $em->remove($type);
@@ -156,7 +158,7 @@ class TypeController extends Controller
         $productRepository = $this->getDoctrine()->getManager()->getRepository('FDLivrederecettesBundle:Product');
         $product = $productRepository->getProductsByType($type->getId());
         
-        if (!is_null($product))
+        if (count($product) > 0)
         {
             $this->get('session')->getFlashBag()->add('error', 'Un ou plusieurs produits utilisent ce type et il ne peut pas être effacé!');
             return $this->render('FDLivrederecettesBundle:Type:viewType.html.twig', array('type' => $type));

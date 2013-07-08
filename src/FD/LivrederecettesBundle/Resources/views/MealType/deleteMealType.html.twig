@@ -1,0 +1,23 @@
+{# src/FD/LivrederecettesBundle/Resources/views/MealType/deleteMealType.html.twig #}
+{% extends "FDLivrederecettesBundle::layout.html.twig" %}
+ 
+{% block title %}
+    {{ parent() }} - Confirmer suppression du type de repas
+{% endblock %}
+
+{% block fdalivrederecettes_body %}
+
+    <p> Voulez-vous vraiment supprimer le type de repas "{{ mealType.name }}" ? </p>
+    
+    <p>
+        <form action="{{ path('livrederecettes_deleteMealType', {'id': mealType.id}) }}" method="post">
+            <a href="{{ path('livrederecettes_viewMealType', {'id': mealType.id}) }}" class="btn">
+                <i class="icon-chevron-left"></i>
+                Retour à la fiche du type de repas
+            </a>
+            <input type="submit" value="Supprimer" class="btn btn-danger" />
+            {{ form_rest(form) }}
+        </form>
+    </p>
+
+{% endblock %}

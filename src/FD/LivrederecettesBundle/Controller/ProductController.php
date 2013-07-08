@@ -140,6 +140,8 @@ class ProductController extends Controller
         
         if ($request->getMethod() == 'POST')
         {
+            $form->bind($request);
+            
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
                 $em->remove($product);
@@ -155,7 +157,7 @@ class ProductController extends Controller
         $ingredientRepository = $this->getDoctrine()->getManager()->getRepository('FDLivrederecettesBundle:Ingredient');
         $ingredient = $ingredientRepository->getIngredientsByProduct($product->getId());
         
-        if (!is_null($ingredient))
+        if (count($ingredient) > 0)
         {
             $this->get('session')->getFlashBag()->add('error', 'Le produit[id='.$id.'] est utilisé par des recettes et il ne peut donc pas être effacé!');
             return $this->render('FDLivrederecettesBundle:Product:viewProduct.html.twig', array('product' => $product));

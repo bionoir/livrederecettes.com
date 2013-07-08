@@ -74,6 +74,9 @@ class RecipeController extends Controller
             $form->bind($request);
             
             if ($form->isValid()) {
+                foreach($recipe->getIngredients() as $ingredient) {
+                    $ingredient->setRecipe($recipe);
+                }
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($recipe);
                 $em->flush();
@@ -94,17 +97,42 @@ class RecipeController extends Controller
         
         $recipeRepository = $this->getDoctrine()->getManager()->getRepository('FDLivrederecettesBundle:Recipe');
         $recipe = $recipeRepository->find($id);
+
+        if (!$recipe) {
+            throw $this->createNotFoundException('Recette avec ID {'.$id.'} non trouvée!');
+        }
+                
+        $originalRecipe = new Recipe();
+        $originalRecipe = $recipe->createCopy();
         
         $form = $this->createForm(new RecipeType(), $recipe);
         
-        $request = $this->get('request');
+        $request = $this->getRequest();
         
         if ($request->getMethod() == 'POST') {
             
             $form->bind($request);
             
             if ($form->isValid()) {
+                
                 $em = $this->getDoctrine()->getManager();
+                
+                /* 
+                 * On compare la liste des ingredients existant avant modifications et ceux 
+                 * qui ne sont plus présent dans la nouvelle recette sont éliminés
+                 */
+                foreach ($originalRecipe->getIngredients() as $ingredient) {
+                    $ingr_id = $ingredient->getId();
+                    
+                    if (!$recipe->containsIngredient($ingr_id)){
+                        
+                        $ingredientRepository = $this->getDoctrine()->getManager()->getRepository('FDLivrederecettesBundle:Ingredient');
+                        $ingredientToRemove = $ingredientRepository->find($ingr_id);
+                        $em->remove($ingredientToRemove);
+                    }
+
+                }
+                               
                 $em->persist($recipe);
                 $em->flush();
                 
@@ -139,8 +167,16 @@ class RecipeController extends Controller
         
         if ($request->getMethod() == 'POST')
         {
+            $form->bind($request);
+            
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
+                
+                foreach($recipe->getIngredients() as $ingredient) {
+                    $recipe->removeIngredient($ingredient);
+                    $em->remove($ingredient);
+                }
+                
                 $em->remove($recipe);
                 $em->flush();
                 // Si la requête est en POST, on supprimera la recette

@@ -1,0 +1,21 @@
+{# src/FD/LivrederecettesBundle/Resources/views/Menu/listMenus.html.twig #}
+{% extends "FDLivrederecettesBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Liste des menus enregistrés dans le système
+{% endblock %}
+    
+{% block fdalivrederecettes_body %}
+    <h3>Liste des menus présents dans le système.</h3>
+    <ul>
+        {% for menu in listMenus %}
+            <li>
+                <a href="{{ path('livrederecettes_viewMenu', {'id': menu.id}) }}">{{ menu.title }}</a>
+            </li>
+        {% else %}
+            <li>Pas (encore !) de menus dans le système!</li>
+        {% endfor %}
+    </ul>
+    
+    <a class="btn btn-small btn-primary" href="{{ path('livrederecettes_addMenu') }}"><i class="icon-plus"></i> Ajouter un menu</a>
+{% endblock %}

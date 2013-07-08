@@ -142,6 +142,56 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             return array (  '_controller' => 'FD\\LivrederecettesBundle\\Controller\\LivrederecettesController::homepageAction',  '_route' => 'livrederecettes_homepage',);
         }
 
+        // livrederecettes_listShoppingLists
+        if ($pathinfo === '/listShoppingLists') {
+            return array (  '_controller' => 'FD\\LivrederecettesBundle\\Controller\\ShoppingListController::listShoppingListsAction',  '_route' => 'livrederecettes_listShoppingLists',);
+        }
+
+        // livrederecettes_viewShoppingList
+        if (0 === strpos($pathinfo, '/viewShoppingList') && preg_match('#^/viewShoppingList/(?P<id>\\d+)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'livrederecettes_viewShoppingList')), array (  '_controller' => 'FD\\LivrederecettesBundle\\Controller\\ShoppingListController::viewShoppingListAction',));
+        }
+
+        // livrederecettes_addShoppingList
+        if ($pathinfo === '/addShoppingList') {
+            return array (  '_controller' => 'FD\\LivrederecettesBundle\\Controller\\ShoppingListController::addShoppingListAction',  '_route' => 'livrederecettes_addShoppingList',);
+        }
+
+        // livrederecettes_modifyShoppingList
+        if (0 === strpos($pathinfo, '/modifyShoppingList') && preg_match('#^/modifyShoppingList/(?P<id>\\d+)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'livrederecettes_modifyShoppingList')), array (  '_controller' => 'FD\\LivrederecettesBundle\\Controller\\ShoppingListController::modifyShoppingListAction',));
+        }
+
+        // livrederecettes_deleteShoppingList
+        if (0 === strpos($pathinfo, '/deleteShoppingList') && preg_match('#^/deleteShoppingList/(?P<id>\\d+)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'livrederecettes_deleteShoppingList')), array (  '_controller' => 'FD\\LivrederecettesBundle\\Controller\\ShoppingListController::deleteShoppingListAction',));
+        }
+
+        // livrederecettes_listMenus
+        if ($pathinfo === '/listMenus') {
+            return array (  '_controller' => 'FD\\LivrederecettesBundle\\Controller\\MenuController::listMenusAction',  '_route' => 'livrederecettes_listMenus',);
+        }
+
+        // livrederecettes_viewMenu
+        if (0 === strpos($pathinfo, '/viewMenu') && preg_match('#^/viewMenu/(?P<id>\\d+)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'livrederecettes_viewMenu')), array (  '_controller' => 'FD\\LivrederecettesBundle\\Controller\\MenuController::viewMenuAction',));
+        }
+
+        // livrederecettes_addMenu
+        if ($pathinfo === '/addMenu') {
+            return array (  '_controller' => 'FD\\LivrederecettesBundle\\Controller\\MenuController::addMenuAction',  '_route' => 'livrederecettes_addMenu',);
+        }
+
+        // livrederecettes_modifyMenu
+        if (0 === strpos($pathinfo, '/modifyMenu') && preg_match('#^/modifyMenu/(?P<id>\\d+)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'livrederecettes_modifyMenu')), array (  '_controller' => 'FD\\LivrederecettesBundle\\Controller\\MenuController::modifyMenuAction',));
+        }
+
+        // livrederecettes_deleteMenu
+        if (0 === strpos($pathinfo, '/deleteMenu') && preg_match('#^/deleteMenu/(?P<id>\\d+)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'livrederecettes_deleteMenu')), array (  '_controller' => 'FD\\LivrederecettesBundle\\Controller\\MenuController::deleteMenuAction',));
+        }
+
         // livrederecettes_listRecipies
         if ($pathinfo === '/listRecipies') {
             return array (  '_controller' => 'FD\\LivrederecettesBundle\\Controller\\RecipeController::listRecipiesAction',  '_route' => 'livrederecettes_listRecipies',);
@@ -265,6 +315,31 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
         // livrederecettes_deleteType
         if (0 === strpos($pathinfo, '/deleteType') && preg_match('#^/deleteType/(?P<id>\\d+)$#s', $pathinfo, $matches)) {
             return $this->mergeDefaults(array_replace($matches, array('_route' => 'livrederecettes_deleteType')), array (  '_controller' => 'FD\\LivrederecettesBundle\\Controller\\TypeController::deleteTypeAction',));
+        }
+
+        // livrederecettes_listMealTypes
+        if ($pathinfo === '/listMealTypes') {
+            return array (  '_controller' => 'FD\\LivrederecettesBundle\\Controller\\MealTypeController::listMealTypesAction',  '_route' => 'livrederecettes_listMealTypes',);
+        }
+
+        // livrederecettes_viewMealType
+        if (0 === strpos($pathinfo, '/viewMealType') && preg_match('#^/viewMealType/(?P<id>\\d+)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'livrederecettes_viewMealType')), array (  '_controller' => 'FD\\LivrederecettesBundle\\Controller\\MealTypeController::viewMealTypeAction',));
+        }
+
+        // livrederecettes_addMealType
+        if ($pathinfo === '/addMealType') {
+            return array (  '_controller' => 'FD\\LivrederecettesBundle\\Controller\\MealTypeController::addMealTypeAction',  '_route' => 'livrederecettes_addMealType',);
+        }
+
+        // livrederecettes_modifyMealType
+        if (0 === strpos($pathinfo, '/modifyMealType') && preg_match('#^/modifyMealType/(?P<id>\\d+)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'livrederecettes_modifyMealType')), array (  '_controller' => 'FD\\LivrederecettesBundle\\Controller\\MealTypeController::modifyMealTypeAction',));
+        }
+
+        // livrederecettes_deleteMealType
+        if (0 === strpos($pathinfo, '/deleteMealType') && preg_match('#^/deleteMealType/(?P<id>\\d+)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'livrederecettes_deleteMealType')), array (  '_controller' => 'FD\\LivrederecettesBundle\\Controller\\MealTypeController::deleteMealTypeAction',));
         }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();

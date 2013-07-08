@@ -1,0 +1,12 @@
+{# src/FD/LivrederecettesBundle/Resources/views/Menu/addMenu.html.twig #}
+{% extends "FDLivrederecettesBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Ajouter un menu
+{% endblock %}
+    
+{% block fdalivrederecettes_body %}
+    <h3>Formulaire pour l'ajout d'un nouveau menu</h3>
+    
+    {% include "FDLivrederecettesBundle:Menu:formAddMenu.html.twig" %}
+{% endblock %}

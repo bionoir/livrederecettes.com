@@ -30,7 +30,7 @@ class Ingredient
     
     /**
      * @ORM\ManyToOne(targetEntity="FD\LivrederecettesBundle\Entity\Recipe", inversedBy="ingredients")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="recipe_id", referencedColumnName="id", nullable=false)
      */
     private $recipe;
     

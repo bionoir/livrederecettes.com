@@ -1,0 +1,44 @@
+{# src/FD/LivrederecettesBundle/Resources/views/Menu/viewMenu.html.twig #}
+{% extends "FDLivrederecettesBundle::layout.html.twig" %}
+ 
+{% block title %}
+    {{ parent() }} - Détail d'un menu
+{% endblock %}
+ 
+{% block fdalivrederecettes_body %}
+ 
+  <h2>{{ menu.title }}</h2>
+  
+  <div class="well">
+    {% if menu.dated == true %}
+          Menu daté du {{ menu.dateFrom }} au {{ menu.dateTo }}.
+    {% else %}
+          Menu non daté.
+    {% endif %}
+          
+    <table>
+        {% for meal in meals %}
+        <tr>
+            <td>{{ meal.recipe.tile }}</td>
+            <td>{{ meal.mealType.name }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+  </div>
+   
+  <p>
+    <a href="{{ path('livrederecettes_listMenus') }}" class="btn">
+      <i class="icon-chevron-left"></i>
+      Retour à la liste
+    </a>
+    <a href="{{ path('livrederecettes_modifyMenu', {'id': menu.id}) }}" class="btn">
+      <i class="icon-edit"></i>
+      Modifier le menu
+    </a>
+    <a href="{{ path('livrederecettes_deleteMenu', {'id': menu.id}) }}" class="btn">
+      <i class="icon-trash"></i>
+      Supprimer le menu
+    </a>
+  </p>
+ 
+{% endblock %}

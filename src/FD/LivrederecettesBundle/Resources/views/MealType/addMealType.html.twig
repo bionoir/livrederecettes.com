@@ -1,0 +1,12 @@
+{# src/FD/LivrederecettesBundle/Resources/views/MealType/addMealType.html.twig #}
+{% extends "FDLivrederecettesBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Ajouter un type de repas
+{% endblock %}
+    
+{% block fdalivrederecettes_body %}
+    <h3>Formulaire pour l'ajout d'un nouveau type de repas</h3>
+    
+    {% include "FDLivrederecettesBundle:MealType:formMealType.html.twig" %}
+{% endblock %}

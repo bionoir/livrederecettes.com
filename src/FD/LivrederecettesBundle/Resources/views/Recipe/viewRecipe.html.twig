@@ -28,7 +28,7 @@
   </table>
     
   <div class="well">
-    {{ recipe.preparation }}
+    {{ recipe.preparation|date('H:i') }}
   </div>
   
   <p>
@@ -40,7 +40,7 @@
       <i class="icon-edit"></i>
       Modifier la recette
     </a>
-    <a href="{{ path('livrederecettes_deleteType', {'id': recipe.id}) }}" class="btn">
+    <a href="{{ path('livrederecettes_deleteRecipe', {'id': recipe.id}) }}" class="btn">
       <i class="icon-trash"></i>
       Supprimer la recette
     </a>

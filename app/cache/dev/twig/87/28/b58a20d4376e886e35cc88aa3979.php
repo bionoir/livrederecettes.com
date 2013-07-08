@@ -62,44 +62,52 @@ class __TwigTemplate_8728b58a20d4376e886e35cc88aa3979 extends Twig_Template
         echo "\">Accueil</a></li>
                     <li><a href=\"";
         // line 37
+        echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("livrederecettes_listMenus"), "html", null, true);
+        echo "\">Menus</a></li>
+                    <li><a href=\"";
+        // line 38
         echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("livrederecettes_listRecipies"), "html", null, true);
         echo "\">Recettes</a></li>
                     <li><a href=\"";
-        // line 38
+        // line 39
         echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("livrederecettes_listProducts"), "html", null, true);
         echo "\">Produits</a></li>
                     <li><a href=\"";
-        // line 39
+        // line 40
         echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("livrederecettes_listUnits"), "html", null, true);
         echo "\">Unités de mesure</a></li>
                     <li><a href=\"";
-        // line 40
+        // line 41
         echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("livrederecettes_listTypes"), "html", null, true);
         echo "\">Types de produit</a></li>
+                    <li><a href=\"";
+        // line 42
+        echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("livrederecettes_listMealTypes"), "html", null, true);
+        echo "\">Types de repas</a></li>
                 </ul>
                 ";
-        // line 42
+        // line 44
         echo $this->env->getExtension('http_kernel')->renderFragment($this->env->getExtension('http_kernel')->controller("FDLivrederecettesBundle:Livrederecettes:menu"));
         echo "
             </div>
             
             <div id=\"content\" class=\"span9\">
                 ";
-        // line 46
+        // line 48
         $context['_parent'] = (array) $context;
         $context['_seq'] = twig_ensure_traversable($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "session"), "flashbag"), "all", array(), "method"));
         foreach ($context['_seq'] as $context["typeMessage"] => $context["flashMessages"]) {
-            // line 47
+            // line 49
             echo "                    ";
             $context['_parent'] = (array) $context;
             $context['_seq'] = twig_ensure_traversable((isset($context["flashMessages"]) ? $context["flashMessages"] : $this->getContext($context, "flashMessages")));
             foreach ($context['_seq'] as $context["_key"] => $context["flashMessage"]) {
-                // line 48
+                // line 50
                 echo "                        <div class=\"alert alert-";
                 echo twig_escape_filter($this->env, (isset($context["typeMessage"]) ? $context["typeMessage"] : $this->getContext($context, "typeMessage")), "html", null, true);
                 echo "\">
                             ";
-                // line 49
+                // line 51
                 echo twig_escape_filter($this->env, $this->env->getExtension('translator')->trans((isset($context["flashMessage"]) ? $context["flashMessage"] : $this->getContext($context, "flashMessage"))), "html", null, true);
                 echo "
                         </div>
@@ -108,18 +116,18 @@ class __TwigTemplate_8728b58a20d4376e886e35cc88aa3979 extends Twig_Template
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_iterated'], $context['_key'], $context['flashMessage'], $context['_parent'], $context['loop']);
             $context = array_merge($_parent, array_intersect_key($context, $_parent));
-            // line 52
+            // line 54
             echo "                ";
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['typeMessage'], $context['flashMessages'], $context['_parent'], $context['loop']);
         $context = array_merge($_parent, array_intersect_key($context, $_parent));
-        // line 53
+        // line 55
         echo "                    
                 ";
-        // line 54
-        $this->displayBlock('body', $context, $blocks);
         // line 56
+        $this->displayBlock('body', $context, $blocks);
+        // line 58
         echo "            </div>
         </div>
 
@@ -130,9 +138,9 @@ class __TwigTemplate_8728b58a20d4376e886e35cc88aa3979 extends Twig_Template
         </div>
 
         ";
-        // line 65
-        $this->displayBlock('javascriptsend', $context, $blocks);
         // line 67
+        $this->displayBlock('javascriptsend', $context, $blocks);
+        // line 69
         echo "    </body>
 </html>
 ";
@@ -172,17 +180,17 @@ class __TwigTemplate_8728b58a20d4376e886e35cc88aa3979 extends Twig_Template
         ";
     }
 
-    // line 54
+    // line 56
     public function block_body($context, array $blocks = array())
     {
-        // line 55
+        // line 57
         echo "                ";
     }
 
-    // line 65
+    // line 67
     public function block_javascriptsend($context, array $blocks = array())
     {
-        // line 66
+        // line 68
         echo "        ";
     }
 
@@ -198,6 +206,6 @@ class __TwigTemplate_8728b58a20d4376e886e35cc88aa3979 extends Twig_Template
 
     public function getDebugInfo()
     {
-        return array (  186 => 66,  183 => 65,  179 => 55,  176 => 54,  170 => 14,  165 => 13,  163 => 12,  161 => 11,  158 => 10,  151 => 8,  148 => 7,  142 => 6,  136 => 67,  134 => 65,  123 => 56,  121 => 54,  118 => 53,  112 => 52,  103 => 49,  98 => 48,  93 => 47,  89 => 46,  82 => 42,  77 => 40,  73 => 39,  69 => 38,  65 => 37,  61 => 36,  39 => 16,  36 => 10,  34 => 7,  30 => 6,  24 => 2,);
+        return array (  194 => 68,  191 => 67,  187 => 57,  184 => 56,  178 => 14,  173 => 13,  171 => 12,  169 => 11,  166 => 10,  159 => 8,  156 => 7,  150 => 6,  144 => 69,  142 => 67,  131 => 58,  129 => 56,  126 => 55,  120 => 54,  111 => 51,  106 => 50,  101 => 49,  97 => 48,  90 => 44,  85 => 42,  81 => 41,  77 => 40,  73 => 39,  69 => 38,  65 => 37,  61 => 36,  39 => 16,  36 => 10,  34 => 7,  30 => 6,  24 => 2,);
     }
 }

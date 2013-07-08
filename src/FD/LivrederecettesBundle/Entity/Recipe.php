@@ -53,7 +53,7 @@ class Recipe
     /**
      * @var ingredients
      * 
-     * @ORM\OneToMany(targetEntity="FD\LivrederecettesBundle\Entity\Ingredient", mappedBy="region")
+     * @ORM\OneToMany(targetEntity="FD\LivrederecettesBundle\Entity\Ingredient", mappedBy="recipe", cascade={"persist", "merge"})
      */
     private $ingredients;
     
@@ -70,6 +70,21 @@ class Recipe
         }
     }
     
+    /**
+     * Remove ingredient
+     *
+     * @param \FD\LivrederecettesBundle\Entity\Ingredient $ingredient
+     */
+    public function removeIngredient(\FD\LivrederecettesBundle\Entity\Ingredient $ingredient)
+    {
+        $this->ingredients->removeElement($ingredient);
+    }
+    
+    
+    /**
+     * 
+     * @return type
+     */
     public function getIngredients() {
         return $this->ingredients;
     }
@@ -175,14 +190,43 @@ class Recipe
     {
         return $this->preparation;
     }
-
+    
     /**
-     * Remove ingredients
-     *
-     * @param \FD\LivrederecettesBundle\Entity\Ingredient $ingredients
+     * 
+     * @return \FD\LivrederecettesBundle\Entity\Recipe
      */
-    public function removeIngredient(\FD\LivrederecettesBundle\Entity\Ingredient $ingredients)
+    public function createCopy()
     {
-        $this->ingredients->removeElement($ingredients);
+        $copyRecipe = new Recipe();
+        
+        $copyRecipe->setDescription($this->getDescription());
+        $copyRecipe->setDifficulty($this->getDifficulty());
+        $copyRecipe->setPreparation($this->getPreparation());
+        $copyRecipe->setTitle($this->getTitle());
+                
+        foreach ($this->getIngredients() as $ingredient) {
+            $copyRecipe->addIngredient(clone $ingredient);
+        }
+        
+        return $copyRecipe;
+    }
+    
+    /**
+     * 
+     * @param type $ingredientId
+     * @return boolean
+     */
+    public function containsIngredient($ingredientId) {
+        
+        $ingredient_found = false;
+        
+        foreach ($this->getIngredients() as $ingredient){
+            if ($ingredient->getId() === $ingredientId){
+                $ingredient_found = true;
+                break;
+            }
+        }
+                
+        return $ingredient_found;
     }
 }

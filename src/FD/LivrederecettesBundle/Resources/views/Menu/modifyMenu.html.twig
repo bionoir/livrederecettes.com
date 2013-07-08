@@ -1,0 +1,19 @@
+{# src/FD/LivrederecettesBundle/Resources/views/Menu/modifyMenu.html.twig #}
+{% extends "FDLivrederecettesBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Modifier le menu
+{% endblock %}
+    
+{% block fdalivrederecettes_body %}
+    <h3>Modification d'un menu</h3>
+    
+    {% include "FDLivrederecettesBundle:Menu:formModMenu.html.twig" %}
+       
+    <p>
+        <a href="{{ path('livrederecettes_viewMenu', {'id': menu.id}) }}" class="btn">
+        <i class="icon-chevron-left"></i>
+        Retour à la fiche du menu
+        </a>
+    </p>
+{% endblock %}

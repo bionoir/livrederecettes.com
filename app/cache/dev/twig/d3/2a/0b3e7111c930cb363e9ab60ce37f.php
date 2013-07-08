@@ -156,6 +156,7 @@ class __TwigTemplate_d32a0b3e7111c930cb363e9ab60ce37f extends Twig_Template
                 // On ajoute à la fin de la balise <div> le contenu de l'attribut « data-prototype »
                 // Après avoir remplacé la variable __name__ qu'il contient par le numéro du champ
                 var \$sub_container = \$container.attr('data-prototype').replace(/__name__label__/g, 'Label'+index);
+                \$sub_container = \$sub_container.replace('<label class=\"required\">Label' + index + '</label>', '');
                 \$sub_container = \$sub_container.replace(/__name__/g, index);
                 \$container.append(\$(\$sub_container));
         
@@ -201,6 +202,6 @@ class __TwigTemplate_d32a0b3e7111c930cb363e9ab60ce37f extends Twig_Template
 
     public function getDebugInfo()
     {
-        return array (  138 => 68,  131 => 62,  128 => 60,  123 => 57,  116 => 53,  112 => 52,  106 => 49,  97 => 43,  93 => 42,  87 => 39,  78 => 33,  74 => 32,  68 => 29,  59 => 23,  55 => 22,  49 => 19,  40 => 13,  36 => 12,  30 => 9,  23 => 6,  19 => 2,);
+        return array (  138 => 68,  131 => 62,  128 => 60,  116 => 53,  106 => 49,  97 => 43,  87 => 39,  78 => 33,  74 => 32,  68 => 29,  59 => 23,  55 => 22,  49 => 19,  23 => 6,  41 => 9,  26 => 6,  19 => 2,  186 => 66,  183 => 65,  179 => 55,  176 => 54,  170 => 14,  165 => 13,  163 => 12,  161 => 11,  158 => 10,  151 => 8,  148 => 7,  142 => 6,  136 => 67,  134 => 65,  123 => 57,  121 => 54,  118 => 53,  112 => 52,  103 => 49,  98 => 48,  93 => 42,  89 => 46,  82 => 42,  77 => 40,  73 => 39,  69 => 38,  65 => 37,  61 => 36,  36 => 12,  34 => 7,  24 => 2,  57 => 14,  51 => 13,  48 => 12,  45 => 10,  43 => 9,  40 => 13,  33 => 5,  30 => 9,  46 => 11,  42 => 9,  39 => 16,  32 => 5,  29 => 4,);
     }
 }

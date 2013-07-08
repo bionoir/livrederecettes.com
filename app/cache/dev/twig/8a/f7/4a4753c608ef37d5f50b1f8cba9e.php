@@ -43,7 +43,7 @@ class __TwigTemplate_8af74a4753c608ef37d5f50b1f8cba9e extends Twig_Template
     
     ";
         // line 11
-        $this->env->loadTemplate("FDLivrederecettesBundle:Recipe:formRecipe.html.twig")->display($context);
+        $this->env->loadTemplate("FDLivrederecettesBundle:Recipe:formAddRecipe.html.twig")->display($context);
     }
 
     public function getTemplateName()

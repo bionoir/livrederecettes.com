@@ -34,10 +34,12 @@
                 <h3>Le site</h3>
                 <ul class="nav nav-pills nav-stacked">
                     <li><a href="{{ path('livrederecettes_homepage') }}">Accueil</a></li>
+                    <li><a href="{{ path('livrederecettes_listMenus') }}">Menus</a></li>
                     <li><a href="{{ path('livrederecettes_listRecipies') }}">Recettes</a></li>
                     <li><a href="{{ path('livrederecettes_listProducts') }}">Produits</a></li>
                     <li><a href="{{ path('livrederecettes_listUnits') }}">Unités de mesure</a></li>
                     <li><a href="{{ path('livrederecettes_listTypes') }}">Types de produit</a></li>
+                    <li><a href="{{ path('livrederecettes_listMealTypes') }}">Types de repas</a></li>
                 </ul>
                 {{ render(controller('FDLivrederecettesBundle:Livrederecettes:menu')) }}
             </div>

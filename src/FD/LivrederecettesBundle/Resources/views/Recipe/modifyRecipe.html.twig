@@ -6,20 +6,14 @@
 {% endblock %}
     
 {% block fdalivrederecettes_body %}
-    <h2>Modifier une recette</h2>
+    <h3>Modification d'une recette</h3>
     
-    <h3>Formulaire pour la modification d'une recette</h3>
-    
-    {% include "FDLivrederecettesBundle:Recipe:formRecipe.html.twig" %}
-    
-    <p>
-        Vous éditez une recette existante.
-    </p>
-    
+    {% include "FDLivrederecettesBundle:Recipe:formModRecipe.html.twig" %}
+       
     <p>
         <a href="{{ path('livrederecettes_viewRecipe', {'id': recipe.id}) }}" class="btn">
         <i class="icon-chevron-left"></i>
         Retour à la fiche de la recette
         </a>
-  </p>
+    </p>
 {% endblock %}

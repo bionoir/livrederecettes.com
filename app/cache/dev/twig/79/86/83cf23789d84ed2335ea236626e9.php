@@ -39,7 +39,7 @@ class __TwigTemplate_798683cf23789d84ed2335ea236626e9 extends Twig_Template
     public function block_fdalivrederecettes_body($context, array $blocks = array())
     {
         // line 9
-        echo "    <h2>Liste des types de produit présents dans le système.</h2>
+        echo "    <h3>Liste des types de produit présents dans le système.</h3>
     <ul>
         ";
         // line 11
@@ -73,7 +73,7 @@ class __TwigTemplate_798683cf23789d84ed2335ea236626e9 extends Twig_Template
     <a class=\"btn btn-small btn-primary\" href=\"";
         // line 20
         echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("livrederecettes_addType"), "html", null, true);
-        echo "\"><i class=\"icon-plus\"></i>Ajouter un type de produit</a>
+        echo "\"><i class=\"icon-plus\"></i> Ajouter un type de produit</a>
 ";
     }
 

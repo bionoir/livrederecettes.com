@@ -15,19 +15,22 @@ class RecipeType extends AbstractType
             ->add('title', 'text', array('label' => 'Nom de la recette'))
             ->add('description', 'textarea', array('label' => 'Description'))
             ->add('difficulty', 'text', array('label' => 'Difficulté'))
-            ->add('preparation', 'textarea', array('label' => 'Préparation'))
+            ->add('preparation', 'time', array('label' => 'Temps de préparation',
+                                                'widget' => 'single_text'
+                                                ))
             ->add('ingredients', 'collection', array('label' => 'Liste d\'ingredients',
                                                      'type'=> new IngredientType(),
-                                                     'allow_add' => 'true',
-                                                     'allow_delete' => 'true',
-                                                     'by_reference' => 'false'))
+                                                     'allow_add' => true,
+                                                     'allow_delete' => true,
+                                                     'by_reference' => false))
         ;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'FD\LivrederecettesBundle\Entity\Recipe'
+            'data_class' => 'FD\LivrederecettesBundle\Entity\Recipe',
+            'cascade_validation' => true
         ));
     }
 

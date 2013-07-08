@@ -1,0 +1,22 @@
+{# src/FD/LivrederecettesBundle/Resources/views/Menu/deleteMenu.html.twig #}
+{% extends "FDLivrederecettesBundle::layout.html.twig" %}
+ 
+{% block title %}
+    {{ parent() }} - Confirmer suppression du menu
+{% endblock %}
+
+{% block fdalivrederecettes_body %}
+
+    <p> Voulez-vous vraiment supprimer le menu "{{ menu.title }}" ? </p>
+    <p>
+        <form action="{{ path('livrederecettes_deleteMenu', {'id': menu.id}) }}" method="post">
+            <a href="{{ path('livrederecettes_viewMenu', {'id': menu.id}) }}" class="btn">
+                <i class="icon-chevron-left"></i>
+                Retour à la fiche du menu
+            </a>
+            <input type="submit" value="Supprimer" class="btn btn-danger" />
+            {{ form_rest(form) }}
+        </form>    
+    </p>
+
+{% endblock %}
