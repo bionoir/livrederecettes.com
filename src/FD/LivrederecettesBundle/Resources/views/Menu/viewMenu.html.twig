@@ -7,7 +7,7 @@
  
 {% block fdalivrederecettes_body %}
  
-  <h2>{{ menu.title }}</h2>
+  <h3>{{ menu.title }}</h3>
   
   <div class="well">
     {% if menu.dated == true %}
@@ -19,7 +19,7 @@
     <table>
         {% for meal in meals %}
         <tr>
-            <td>{{ meal.recipe.tile }}</td>
+            <td>{{ meal.recipe.title }}</td>
             <td>{{ meal.mealType.name }}</td>
         </tr>
         {% endfor %}

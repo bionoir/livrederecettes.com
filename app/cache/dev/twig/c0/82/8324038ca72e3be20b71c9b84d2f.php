@@ -66,7 +66,7 @@ class __TwigTemplate_c0828324038ca72e3be20b71c9b84d2f extends Twig_Template
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['menu'], $context['_parent'], $context['loop']);
-        $context = array_merge($_parent, array_intersect_key($context, $_parent));
+        $context = array_intersect_key($context, $_parent) + $_parent;
         // line 18
         echo "    </ul>
     

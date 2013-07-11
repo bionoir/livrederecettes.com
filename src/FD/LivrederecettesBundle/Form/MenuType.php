@@ -13,7 +13,7 @@ class MenuType extends AbstractType
         $builder
             ->add('title', 'text', array('label' => 'Nom du menu'))
             ->add('dated', 'checkbox', array('label' => 'Menu daté ?',
-                                             'required' => true))
+                                             'required' => false))
             ->add('dateFrom', 'date', array('format' => 'dd-MMMM-yyyy'))
             ->add('dateTo', 'date', array('format' => 'dd-MMMM-yyyy'))
             ->add('meals', 'collection', array('label' => 'Liste des repas',

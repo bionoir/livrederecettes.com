@@ -137,7 +137,12 @@ ini_set('session.cookie_lifetime', $lifetime);
 if ($destroy) {
 $this->metadataBag->stampNew();
 }
-return session_regenerate_id($destroy);
+$ret = session_regenerate_id($destroy);
+session_write_close();
+$backup = $_SESSION;
+session_start();
+$_SESSION = $backup;
+return $ret;
 }
 public function save()
 {
@@ -2138,8 +2143,9 @@ return $ip;
 $clientIps = array_map('trim', explode(',', $this->headers->get(self::$trustedHeaders[self::HEADER_CLIENT_IP])));
 $clientIps[] = $ip;
 $trustedProxies = self::$trustProxy && !self::$trustedProxies ? array($ip) : self::$trustedProxies;
+$ip = $clientIps[0];
 $clientIps = array_diff($clientIps, $trustedProxies);
-return array_pop($clientIps);
+return $clientIps ? array_pop($clientIps) : $ip;
 }
 public function getScriptName()
 {
@@ -2172,8 +2178,13 @@ return $this->isSecure() ?'https':'http';
 }
 public function getPort()
 {
-if (self::$trustProxy && self::$trustedHeaders[self::HEADER_CLIENT_PORT] && $port = $this->headers->get(self::$trustedHeaders[self::HEADER_CLIENT_PORT])) {
+if (self::$trustProxy) {
+if (self::$trustedHeaders[self::HEADER_CLIENT_PORT] && $port = $this->headers->get(self::$trustedHeaders[self::HEADER_CLIENT_PORT])) {
 return $port;
+}
+if (self::$trustedHeaders[self::HEADER_CLIENT_PROTO] &&'https'=== $this->headers->get(self::$trustedHeaders[self::HEADER_CLIENT_PROTO],'http')) {
+return 443;
+}
 }
 return $this->server->get('SERVER_PORT');
 }
@@ -2449,10 +2460,13 @@ return $headers;
 protected function prepareRequestUri()
 {
 $requestUri ='';
-if ($this->headers->has('X_ORIGINAL_URL') && false !== stripos(PHP_OS,'WIN')) {
+if ($this->headers->has('X_ORIGINAL_URL')) {
 $requestUri = $this->headers->get('X_ORIGINAL_URL');
 $this->headers->remove('X_ORIGINAL_URL');
-} elseif ($this->headers->has('X_REWRITE_URL') && false !== stripos(PHP_OS,'WIN')) {
+$this->server->remove('HTTP_X_ORIGINAL_URL');
+$this->server->remove('UNENCODED_URL');
+$this->server->remove('IIS_WasUrlRewritten');
+} elseif ($this->headers->has('X_REWRITE_URL')) {
 $requestUri = $this->headers->get('X_REWRITE_URL');
 $this->headers->remove('X_REWRITE_URL');
 } elseif ($this->server->get('IIS_WasUrlRewritten') =='1'&& $this->server->get('UNENCODED_URL') !='') {
@@ -2691,11 +2705,7 @@ if ('1.0'== $this->getProtocolVersion() &&'no-cache'== $this->headers->get('Cach
 $this->headers->set('pragma','no-cache');
 $this->headers->set('expires', -1);
 }
-if (false !== stripos($this->headers->get('Content-Disposition'),'attachment') && preg_match('/MSIE (.*?);/i', $request->server->get('HTTP_USER_AGENT'), $match) == 1 && true === $request->isSecure()) {
-if (intval(preg_replace("/(MSIE )(.*?);/","$2", $match[0])) < 9) {
-$this->headers->remove('Cache-Control');
-}
-}
+$this->ensureIEOverSSLCompatibility($request);
 return $this;
 }
 public function sendHeaders()
@@ -3056,6 +3066,14 @@ return in_array($this->statusCode, array(201, 301, 302, 303, 307, 308)) && (null
 public function isEmpty()
 {
 return in_array($this->statusCode, array(201, 204, 304));
+}
+protected function ensureIEOverSSLCompatibility(Request $request)
+{
+if (false !== stripos($this->headers->get('Content-Disposition'),'attachment') && preg_match('/MSIE (.*?);/i', $request->server->get('HTTP_USER_AGENT'), $match) == 1 && true === $request->isSecure()) {
+if (intval(preg_replace("/(MSIE )(.*?);/","$2", $match[0])) < 9) {
+$this->headers->remove('Cache-Control');
+}
+}
 }
 }
 }
@@ -3901,8 +3919,10 @@ private $path;
 public function __construct(KernelInterface $kernel, $path = null, array $paths = array())
 {
 $this->kernel = $kernel;
+if (null !== $path) {
 $this->path = $path;
 $paths[] = $path;
+}
 parent::__construct($paths);
 }
 public function locate($file, $currentPath = null, $first = true)
@@ -4015,7 +4035,7 @@ if (null !== $exception) {
 $exception->register($this->dispatcher);
 }
 foreach ($listeners as $listener) {
-$response = $listener->handle($event);
+$listener->handle($event);
 if ($event->hasResponse()) {
 break;
 }
@@ -4435,7 +4455,7 @@ namespace
 {
 class Twig_Environment
 {
-const VERSION ='1.12.2';
+const VERSION ='1.13.1';
 protected $charset;
 protected $loader;
 protected $debug;
@@ -4470,7 +4490,7 @@ $this->setLoader($loader);
 $options = array_merge(array('debug'=> false,'charset'=>'UTF-8','base_template_class'=>'Twig_Template','strict_variables'=> false,'autoescape'=>'html','cache'=> false,'auto_reload'=> null,'optimizations'=> -1,
 ), $options);
 $this->debug = (bool) $options['debug'];
-$this->charset = $options['charset'];
+$this->charset = strtoupper($options['charset']);
 $this->baseTemplateClass = $options['base_template_class'];
 $this->autoReload = null === $options['auto_reload'] ? $this->debug : (bool) $options['auto_reload'];
 $this->strictVariables = (bool) $options['strict_variables'];
@@ -4694,7 +4714,7 @@ return $this->loader;
 }
 public function setCharset($charset)
 {
-$this->charset = $charset;
+$this->charset = strtoupper($charset);
 }
 public function getCharset()
 {
@@ -4782,15 +4802,15 @@ return $this->visitors;
 }
 public function addFilter($name, $filter = null)
 {
-if ($this->extensionInitialized) {
-throw new LogicException(sprintf('Unable to add filter "%s" as extensions have already been initialized.', $name));
-}
 if (!$name instanceof Twig_SimpleFilter && !($filter instanceof Twig_SimpleFilter || $filter instanceof Twig_FilterInterface)) {
 throw new LogicException('A filter must be an instance of Twig_FilterInterface or Twig_SimpleFilter');
 }
 if ($name instanceof Twig_SimpleFilter) {
 $filter = $name;
 $name = $filter->getName();
+}
+if ($this->extensionInitialized) {
+throw new LogicException(sprintf('Unable to add filter "%s" as extensions have already been initialized.', $name));
 }
 $this->staging->addFilter($name, $filter);
 }
@@ -4832,15 +4852,15 @@ return $this->filters;
 }
 public function addTest($name, $test = null)
 {
-if ($this->extensionInitialized) {
-throw new LogicException(sprintf('Unable to add test "%s" as extensions have already been initialized.', $name));
-}
 if (!$name instanceof Twig_SimpleTest && !($test instanceof Twig_SimpleTest || $test instanceof Twig_TestInterface)) {
 throw new LogicException('A test must be an instance of Twig_TestInterface or Twig_SimpleTest');
 }
 if ($name instanceof Twig_SimpleTest) {
 $test = $name;
 $name = $test->getName();
+}
+if ($this->extensionInitialized) {
+throw new LogicException(sprintf('Unable to add test "%s" as extensions have already been initialized.', $name));
 }
 $this->staging->addTest($name, $test);
 }
@@ -4863,15 +4883,15 @@ return false;
 }
 public function addFunction($name, $function = null)
 {
-if ($this->extensionInitialized) {
-throw new LogicException(sprintf('Unable to add function "%s" as extensions have already been initialized.', $name));
-}
 if (!$name instanceof Twig_SimpleFunction && !($function instanceof Twig_SimpleFunction || $function instanceof Twig_FunctionInterface)) {
 throw new LogicException('A function must be an instance of Twig_FunctionInterface or Twig_SimpleFunction');
 }
 if ($name instanceof Twig_SimpleFunction) {
 $function = $name;
 $name = $function->getName();
+}
+if ($this->extensionInitialized) {
+throw new LogicException(sprintf('Unable to add function "%s" as extensions have already been initialized.', $name));
 }
 $this->staging->addFunction($name, $function);
 }
@@ -4973,9 +4993,14 @@ protected function initGlobals()
 {
 $globals = array();
 foreach ($this->extensions as $extension) {
-$globals = array_merge($globals, $extension->getGlobals());
+$extGlob = $extension->getGlobals();
+if (!is_array($extGlob)) {
+throw new UnexpectedValueException(sprintf('"%s::getGlobals()" must return an array of globals.', get_class($extension)));
 }
-return array_merge($globals, $this->staging->getGlobals());
+$globals[] = $extGlob;
+}
+$globals[] = $this->staging->getGlobals();
+return call_user_func_array('array_merge', $globals);
 }
 protected function initExtensions()
 {
@@ -5202,6 +5227,7 @@ new Twig_SimpleFilter('join','twig_join_filter'),
 new Twig_SimpleFilter('split','twig_split_filter'),
 new Twig_SimpleFilter('sort','twig_sort_filter'),
 new Twig_SimpleFilter('merge','twig_array_merge'),
+new Twig_SimpleFilter('batch','twig_array_batch'),
 new Twig_SimpleFilter('reverse','twig_reverse_filter', array('needs_environment'=> true)),
 new Twig_SimpleFilter('length','twig_length_filter', array('needs_environment'=> true)),
 new Twig_SimpleFilter('slice','twig_slice', array('needs_environment'=> true)),
@@ -5213,8 +5239,8 @@ new Twig_SimpleFilter('escape','twig_escape_filter', array('needs_environment'=>
 new Twig_SimpleFilter('e','twig_escape_filter', array('needs_environment'=> true,'is_safe_callback'=>'twig_escape_filter_is_safe')),
 );
 if (function_exists('mb_get_info')) {
-$filters['upper'] = new Twig_Filter_Function('twig_upper_filter', array('needs_environment'=> true));
-$filters['lower'] = new Twig_Filter_Function('twig_lower_filter', array('needs_environment'=> true));
+$filters[] = new Twig_SimpleFilter('upper','twig_upper_filter', array('needs_environment'=> true));
+$filters[] = new Twig_SimpleFilter('lower','twig_lower_filter', array('needs_environment'=> true));
 }
 return $filters;
 }
@@ -5226,7 +5252,7 @@ new Twig_SimpleFunction('constant','twig_constant'),
 new Twig_SimpleFunction('cycle','twig_cycle'),
 new Twig_SimpleFunction('random','twig_random', array('needs_environment'=> true)),
 new Twig_SimpleFunction('date','twig_date_converter', array('needs_environment'=> true)),
-new Twig_SimpleFunction('include','twig_include', array('needs_environment'=> true,'needs_context'=> true)),
+new Twig_SimpleFunction('include','twig_include', array('needs_environment'=> true,'needs_context'=> true,'is_safe'=> array('all'))),
 );
 }
 public function getTests()
@@ -5391,6 +5417,9 @@ return number_format((float) $number, $decimal, $decimalPoint, $thousandSep);
 }
 function twig_urlencode_filter($url, $raw = false)
 {
+if (is_array($url)) {
+return http_build_query($url,'','&');
+}
 if ($raw) {
 return rawurlencode($url);
 }
@@ -5528,17 +5557,33 @@ return false;
 }
 function twig_escape_filter(Twig_Environment $env, $string, $strategy ='html', $charset = null, $autoescape = false)
 {
-if ($autoescape && is_object($string) && $string instanceof Twig_Markup) {
+if ($autoescape && $string instanceof Twig_Markup) {
 return $string;
 }
-if (!is_string($string) && !(is_object($string) && method_exists($string,'__toString'))) {
+if (!is_string($string)) {
+if (is_object($string) && method_exists($string,'__toString')) {
+$string = (string) $string;
+} else {
 return $string;
+}
 }
 if (null === $charset) {
 $charset = $env->getCharset();
 }
-$string = (string) $string;
 switch ($strategy) {
+case'html':
+static $htmlspecialcharsCharsets = array('ISO-8859-1'=> true,'ISO8859-1'=> true,'ISO-8859-15'=> true,'ISO8859-15'=> true,'utf-8'=> true,'UTF-8'=> true,'CP866'=> true,'IBM866'=> true,'866'=> true,'CP1251'=> true,'WINDOWS-1251'=> true,'WIN-1251'=> true,'1251'=> true,'CP1252'=> true,'WINDOWS-1252'=> true,'1252'=> true,'KOI8-R'=> true,'KOI8-RU'=> true,'KOI8R'=> true,'BIG5'=> true,'950'=> true,'GB2312'=> true,'936'=> true,'BIG5-HKSCS'=> true,'SHIFT_JIS'=> true,'SJIS'=> true,'932'=> true,'EUC-JP'=> true,'EUCJP'=> true,'ISO8859-5'=> true,'ISO-8859-5'=> true,'MACROMAN'=> true,
+);
+if (isset($htmlspecialcharsCharsets[$charset])) {
+return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, $charset);
+}
+if (isset($htmlspecialcharsCharsets[strtoupper($charset)])) {
+$htmlspecialcharsCharsets[$charset] = true;
+return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, $charset);
+}
+$string = twig_convert_encoding($string,'UTF-8', $charset);
+$string = htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE,'UTF-8');
+return twig_convert_encoding($string, $charset,'UTF-8');
 case'js':
 if ('UTF-8'!= $charset) {
 $string = twig_convert_encoding($string,'UTF-8', $charset);
@@ -5575,17 +5620,8 @@ if ('UTF-8'!= $charset) {
 $string = twig_convert_encoding($string, $charset,'UTF-8');
 }
 return $string;
-case'html':
-static $htmlspecialcharsCharsets = array('iso-8859-1'=> true,'iso8859-1'=> true,'iso-8859-15'=> true,'iso8859-15'=> true,'utf-8'=> true,'cp866'=> true,'ibm866'=> true,'866'=> true,'cp1251'=> true,'windows-1251'=> true,'win-1251'=> true,'1251'=> true,'cp1252'=> true,'windows-1252'=> true,'1252'=> true,'koi8-r'=> true,'koi8-ru'=> true,'koi8r'=> true,'big5'=> true,'950'=> true,'gb2312'=> true,'936'=> true,'big5-hkscs'=> true,'shift_jis'=> true,'sjis'=> true,'932'=> true,'euc-jp'=> true,'eucjp'=> true,'iso8859-5'=> true,'iso-8859-5'=> true,'macroman'=> true,
-);
-if (isset($htmlspecialcharsCharsets[strtolower($charset)])) {
-return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, $charset);
-}
-$string = twig_convert_encoding($string,'UTF-8', $charset);
-$string = htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE,'UTF-8');
-return twig_convert_encoding($string, $charset,'UTF-8');
 case'url':
-if (version_compare(PHP_VERSION,'5.3.0','<')) {
+if (PHP_VERSION <'5.3.0') {
 return str_replace('%7E','~', rawurlencode($string));
 }
 return rawurlencode($string);
@@ -5745,7 +5781,7 @@ $sandbox->enableSandbox();
 }
 }
 try {
-return $env->resolveTemplate($template)->display($variables);
+return $env->resolveTemplate($template)->render($variables);
 } catch (Twig_Error_Loader $e) {
 if (!$ignoreMissing) {
 throw $e;
@@ -5761,6 +5797,22 @@ if (null !== $object) {
 $constant = get_class($object).'::'.$constant;
 }
 return constant($constant);
+}
+function twig_array_batch($items, $size, $fill = null)
+{
+if ($items instanceof Traversable) {
+$items = iterator_to_array($items, false);
+}
+$size = ceil($size);
+$result = array_chunk($items, $size, true);
+if (null !== $fill) {
+$last = count($result) - 1;
+$result[$last] = array_merge(
+$result[$last],
+array_fill(0, $size - count($result[$last]), $fill)
+);
+}
+return $result;
 }
 }
 namespace
@@ -6013,17 +6065,17 @@ return $context[$item];
 }
 protected function getAttribute($object, $item, array $arguments = array(), $type = Twig_TemplateInterface::ANY_CALL, $isDefinedTest = false, $ignoreStrictCheck = false)
 {
-$item = ctype_digit((string) $item) ? (int) $item : (string) $item;
 if (Twig_TemplateInterface::METHOD_CALL !== $type) {
-if ((is_array($object) && array_key_exists($item, $object))
-|| ($object instanceof ArrayAccess && isset($object[$item]))
+$arrayItem = is_bool($item) || is_float($item) ? (int) $item : $item;
+if ((is_array($object) && array_key_exists($arrayItem, $object))
+|| ($object instanceof ArrayAccess && isset($object[$arrayItem]))
 ) {
 if ($isDefinedTest) {
 return true;
 }
-return $object[$item];
+return $object[$arrayItem];
 }
-if (Twig_TemplateInterface::ARRAY_CALL === $type) {
+if (Twig_TemplateInterface::ARRAY_CALL === $type || !is_object($object)) {
 if ($isDefinedTest) {
 return false;
 }
@@ -6031,11 +6083,13 @@ if ($ignoreStrictCheck || !$this->env->isStrictVariables()) {
 return null;
 }
 if (is_object($object)) {
-throw new Twig_Error_Runtime(sprintf('Key "%s" in object (with ArrayAccess) of type "%s" does not exist', $item, get_class($object)), -1, $this->getTemplateName());
+throw new Twig_Error_Runtime(sprintf('Key "%s" in object (with ArrayAccess) of type "%s" does not exist', $arrayItem, get_class($object)), -1, $this->getTemplateName());
 } elseif (is_array($object)) {
-throw new Twig_Error_Runtime(sprintf('Key "%s" for array with keys "%s" does not exist', $item, implode(', ', array_keys($object))), -1, $this->getTemplateName());
+throw new Twig_Error_Runtime(sprintf('Key "%s" for array with keys "%s" does not exist', $arrayItem, implode(', ', array_keys($object))), -1, $this->getTemplateName());
+} elseif (Twig_TemplateInterface::ARRAY_CALL === $type) {
+throw new Twig_Error_Runtime(sprintf('Impossible to access a key ("%s") on a %s variable ("%s")', $item, gettype($object), $object), -1, $this->getTemplateName());
 } else {
-throw new Twig_Error_Runtime(sprintf('Impossible to access a key ("%s") on a "%s" variable', $item, gettype($object)), -1, $this->getTemplateName());
+throw new Twig_Error_Runtime(sprintf('Impossible to access an attribute ("%s") on a %s variable ("%s")', $item, gettype($object), $object), -1, $this->getTemplateName());
 }
 }
 }
@@ -6046,11 +6100,11 @@ return false;
 if ($ignoreStrictCheck || !$this->env->isStrictVariables()) {
 return null;
 }
-throw new Twig_Error_Runtime(sprintf('Item "%s" for "%s" does not exist', $item, is_array($object) ?'Array': $object), -1, $this->getTemplateName());
+throw new Twig_Error_Runtime(sprintf('Impossible to invoke a method ("%s") on a %s variable ("%s")', $item, gettype($object), $object), -1, $this->getTemplateName());
 }
 $class = get_class($object);
 if (Twig_TemplateInterface::METHOD_CALL !== $type) {
-if (isset($object->$item) || array_key_exists($item, $object)) {
+if (isset($object->$item) || array_key_exists((string) $item, $object)) {
 if ($isDefinedTest) {
 return true;
 }
@@ -6065,13 +6119,13 @@ self::$cache[$class]['methods'] = array_change_key_case(array_flip(get_class_met
 }
 $lcItem = strtolower($item);
 if (isset(self::$cache[$class]['methods'][$lcItem])) {
-$method = $item;
+$method = (string) $item;
 } elseif (isset(self::$cache[$class]['methods']['get'.$lcItem])) {
 $method ='get'.$item;
 } elseif (isset(self::$cache[$class]['methods']['is'.$lcItem])) {
 $method ='is'.$item;
 } elseif (isset(self::$cache[$class]['methods']['__call'])) {
-$method = $item;
+$method = (string) $item;
 } else {
 if ($isDefinedTest) {
 return false;
@@ -6206,7 +6260,13 @@ if (is_bool($data) || is_null($data)) {
 return var_export($data, true);
 }
 if ($data instanceof \Exception) {
-return'[object] ('.get_class($data).': '.$data->getMessage().' at '.$data->getFile().':'.$data->getLine().')';
+$previousText ='';
+if ($previous = $data->getPrevious()) {
+do {
+$previousText .=', '.get_class($previous).': '.$previous->getMessage().' at '.$previous->getFile().':'.$previous->getLine();
+} while ($previous = $previous->getPrevious());
+}
+return'[object] ('.get_class($data).': '.$data->getMessage().' at '.$data->getFile().':'.$data->getLine().$previousText.')';
 }
 return parent::normalize($data);
 }
@@ -6698,6 +6758,10 @@ public function addEmergency($message, array $context = array())
 {
 return $this->addRecord(static::EMERGENCY, $message, $context);
 }
+public static function getLevels()
+{
+return array_flip(static::$levels);
+}
 public static function getLevelName($level)
 {
 if (!isset(static::$levels[$level])) {
@@ -6709,7 +6773,7 @@ public function isHandling($level)
 {
 $record = array('level'=> $level,
 );
-foreach ($this->handlers as $key => $handler) {
+foreach ($this->handlers as $handler) {
 if ($handler->isHandling($record)) {
 return true;
 }
@@ -6885,6 +6949,302 @@ $this->actionLevel = $actionLevel;
 public function isHandlerActivated(array $record)
 {
 return $record['level'] >= $this->actionLevel;
+}
+}
+}
+namespace Assetic
+{
+interface ValueSupplierInterface
+{
+public function getValues();
+}
+}
+namespace Symfony\Bundle\AsseticBundle
+{
+use Assetic\ValueSupplierInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+class DefaultValueSupplier implements ValueSupplierInterface
+{
+protected $container;
+public function __construct(ContainerInterface $container)
+{
+$this->container = $container;
+}
+public function getValues()
+{
+if (!$this->container->isScopeActive('request')) {
+return array();
+}
+$request = $this->container->get('request');
+return array('locale'=> $request->getLocale(),'env'=> $this->container->getParameter('kernel.environment'),
+);
+}
+}}
+namespace Assetic\Factory
+{
+use Assetic\Asset\AssetCollection;
+use Assetic\Asset\AssetCollectionInterface;
+use Assetic\Asset\AssetInterface;
+use Assetic\Asset\AssetReference;
+use Assetic\Asset\FileAsset;
+use Assetic\Asset\GlobAsset;
+use Assetic\Asset\HttpAsset;
+use Assetic\AssetManager;
+use Assetic\Factory\Worker\WorkerInterface;
+use Assetic\FilterManager;
+class AssetFactory
+{
+private $root;
+private $debug;
+private $output;
+private $workers;
+private $am;
+private $fm;
+public function __construct($root, $debug = false)
+{
+$this->root = rtrim($root,'/');
+$this->debug = $debug;
+$this->output ='assetic/*';
+$this->workers = array();
+}
+public function setDebug($debug)
+{
+$this->debug = $debug;
+}
+public function isDebug()
+{
+return $this->debug;
+}
+public function setDefaultOutput($output)
+{
+$this->output = $output;
+}
+public function addWorker(WorkerInterface $worker)
+{
+$this->workers[] = $worker;
+}
+public function getAssetManager()
+{
+return $this->am;
+}
+public function setAssetManager(AssetManager $am)
+{
+$this->am = $am;
+}
+public function getFilterManager()
+{
+return $this->fm;
+}
+public function setFilterManager(FilterManager $fm)
+{
+$this->fm = $fm;
+}
+public function createAsset($inputs = array(), $filters = array(), array $options = array())
+{
+if (!is_array($inputs)) {
+$inputs = array($inputs);
+}
+if (!is_array($filters)) {
+$filters = array($filters);
+}
+if (!isset($options['output'])) {
+$options['output'] = $this->output;
+}
+if (!isset($options['vars'])) {
+$options['vars'] = array();
+}
+if (!isset($options['debug'])) {
+$options['debug'] = $this->debug;
+}
+if (!isset($options['root'])) {
+$options['root'] = array($this->root);
+} else {
+if (!is_array($options['root'])) {
+$options['root'] = array($options['root']);
+}
+$options['root'][] = $this->root;
+}
+if (!isset($options['name'])) {
+$options['name'] = $this->generateAssetName($inputs, $filters, $options);
+}
+$asset = $this->createAssetCollection(array(), $options);
+$extensions = array();
+foreach ($inputs as $input) {
+if (is_array($input)) {
+$asset->add(call_user_func_array(array($this,'createAsset'), $input));
+} else {
+$asset->add($this->parseInput($input, $options));
+$extensions[pathinfo($input, PATHINFO_EXTENSION)] = true;
+}
+}
+foreach ($filters as $filter) {
+if ('?'!= $filter[0]) {
+$asset->ensureFilter($this->getFilter($filter));
+} elseif (!$options['debug']) {
+$asset->ensureFilter($this->getFilter(substr($filter, 1)));
+}
+}
+if (!empty($options['vars'])) {
+$toAdd = array();
+foreach ($options['vars'] as $var) {
+if (false !== strpos($options['output'],'{'.$var.'}')) {
+continue;
+}
+$toAdd[] ='{'.$var.'}';
+}
+if ($toAdd) {
+$options['output'] = str_replace('*','*.'.implode('.', $toAdd), $options['output']);
+}
+}
+if (1 == count($extensions) && !pathinfo($options['output'], PATHINFO_EXTENSION) && $extension = key($extensions)) {
+$options['output'] .='.'.$extension;
+}
+$asset->setTargetPath(str_replace('*', $options['name'], $options['output']));
+return $this->applyWorkers($asset);
+}
+public function generateAssetName($inputs, $filters, $options = array())
+{
+foreach (array_diff(array_keys($options), array('output','debug','root')) as $key) {
+unset($options[$key]);
+}
+ksort($options);
+return substr(sha1(serialize($inputs).serialize($filters).serialize($options)), 0, 7);
+}
+protected function parseInput($input, array $options = array())
+{
+if ('@'== $input[0]) {
+return $this->createAssetReference(substr($input, 1));
+}
+if (false !== strpos($input,'://') || 0 === strpos($input,'//')) {
+return $this->createHttpAsset($input, $options['vars']);
+}
+if (self::isAbsolutePath($input)) {
+if ($root = self::findRootDir($input, $options['root'])) {
+$path = ltrim(substr($input, strlen($root)),'/');
+} else {
+$path = null;
+}
+} else {
+$root = $this->root;
+$path = $input;
+$input = $this->root.'/'.$path;
+}
+if (false !== strpos($input,'*')) {
+return $this->createGlobAsset($input, $root, $options['vars']);
+}
+return $this->createFileAsset($input, $root, $path, $options['vars']);
+}
+protected function createAssetCollection(array $assets = array(), array $options = array())
+{
+return new AssetCollection($assets, array(), null, isset($options['vars']) ? $options['vars'] : array());
+}
+protected function createAssetReference($name)
+{
+if (!$this->am) {
+throw new \LogicException('There is no asset manager.');
+}
+return new AssetReference($this->am, $name);
+}
+protected function createHttpAsset($sourceUrl, $vars)
+{
+return new HttpAsset($sourceUrl, array(), false, $vars);
+}
+protected function createGlobAsset($glob, $root = null, $vars)
+{
+return new GlobAsset($glob, array(), $root, $vars);
+}
+protected function createFileAsset($source, $root = null, $path = null, $vars)
+{
+return new FileAsset($source, array(), $root, $path, $vars);
+}
+protected function getFilter($name)
+{
+if (!$this->fm) {
+throw new \LogicException('There is no filter manager.');
+}
+return $this->fm->get($name);
+}
+private function applyWorkers(AssetCollectionInterface $asset)
+{
+foreach ($asset as $leaf) {
+foreach ($this->workers as $worker) {
+$retval = $worker->process($leaf);
+if ($retval instanceof AssetInterface && $leaf !== $retval) {
+$asset->replaceLeaf($leaf, $retval);
+}
+}
+}
+foreach ($this->workers as $worker) {
+$retval = $worker->process($asset);
+if ($retval instanceof AssetInterface) {
+$asset = $retval;
+}
+}
+return $asset instanceof AssetCollectionInterface ? $asset : $this->createAssetCollection(array($asset));
+}
+private static function isAbsolutePath($path)
+{
+return'/'== $path[0] ||'\\'== $path[0] || (3 < strlen($path) && ctype_alpha($path[0]) && $path[1] ==':'&& ('\\'== $path[2] ||'/'== $path[2]));
+}
+private static function findRootDir($path, array $roots)
+{
+foreach ($roots as $root) {
+if (0 === strpos($path, $root)) {
+return $root;
+}
+}
+}
+}
+}
+namespace Symfony\Bundle\AsseticBundle\Factory
+{
+use Assetic\Factory\AssetFactory as BaseAssetFactory;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
+class AssetFactory extends BaseAssetFactory
+{
+private $kernel;
+private $container;
+private $parameterBag;
+public function __construct(KernelInterface $kernel, ContainerInterface $container, ParameterBagInterface $parameterBag, $baseDir, $debug = false)
+{
+$this->kernel = $kernel;
+$this->container = $container;
+$this->parameterBag = $parameterBag;
+parent::__construct($baseDir, $debug);
+}
+protected function parseInput($input, array $options = array())
+{
+$input = $this->parameterBag->resolveValue($input);
+if ('@'== $input[0] && false !== strpos($input,'/')) {
+$bundle = substr($input, 1);
+if (false !== $pos = strpos($bundle,'/')) {
+$bundle = substr($bundle, 0, $pos);
+}
+$options['root'] = array($this->kernel->getBundle($bundle)->getPath());
+if (false !== $pos = strpos($input,'*')) {
+list($before, $after) = explode('*', $input, 2);
+$input = $this->kernel->locateResource($before).'*'.$after;
+} else {
+$input = $this->kernel->locateResource($input);
+}
+}
+return parent::parseInput($input, $options);
+}
+protected function createAssetReference($name)
+{
+if (!$this->getAssetManager()) {
+$this->setAssetManager($this->container->get('assetic.asset_manager'));
+}
+return parent::createAssetReference($name);
+}
+protected function getFilter($name)
+{
+if (!$this->getFilterManager()) {
+$this->setFilterManager($this->container->get('assetic.filter_manager'));
+}
+return parent::getFilter($name);
 }
 }
 }

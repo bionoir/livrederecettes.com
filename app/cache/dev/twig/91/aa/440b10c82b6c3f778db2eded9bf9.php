@@ -81,7 +81,7 @@ class __TwigTemplate_91aa440b10c82b6c3f778db2eded9bf9 extends Twig_Template
             }
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_iterated'], $context['i'], $context['previous'], $context['_parent'], $context['loop']);
-            $context = array_merge($_parent, array_intersect_key($context, $_parent));
+            $context = array_intersect_key($context, $_parent) + $_parent;
             // line 28
             echo "                    </ul>
                 </div>
@@ -107,7 +107,7 @@ class __TwigTemplate_91aa440b10c82b6c3f778db2eded9bf9 extends Twig_Template
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['position'], $context['e'], $context['_parent'], $context['loop']);
-        $context = array_merge($_parent, array_intersect_key($context, $_parent));
+        $context = array_intersect_key($context, $_parent) + $_parent;
         // line 42
         echo "
 ";
@@ -240,6 +240,6 @@ class __TwigTemplate_91aa440b10c82b6c3f778db2eded9bf9 extends Twig_Template
 
     public function getDebugInfo()
     {
-        return array (  196 => 90,  187 => 84,  183 => 82,  173 => 74,  171 => 73,  168 => 72,  166 => 71,  163 => 70,  158 => 67,  156 => 66,  151 => 63,  142 => 59,  138 => 57,  136 => 56,  133 => 55,  123 => 47,  121 => 46,  117 => 44,  115 => 43,  112 => 42,  105 => 40,  101 => 39,  91 => 31,  86 => 28,  69 => 25,  66 => 24,  62 => 23,  51 => 20,  49 => 19,  39 => 16,  19 => 1,  98 => 40,  93 => 9,  88 => 6,  80 => 41,  78 => 40,  46 => 10,  44 => 9,  36 => 7,  32 => 12,  27 => 4,  22 => 1,  57 => 12,  54 => 21,  43 => 8,  40 => 8,  33 => 4,  30 => 3,);
+        return array (  196 => 90,  187 => 84,  183 => 82,  173 => 74,  171 => 73,  168 => 72,  166 => 71,  163 => 70,  158 => 67,  156 => 66,  151 => 63,  142 => 59,  138 => 57,  136 => 56,  133 => 55,  123 => 47,  121 => 46,  117 => 44,  115 => 43,  112 => 42,  105 => 40,  101 => 39,  91 => 31,  86 => 28,  66 => 24,  62 => 23,  49 => 19,  19 => 1,  98 => 40,  93 => 9,  88 => 6,  78 => 40,  46 => 10,  44 => 9,  36 => 7,  27 => 4,  22 => 1,  57 => 12,  54 => 21,  43 => 8,  40 => 8,  33 => 4,  30 => 3,  109 => 38,  102 => 34,  95 => 30,  89 => 26,  80 => 41,  76 => 22,  73 => 21,  69 => 25,  65 => 18,  61 => 16,  53 => 14,  51 => 20,  45 => 10,  42 => 9,  39 => 16,  32 => 12,  29 => 4,);
     }
 }
