@@ -1,7 +1,14 @@
 parameters:
 #    fd_livrederecettes.example.class: FD\LivrederecettesBundle\Example
+     fd_livrederecettes.errorProcessing.class: FD\LivrederecettesBundle\Service\FDErrorProcessing
+     fd_livrederecettes.stringProcessing.class: FD\LivrederecettesBundle\Service\FDStringProcessing
 
 services:
 #    fd_livrederecettes.example:
 #        class: %fd_livrederecettes.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
+     fd_livrederecettes.errorProcessing:
+         class: %fd_livrederecettes.errorProcessing.class%
+     
+     fd_livrederecettes.stringProcessing:
+         class: %fd_livrederecettes.stringProcessing.class%

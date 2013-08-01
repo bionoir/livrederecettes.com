@@ -9,31 +9,6 @@ use FD\LivrederecettesBundle\Form\MenuType;
 
 class MenuController extends Controller {
     
-    private function getErrorMessages(\Symfony\Component\Form\Form $form)
-    {
-        $errors = array();
-
-        if ($form->count() > 0) {
-            foreach ($form->all() as $child) {
-                /**
-                * @var \Symfony\Component\Form\Form $child
-                */
-                if (!$child->isValid()) {
-                    $errors[$child->getName()] = $this->getErrorMessages($child);
-                }
-            }
-        } else {
-            /**
-            * @var \Symfony\Component\Form\FormError $error
-            */
-            foreach ($form->getErrors() as $key => $error) {
-                $errors[] = $error->getMessage();
-            }
-        }
-        
-        return $errors;
-    }
-    
     public function listMenusAction() {
         
         $em = $this->getDoctrine()->getManager();
@@ -83,7 +58,8 @@ class MenuController extends Controller {
                 return $this->redirect($this->generateUrl('livrederecettes_viewMenu',array('id' => $menu->getId() )));
             } else
             {
-                $errors = $this->getErrorMessages($form);
+                $errorProcessing = $this->container->get('fd_livrederecettes.errorProcessing');
+                $errors = $errorProcessing->getErrorMessages($form);
                 
                 return new Response(print_r($errors, true));
             }
@@ -138,7 +114,8 @@ class MenuController extends Controller {
                 return $this->redirect($this->generateUrl('livrederecettes_viewMenu',array('id' => $menu->getId() )));
             } else
             {
-                $errors = $this->getErrorMessages($form);
+                $errorProcessing = $this->container->get('fd_livrederecettes.errorProcessing');
+                $errors = $errorProcessing->getErrorMessages($form);
                 
                 return new Response(print_r($errors, true));
             }

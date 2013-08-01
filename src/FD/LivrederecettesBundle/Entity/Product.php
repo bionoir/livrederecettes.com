@@ -43,10 +43,10 @@ class Product
     private $seasonEnd;
     
     /**
-     * @ORM\ManyToOne(targetEntity="FD\LivrederecettesBundle\Entity\Type")
+     * @ORM\ManyToOne(targetEntity="FD\LivrederecettesBundle\Entity\ProductType")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $type;
+    private $productType;
 
 
     /**
@@ -129,25 +129,25 @@ class Product
     }
 
     /**
-     * Set type
+     * Set productType
      *
-     * @param \FD\LivrederecettesBundle\Entity\Type $type
+     * @param \FD\LivrederecettesBundle\Entity\ProductType $productType
      * @return Product
      */
-    public function setType(\FD\LivrederecettesBundle\Entity\Type $type)
+    public function setProductType(\FD\LivrederecettesBundle\Entity\ProductType $productType)
     {
-        $this->type = $type;
+        $this->productType = $productType;
     
         return $this;
     }
 
     /**
-     * Get type
+     * Get productType
      *
-     * @return \FD\LivrederecettesBundle\Entity\Type 
+     * @return \FD\LivrederecettesBundle\Entity\ProductType 
      */
-    public function getType()
+    public function getProductType()
     {
-        return $this->type;
+        return $this->productType;
     }
 }

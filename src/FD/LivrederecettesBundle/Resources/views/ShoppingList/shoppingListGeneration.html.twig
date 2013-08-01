@@ -1,0 +1,51 @@
+{# src/FD/LivrederecettesBundle/Resources/views/ShoppingList/shoppingListGeneration.html.twig #}
+
+<style type="text/css">
+       
+        .tableIngredients{
+                border-collapse: collapse;
+        }
+       
+       .tdIngredients, .thIngredients {
+                border: 1px solid black;
+                padding: 3px;
+       }
+</style>
+
+<page backtop="20mm" backbottom="20mm">
+    <page_header>
+        Liste des courses à faire
+    </page_header>
+        
+    <table>
+        <tr>
+            <td> {{ menu.title }} </td>
+        </tr>
+    </table>
+    <br/>
+    <br/>
+    
+    <table class="tableIngredients">
+        <tr>
+            <td class="tdIngredients" colspan="4">Liste des ingredients à acheter </td>
+        </tr>
+        <tr>
+            <td class="tdIngredients"> Produit </td>
+            <td class="tdIngredients"> Rayon </td>
+            <td class="tdIngredients"> Qté </td>
+            <td class="tdIngredients"> Unité </td>
+        </tr>
+        {% for ingredient in ingredients %}
+        <tr>
+            <td class="tdIngredients"> {{ ingredient.pr_name }} </td>
+            <td class="tdIngredients"> {{ ingredient.pt_value }} </td>
+            <td class="tdIngredients"> {{ ingredient.i_quantity }} </td>
+            <td class="tdIngredients"> {{ ingredient.u_value }} </td>
+        </tr>
+        {% endfor %}
+    </table>
+        
+    <page_footer>
+        <p style="text-align:right;">F.Dalmasso &copy; 2013</p>
+    </page_footer>
+</page>

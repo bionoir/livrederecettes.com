@@ -47,7 +47,7 @@ class Products extends AbstractFixture implements OrderedFixtureInterface {
         $en->setName($name);
         $en->setSeasonStart($startDate);
         $en->setSeasonEnd($endDate);
-        $en->setType($this->getReference('productType-' . $prodType));
+        $en->setProductType($this->getReference('productType-' . $prodType));
         $this->manager->persist($en);
         
         $this->addReference('product-' . $refNb, $en);

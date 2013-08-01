@@ -7,7 +7,7 @@
  
 {% block fdalivrederecettes_body %}
  
-  <h3>{{ menu.title }}</h3>
+  <h2>{{ menu.title }}</h2>
   
   <div class="well">
     {% if menu.dated == true %}
@@ -39,6 +39,13 @@
       <i class="icon-trash"></i>
       Supprimer le menu
     </a>
+  </p>
+  
+  <p>
+      <a href="{{ path('livrederecettes_generateShoppingList', {'menuId': menu.id}) }}" class="btn">
+          <i class="icon-shopping-cart"></i>
+          Génération liste course
+      </a>  
   </p>
  
 {% endblock %}

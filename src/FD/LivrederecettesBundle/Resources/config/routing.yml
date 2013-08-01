@@ -29,6 +29,12 @@ livrederecettes_deleteShoppingList:
     requirements:
                   id: \d+
 
+livrederecettes_generateShoppingList:
+    pattern: /generateShoppingList/{menuId}
+    defaults: { _controller: FDLivrederecettesBundle:ShoppingList:generateShoppingList }
+    requirements:
+                  id: \d+
+
 # MENU section
 livrederecettes_listMenus:
     pattern:  /listMenus
@@ -161,30 +167,30 @@ livrederecettes_deleteUnit:
     requirements:
                   id:  \d+
     
-# TYPE section
-livrederecettes_listTypes:
-  pattern: /listTypes
-  defaults: { _controller: FDLivrederecettesBundle:Type:listTypes }
+# PRODUCTTYPE section
+livrederecettes_listProductTypes:
+  pattern: /listProductTypes
+  defaults: { _controller: FDLivrederecettesBundle:ProductType:listProductTypes }
 
-livrederecettes_viewType:
-    pattern:  /viewType/{id}
-    defaults: { _controller: FDLivrederecettesBundle:Type:viewType }
+livrederecettes_viewProductType:
+    pattern:  /viewProductType/{id}
+    defaults: { _controller: FDLivrederecettesBundle:ProductType:viewProductType }
     requirements:
                   id: \d+
 
-livrederecettes_addType:
-    pattern:  /addType
-    defaults: { _controller: FDLivrederecettesBundle:Type:addType }
+livrederecettes_addProductType:
+    pattern:  /addProductType
+    defaults: { _controller: FDLivrederecettesBundle:ProductType:addProductType }
     
-livrederecettes_modifyType:
-    pattern:  /modifyType/{id}
-    defaults: { _controller: FDLivrederecettesBundle:Type:modifyType }
+livrederecettes_modifyProductType:
+    pattern:  /modifyProductType/{id}
+    defaults: { _controller: FDLivrederecettesBundle:ProductType:modifyProductType }
     requirements:
                   id:  \d+
     
-livrederecettes_deleteType:
-    pattern:  /deleteType/{id}
-    defaults: { _controller: FDLivrederecettesBundle:Type:deleteType }
+livrederecettes_deleteProductType:
+    pattern:  /deleteProductType/{id}
+    defaults: { _controller: FDLivrederecettesBundle:ProductType:deleteProductType }
     requirements:
                   id:  \d+
                   
