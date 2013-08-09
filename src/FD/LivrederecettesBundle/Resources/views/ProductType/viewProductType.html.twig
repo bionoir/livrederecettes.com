@@ -7,23 +7,23 @@
  
 {% block fdalivrederecettes_body %}
  
-  <h2>{{ productType.value }}</h2>
+  <h4>{{ productType.value }}</h4>
   
   <div class="well">
     {{ productType.description }}
   </div>
   
   <p>
-    <a href="{{ path('livrederecettes_listProductTypes') }}" class="btn">
-      <i class="icon-chevron-left"></i>
+    <a href="{{ path('livrederecettes_listProductTypes') }}" class="btn btn-default btn-sm">
+      <i class="glyphicon glyphicon-chevron-left"></i>
       Retour à la liste
     </a>
-    <a href="{{ path('livrederecettes_modifyProductType', {'id': productType.id}) }}" class="btn">
-      <i class="icon-edit"></i>
+    <a href="{{ path('livrederecettes_modifyProductType', {'id': productType.id}) }}" class="btn btn-primary btn-sm">
+      <i class="glyphicon glyphicon-edit"></i>
       Modifier le type de produit
     </a>
-    <a href="{{ path('livrederecettes_deleteProductType', {'id': productType.id}) }}" class="btn">
-      <i class="icon-trash"></i>
+    <a href="{{ path('livrederecettes_deleteProductType', {'id': productType.id}) }}" class="btn btn-danger btn-sm">
+      <i class="glyphicon glyphicon-trash"></i>
       Supprimer le type de produit
     </a>
   </p>

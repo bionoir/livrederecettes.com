@@ -4,7 +4,7 @@ imports:
 
 framework:
     #esi:             ~
-    #translator:      { fallback: %locale% }
+    translator:      { fallback: %locale% }
     secret:          %secret%
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -63,3 +63,31 @@ swiftmailer:
     username:  %mailer_user%
     password:  %mailer_password%
     spool:     { type: memory }
+
+# FOS User configuration
+fos_user:
+    db_driver:  orm
+    firewall_name: main
+    user_class: FD\UserBundle\Entity\User
+    # Permet de définir quel service de mail utiliser
+    # On utilise twig_swift pour pouvoir envoyer un email en HTML
+    service:
+        mailer: fos_user.mailer.twig_swift
+    from_email:
+        address: noreply@livrederecettes.com
+        sender_name: Livre de recettes
+    # Permet de renseigner le nouveau formulaire d'inscription
+    registration:
+        form:
+            type: fos_user_registration
+        # Permet la validation automatique du compte par envoi d'un email
+        confirmation:
+            enabled:    true
+            from_email:
+                # Adresse de l'expediteur
+                address:        noreply@confirmationlivrederecettes.com
+                # Nom de l'expediteur
+                sender_name:    Admin de livrederecettes.com
+        # Permet de définir le template de l'email à envoyer (en html)
+        #email:
+            template: FDUserBundle:User:registration.email.twig

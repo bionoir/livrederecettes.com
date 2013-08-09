@@ -20,8 +20,8 @@ class AppKernel extends Kernel
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new Ensepar\Html2pdfBundle\EnseparHtml2pdfBundle(),
-            new FD\LivrederecettesBundle\FDLivrederecettesBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+            new FD\LivrederecettesBundle\FDLivrederecettesBundle(),
             new FD\UserBundle\FDUserBundle()
         );
 
