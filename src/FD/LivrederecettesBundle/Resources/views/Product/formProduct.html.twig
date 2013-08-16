@@ -2,7 +2,63 @@
  
 {# Ici on laisse vide la vue pour l'instant, on la comblera plus tard lorsqu'on saura afficher un formulaire. #}
 <div class="well">
-  <form method="post" {{ form_enctype(form) }}>
+    
+  <form class="form-horizontal"  method="post" {{ form_enctype(form) }} >
+        <div class="form-group">
+            <div class="col-lg-2 control-label">
+                {{ form_label(form.name) }}
+            </div>
+            <div class="col-lg-5">
+                {{ form_widget(form.name, { 'attr' : {'class' : 'form-control'} }) }}
+                {{ form_errors(form.name) }}
+            </div>
+        </div>
+          
+        <div class="form-group">
+            <div class="col-lg-2 control-label">
+                {{ form_label(form.seasonStart) }}
+            </div>
+            <div class="col-lg-5">
+                {{ form_widget(form.seasonStart.year, { 'attr': {'style': 'display:none'} }) }}
+                {{ form_widget(form.seasonStart.day, { 'attr' : {'class' : 'form-control', 'style' : 'width:auto; display:inline'} }) }}
+                {{ form_widget(form.seasonStart.month, { 'attr' : {'class' : 'form-control', 'style' : 'width:auto; display:inline'} }) }}
+                {{ form_errors(form.seasonStart) }}
+            </div>
+        </div>
+          
+        <div class="form-group">
+            <div class="col-lg-2 control-label">
+                {{ form_label(form.seasonEnd) }}
+            </div>
+            <div class="col-lg-5">
+                {{ form_widget(form.seasonEnd.year, { 'attr': {'style': 'display:none'} }) }}
+                {{ form_widget(form.seasonEnd.day, { 'attr' : {'class' : 'form-control', 'style' : 'width:auto; display:inline'} }) }}
+                {{ form_widget(form.seasonEnd.month, { 'attr' : {'class' : 'form-control', 'style' : 'width:auto; display:inline'} }) }}
+                {{ form_errors(form.seasonEnd) }}
+            </div>
+        </div>
+          
+        <div class="form-group">
+            <div class="col-lg-2 control-label">
+                {{ form_label(form.productType) }}
+            </div>
+            <div class="col-lg-5">
+                {{ form_widget(form.productType, { 'attr' : {'class' : 'form-control'} }) }}
+                {{ form_errors(form.productType) }}
+            </div>
+        </div>
+          
+        {{ form_rest(form) }}
+        
+        <input type="submit" class="btn btn-primary" />
+        {% if product is null %}
+            <a href="{{ path(url_cancel) }}"><input type="button" class="btn btn-default" value="Annuler" /></a>
+        {% else %}
+            <a href="{{ path(url_cancel, {'id': product.id}) }}"><input type="button" class="btn btn-default" value="Annuler" /></a>
+        {% endif %}
+  </form>
+    
+  {#<form method="post" {{ form_enctype(form) }}>
     {{ form_label(form.name, 'Nom du produit') }}
     {{ form_widget(form.name) }}
     {{ form_errors(form.name) }}
@@ -19,18 +75,18 @@
     {{ form_widget(form.seasonEnd.month) }}
     {{ form_errors(form.seasonEnd) }}
     
-    {{ form_label(form.type, 'Type de produit') }}
-    {{ form_widget(form.type) }}
-    {{ form_errors(form.type) }}     
+    {{ form_label(form.productType, 'Type de produit') }}
+    {{ form_widget(form.productType) }}
+    {{ form_errors(form.productType) }}     
           
     {{ form_rest(form) }}
     <br/>
-    {# {{ form_widget(form) }}  #}
-    <input type="submit" class="btn btn-primary btn-large" />
+    
+    <input type="submit" class="btn btn-primary" />
     {% if product is null %}
-        <a href="{{ path(url_cancel) }}"><input type="button" class="btn-large" value="Annuler" /></a>
+        <a href="{{ path(url_cancel) }}"><input type="button" class="btn btn-default" value="Annuler" /></a>
     {% else %}
-        <a href="{{ path(url_cancel, {'id': product.id}) }}"><input type="button" class="btn-large" value="Annuler" /></a>
+        <a href="{{ path(url_cancel, {'id': product.id}) }}"><input type="button" class="btn btn-default" value="Annuler" /></a>
     {% endif %}
-  </form>
+  </form>#}
 </div>

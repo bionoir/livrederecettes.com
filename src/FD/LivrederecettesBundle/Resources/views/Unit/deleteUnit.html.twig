@@ -11,8 +11,8 @@
     
     <p>
         <form action="{{ path('livrederecettes_deleteUnit', {'id': unit.id}) }}" method="post">
-            <a href="{{ path('livrederecettes_viewUnit', {'id': unit.id}) }}" class="btn">
-                <i class="icon-chevron-left"></i>
+            <a href="{{ path('livrederecettes_viewUnit', {'id': unit.id}) }}" class="btn btn-default">
+                <i class="glyphicon glyphicon-chevron-left"></i>
                 Retour à la fiche de l'unité de mesure
             </a>
             <input type="submit" value="Supprimer" class="btn btn-danger" />

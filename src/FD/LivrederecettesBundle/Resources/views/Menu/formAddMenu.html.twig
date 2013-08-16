@@ -2,63 +2,72 @@
 
 {# <div class="well"> #}
     <form class="well form-horizontal" method="post" {{ form_enctype(form) }}>
-    <div class="control-group">
-        <div class="control-label">
-            {{ form_label(form.title) }}
+        <div class="form-group">
+            <div class="col-lg-3 control-label">
+                {{ form_label(form.title) }}
+            </div>
+            <div class="col-lg-8">
+                {{ form_widget(form.title, { 'attr' : {'class' : 'form-control'} }) }}
+                {{ form_errors(form.title) }}
+            </div>
+        </div>  
+
+        <div class="form-group">
+            <div class="col-lg-3 control-label">
+                {{ form_label(form.dated) }}
+            </div>
+            <div class="col-lg-4">
+                {{ form_widget(form.dated, { 'attr' : {'class' : 'form-control'} }) }}
+                {{ form_errors(form.dated) }}
+            </div>
+        </div>  
+
+        <div class="form-group">
+            <div class="col-lg-3 control-label">
+                {{ form_label(form.dateFrom) }}
+             </div>
+            <div class="col-lg-8">
+                {# {{ form_widget(form.dateFrom, { 'attr' : {'class' : 'form-control'} }) }} #}
+                {{ form_widget(form.dateFrom.year, { 'attr' : {'class' : 'form-control', 'style' : 'width:auto; display:inline'} }) }}
+                {{ form_widget(form.dateFrom.day, { 'attr' : {'class' : 'form-control', 'style' : 'width:auto; display:inline'} }) }}
+                {{ form_widget(form.dateFrom.month, { 'attr' : {'class' : 'form-control', 'style' : 'width:auto; display:inline'} }) }}
+                {{ form_errors(form.dateFrom) }}
+          </div>
         </div>
-        <div class="controls">
-            {{ form_widget(form.title, { 'attr' : {'class' : 'input-block-level'} }) }}
-            {{ form_errors(form.title) }}
+
+        <div class="form-group">
+            <div class="col-lg-3 control-label">
+                {{ form_label(form.dateTo) }}
+             </div>
+            <div class="col-lg-8">
+                {{ form_widget(form.dateTo.year, { 'attr' : {'class' : 'form-control', 'style' : 'width:auto; display:inline'} }) }}
+                {{ form_widget(form.dateTo.day, { 'attr' : {'class' : 'form-control', 'style' : 'width:auto; display:inline'} }) }}
+                {{ form_widget(form.dateTo.month, { 'attr' : {'class' : 'form-control', 'style' : 'width:auto; display:inline'} }) }}
+                {{ form_errors(form.dateTo) }}
+          </div>
+        </div> 
+
+        <div class="form-group">
+            <div class="col-lg-3 control-label">
+                {{ form_label(form.meals) }}
+            </div>
+            <div class="col-lg-8">
+                {{ form_widget(form.meals) }}
+                {{ form_errors(form.meals) }}
+            </div>
         </div>
-    </div>  
-       
-    <div class="control-group">
-        <div class="control-label">
-            {{ form_label(form.dated) }}
+
+        {{ form_rest(form) }}
+
+          {# Ajout d'un lien pour ajouter un repas supplémentaire. #}
+        <div class="form-group">
+            <div class="col-lg-5  control-label">
+                <a href="#" id="add_meal" class="btn btn-success btn-sm">Ajouter un repas</a><br /><br />
+            </div>
         </div>
-        <div class="controls">
-            {{ form_widget(form.dated, { 'attr' : {'class' : 'input-block-level'} }) }}
-            {{ form_errors(form.dated) }}
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary" value="Envoyer le menu"/>
         </div>
-    </div>  
-    
-    <div class="control-group">
-        <div class="control-label">
-            {{ form_label(form.dateFrom) }}
-         </div>
-        <div class="controls">       
-            {{ form_widget(form.dateFrom, { 'attr' : {'class' : 'input-block-level'} }) }}
-            {{ form_errors(form.dateFrom) }}
-      </div>
-    </div>
-    
-    <div class="control-group">
-        <div class="control-label">
-            {{ form_label(form.dateTo) }}
-         </div>
-        <div class="controls">       
-            {{ form_widget(form.dateTo, { 'attr' : {'class' : 'input-block-level'} }) }}
-            {{ form_errors(form.dateTo) }}
-      </div>
-    </div> 
-    
-    <div class="control-group">
-        <div class="control-label">
-            {{ form_label(form.meals) }}
-        </div>
-        <div class="controls">
-            {{ form_widget(form.meals, { 'attr' : {'class' : 'input-block-level'} }) }}
-            {{ form_errors(form.meals) }}
-        </div>
-    </div>
-            
-      {{ form_rest(form) }}
-            
-      {# Ajout d'un lien pour ajouter un repas supplémentaire. #}
-      <a href="#" id="add_ingredient" class="btn">Ajouter un repas</a><br /><br />
-      <div class="form-actions">
-        <input type="submit" class="btn btn-primary btn-large" value="Envoyer le menu"/>
-      </div>
     </form>
 {#</div>#}
 
@@ -67,7 +76,7 @@
     
     $(document).ready(function(){
             // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse
-            var $container = $('#fd_livrederecettesbundle_recipetype_meals');
+            var $container = $('#fd_livrederecettesbundle_menutype_meals');
 
             // On définit une fonction qui va ajouter un champ
             function add_meal() {
@@ -79,12 +88,21 @@
                 var $sub_container = $container.attr('data-prototype').replace(/__name__label__/g, 'Label'+index);
                 $sub_container = $sub_container.replace('<label class="required">Label' + index + '</label>', '');
                 $sub_container = $sub_container.replace(/__name__/g, index);
-                $container.append($($sub_container));
-        
-                //$container.append($($container.attr('data-prototype').replace(/__name__/g, index)));
+                var $html = $.parseHTML($sub_container);
+                
+                //
+                // Bootstrap 3 adaptations
+                $('div#fd_livrederecettesbundle_menutype_meals_'+index+' div', $html).addClass('form-group');
+                $('#fd_livrederecettesbundle_menutype_meals_'+index+' div input', $html).addClass('form-control');
+                $('#fd_livrederecettesbundle_menutype_meals_'+index+' div select', $html).addClass('form-control');
+                $('#fd_livrederecettesbundle_menutype_meals_'+index+' div label', $html).wrap('<div class="col-lg-3 control-label"></div>');
+                $('#fd_livrederecettesbundle_menutype_meals_'+index+' div input', $html).wrap('<div class="col-lg-5" style:width:auto; display:inline"></div>');
+                $('#fd_livrederecettesbundle_menutype_meals_'+index+' div select', $html).wrap('<div class="col-lg-5" style:width:auto; display:inline"></div>');
+                
+                $container.append($($html));
                 
                 // On ajoute également un bouton pour pouvoir supprimer l'ingredient
-                $container.append($('<a href="#" id="delete_meal_' + index +'" class="btn btn-danger">Supprimer repas</a><br /><br />'));
+                $container.append($('<div id="delete_meal_' + index +'" class="form-group"><div class="col-lg-3 control-label"><a href="#" class="btn btn-danger btm-sm">Supprimer repas</a><br /><br /></div></div>'));
 
                 // On supprime le champ à chaque clic sur le lien de suppression
                 $('#delete_meal_' + index).click(function() {

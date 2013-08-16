@@ -6,20 +6,16 @@
 {% endblock %}
     
 {% block fdalivrederecettes_body %}
-    <h2>Modifier un type de repas</h2>
-    
-    <h3>Formulaire pour la modification d'un type de repas</h3>
-    
+    <h4>Modifier un type de repas</h4>
     {% include "FDLivrederecettesBundle:MealType:formMealType.html.twig" %}
-    
     <p>
         Vous éditez un type de repas déjà existant.
     </p>
     
     <p>
-        <a href="{{ path('livrederecettes_viewMealType', {'id': mealType.id}) }}" class="btn">
-        <i class="icon-chevron-left"></i>
-        Retour à la fiche du type de repas
+        <a href="{{ path('livrederecettes_viewMealType', {'id': mealType.id}) }}" class="btn btn-default">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+            Retour à la fiche du type de repas
         </a>
   </p>
 {% endblock %}

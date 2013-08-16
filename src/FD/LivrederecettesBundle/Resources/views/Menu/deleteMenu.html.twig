@@ -6,12 +6,11 @@
 {% endblock %}
 
 {% block fdalivrederecettes_body %}
-
     <p> Voulez-vous vraiment supprimer le menu "{{ menu.title }}" ? </p>
     <p>
         <form action="{{ path('livrederecettes_deleteMenu', {'id': menu.id}) }}" method="post">
-            <a href="{{ path('livrederecettes_viewMenu', {'id': menu.id}) }}" class="btn">
-                <i class="icon-chevron-left"></i>
+            <a href="{{ path('livrederecettes_viewMenu', {'id': menu.id}) }}" class="btn btn-default">
+                <i class="glyphicon glyphicon-chevron-left"></i>
                 Retour à la fiche du menu
             </a>
             <input type="submit" value="Supprimer" class="btn btn-danger" />

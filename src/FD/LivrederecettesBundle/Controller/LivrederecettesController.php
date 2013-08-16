@@ -34,13 +34,17 @@ class LivrederecettesController extends Controller
     
     public function menuAction()
     {
-        $liste_recettes = array(
+        $recipies = $this->getDoctrine()
+                              ->getManager()
+                              ->getRepository('FDLivrederecettesBundle:Recipe')
+                              ->getTop3Recipe();
+        /*$liste_recettes = array(
                         array('id' => 2, 'titre' => 'Gateaux chocolat !'),
                         array('id' => 5, 'titre' => 'Pizza'),
                         array('id' => 9, 'titre' => 'Patates')
-                 );
+                 );*/
         
-        return $this->render('FDLivrederecettesBundle:Livrederecettes:menu.html.twig', array('liste_recettes' => $liste_recettes ));
+        return $this->render('FDLivrederecettesBundle:Livrederecettes:menu.html.twig', array('recipies' => $recipies ));
 }
     
     public function homepageAction()

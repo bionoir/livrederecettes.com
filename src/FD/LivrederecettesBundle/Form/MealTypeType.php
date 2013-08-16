@@ -11,7 +11,7 @@ class MealTypeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', 'text', array('label' => 'Nom du type de repas'))
+            ->add('name', 'text', array('label' => 'Type de repas'))
         ;
     }
 

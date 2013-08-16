@@ -12,12 +12,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class ProductRepository extends EntityRepository
 {
-    public function getProductsByType($type_id)
+    public function getProductsByType($producttype_id)
     {
         $queryBuilder = $this->createQueryBuilder('p');
         
-        $queryBuilder->where('p.type = :v_type')
-                ->setParameter('v_type', $type_id);
+        $queryBuilder->where('p.producttype = :v_producttype')
+                ->setParameter('v_producttype', $producttype_id);
         
         return $queryBuilder->getQuery()->getResult();
     }

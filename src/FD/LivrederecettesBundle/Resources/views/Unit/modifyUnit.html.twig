@@ -6,9 +6,7 @@
 {% endblock %}
     
 {% block fdalivrederecettes_body %}
-    <h2>Modifier une unité</h2>
-    
-    <h3>Formulaire pour la modification d'une unité de mesure</h3>
+    <h4>Modifier une unité</h4>
     
     {% include "FDLivrederecettesBundle:Unit:formUnit.html.twig" %}
     
@@ -17,8 +15,8 @@
     </p>
     
     <p>
-        <a href="{{ path('livrederecettes_viewUnit', {'id': unit.id}) }}" class="btn">
-        <i class="icon-chevron-left"></i>
+        <a href="{{ path('livrederecettes_viewUnit', {'id': unit.id}) }}" class="btn btn-default">
+        <i class="glyphicon glyphicon-chevron-left"></i>
         Retour à la fiche de l'unité
         </a>
   </p>

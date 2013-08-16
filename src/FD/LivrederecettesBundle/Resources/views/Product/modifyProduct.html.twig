@@ -6,9 +6,7 @@
 {% endblock %}
     
 {% block fdalivrederecettes_body %}
-    <h2>Modifier le produit</h2>
-    
-    <h3>Formulaire pour la modification du produit</h3>
+    <h4>Modifier le produit</h4>
     
     {% include "FDLivrederecettesBundle:Product:formProduct.html.twig" %}
     
@@ -17,8 +15,8 @@
     </p>
     
     <p>
-        <a href="{{ path('livrederecettes_viewProduct', {'id': product.id}) }}" class="btn">
-        <i class="icon-chevron-left"></i>
+        <a href="{{ path('livrederecettes_viewProduct', {'id': product.id}) }}" class="btn btn-default">
+        <i class="glyphicon glyphicon-chevron-left"></i>
         Retour à la fiche du produit
         </a>
   </p>

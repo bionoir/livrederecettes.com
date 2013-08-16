@@ -6,7 +6,7 @@
 {% endblock %}
     
 {% block fdalivrederecettes_body %}
-    <h3>Liste des produits présents dans le système.</h3>
+    <h4>Liste des produits présents dans le système.</h4>
     <ul>
         {% for product in products_list %}
             <li>
@@ -17,5 +17,5 @@
         {% endfor %}
     </ul>
     
-    <a class="btn btn-small btn-primary" href="{{ path('livrederecettes_addProduct') }}"><i class="icon-plus"></i> Ajouter un produit</a>
+    <a class="btn btn-small btn-primary" href="{{ path('livrederecettes_addProduct') }}"><i class="glyphicon glyphicon-plus"></i> Ajouter un produit</a>
 {% endblock %}

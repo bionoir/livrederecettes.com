@@ -7,7 +7,7 @@
  
 {% block fdalivrederecettes_body %}
  
-  <h2>{{ recipe.title }}</h2>
+  <h4>{{ recipe.title }}</h4>
   
   <div class="well">
     {{ recipe.description }}
@@ -32,16 +32,16 @@
   </div>
   
   <p>
-    <a href="{{ path('livrederecettes_listRecipies') }}" class="btn">
-      <i class="icon-chevron-left"></i>
+    <a href="{{ path('livrederecettes_listRecipies') }}" class="btn btn-default btn-sm">
+      <i class="glyphicon glyphicon-chevron-left"></i>
       Retour à la liste
     </a>
-    <a href="{{ path('livrederecettes_modifyRecipe', {'id': recipe.id}) }}" class="btn">
-      <i class="icon-edit"></i>
+    <a href="{{ path('livrederecettes_modifyRecipe', {'id': recipe.id}) }}" class="btn btn-primary btn-sm">
+      <i class="glyphicon glyphicon-edit"></i>
       Modifier la recette
     </a>
-    <a href="{{ path('livrederecettes_deleteRecipe', {'id': recipe.id}) }}" class="btn">
-      <i class="icon-trash"></i>
+    <a href="{{ path('livrederecettes_deleteRecipe', {'id': recipe.id}) }}" class="btn btn-danger btn-sm">
+      <i class="glyphicon glyphicon-trash"></i>
       Supprimer la recette
     </a>
   </p>

@@ -2,13 +2,44 @@
  
 {# Ici on laisse vide la vue pour l'instant, on la comblera plus tard lorsqu'on saura afficher un formulaire. #}
 <div class="well">
-  <form method="post" {{ form_enctype(form) }}>
+  <form class="form-horizontal"  method="post" {{ form_enctype(form) }} >
+        <div class="form-group">
+            <div class="col-lg-2 control-label">
+                {{ form_label(form.value) }}
+            </div>
+            <div class="col-lg-5">
+                {{ form_widget(form.value, { 'attr' : {'class' : 'form-control'} }) }}
+                {{ form_errors(form.value) }}
+            </div>
+        </div>
+          
+        <div class="form-group">
+            <div class="col-lg-2 control-label">
+                {{ form_label(form.description) }}
+            </div>
+            <div class="col-lg-5">
+                {{ form_widget(form.description, { 'attr' : {'class' : 'form-control'} }) }}
+                {{ form_errors(form.description) }}
+            </div>
+        </div>
+            
+        {{ form_rest(form) }}
+        
+        <input type="submit" class="btn btn-primary" />
+        {% if productType is null %}
+            <a href="{{ path(url_cancel) }}"><input type="button" class="btn btn-default" value="Annuler" /></a>
+        {% else %}
+            <a href="{{ path(url_cancel, {'id': productType.id}) }}"><input type="button" class="btn btn-default" value="Annuler" /></a>
+        {% endif %}
+    </form>
+    {#<form method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <input type="submit" class="btn btn-primary btn-large" />
     {% if productType is null %}
-        <a href="{{ path(url_cancel) }}"><input type="button" class="btn-large" value="Annuler" /></a>
+        <a href="{{ path(url_cancel) }}"><input type="button" class="btn btn-primary" value="Annuler" /></a>
     {% else %}
-        <a href="{{ path(url_cancel, {'id': productType.id}) }}"><input type="button" class="btn-large" value="Annuler" /></a>
+        <a href="{{ path(url_cancel, {'id': productType.id}) }}"><input type="button" class="btn btn-default" value="Annuler" /></a>
     {% endif %}
-  </form>
+    </form>
+    #}
 </div>

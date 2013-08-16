@@ -6,7 +6,7 @@
 {% endblock %}
     
 {% block fdalivrederecettes_body %}
-    <h3>Liste des menus présents dans le système.</h3>
+    <h4>Liste des menus présents dans le système.</h4>
     <ul>
         {% for menu in listMenus %}
             <li>
@@ -17,5 +17,5 @@
         {% endfor %}
     </ul>
     
-    <a class="btn btn-small btn-primary" href="{{ path('livrederecettes_addMenu') }}"><i class="icon-plus"></i> Ajouter un menu</a>
+    <a class="btn btn-small btn-primary" href="{{ path('livrederecettes_addMenu') }}"><i class="glyphicon glyphicon-plus"></i> Ajouter un menu</a>
 {% endblock %}

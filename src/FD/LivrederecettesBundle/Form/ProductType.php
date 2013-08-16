@@ -11,12 +11,15 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', 'text')
-            ->add('seasonStart', 'date', array('format' => 'dd-MMMM-yyyy'))
-            ->add('seasonEnd', 'date', array('format' => 'dd-MMMM-yyyy'))
-            ->add('type', 'entity', array(
-                    'class' => 'FDLivrederecettesBundle:Type',
+            ->add('name', 'text', array('label' => 'Nom du produit'))
+            ->add('seasonStart', 'date', array('format' => 'dd-MMMM-yyyy',
+                                                'label' => 'Début saison'))
+            ->add('seasonEnd', 'date', array('format' => 'dd-MMMM-yyyy',
+                                                'label' => 'Fin saison'))
+            ->add('productType', 'entity', array(
+                    'class' => 'FDLivrederecettesBundle:ProductType',
                     'property' => 'value',
+                    'label' => 'Type de produit',
                     'empty_value' => 'Sélectionner le type du produit'))
         ;
     }

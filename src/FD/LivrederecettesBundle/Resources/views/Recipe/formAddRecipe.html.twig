@@ -4,67 +4,68 @@
 {# Ici on laisse vide la vue pour l'instant, on la comblera plus tard lorsqu'on saura afficher un formulaire. #}
 {# <div class="well"> #}
     <form class="well form-horizontal" method="post" {{ form_enctype(form) }}>
-    <div class="control-group">
-        <div class="control-label">
-            {{ form_label(form.title) }}
+        <div class="form-group">
+            <div class="col-lg-3 control-label">
+                {{ form_label(form.title) }}
+            </div>
+            <div class="col-lg-8">
+                {{ form_widget(form.title, { 'attr' : {'class' : 'form-control'} }) }}
+                {{ form_errors(form.title) }}
+            </div>
         </div>
-        <div class="controls">
-            {{ form_widget(form.title, { 'attr' : {'class' : 'input-block-level'} }) }}
-            {{ form_errors(form.title) }}
-        </div>
-    </div>  
-    
-    <div class="control-group">
-        <div class="control-label">
-            {{ form_label(form.description) }}
-        </div>
-        <div class="controls">
-            {{ form_widget(form.description, { 'attr' : {'class' : 'input-block-level'} }) }}
-            {{ form_errors(form.description) }}
-        </div>
-    </div>  
-    
-    <div class="control-group">
-        <div class="control-label">
-            {{ form_label(form.difficulty) }}
-        </div>
-        <div class="controls">
-            {{ form_widget(form.difficulty, { 'attr' : {'class' : 'input-block-level'} }) }}
-            {{ form_errors(form.difficulty) }}
-        </div>
-    </div>  
-    
-    <div class="control-group">
-        <div class="control-label">
-            {{ form_label(form.preparation) }}
-         </div>
-        <div class="controls">       
-            {{ form_widget(form.preparation, { 'attr' : {'class' : 'input-block-level'} }) }}
-            {{ form_errors(form.preparation) }}
-      </div>
-    </div>  
-    
-    <div class="control-group">
-        <div class="control-label">
-            {{ form_label(form.ingredients) }}
-        </div>
-        <div class="controls">
-            {{ form_widget(form.ingredients, { 'attr' : {'class' : 'input-block-level'} }) }}
-            {{ form_errors(form.ingredients) }}
-        </div>
-    </div>
             
-      {{ form_rest(form) }}
+        <div class="form-group">
+            <div class="col-lg-3 control-label">
+                {{ form_label(form.description) }}
+            </div>
+            <div class="col-lg-8">
+                {{ form_widget(form.description, { 'attr' : {'class' : 'form-control'} }) }}
+                {{ form_errors(form.description) }}
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-lg-3 control-label">
+                {{ form_label(form.difficulty) }}
+            </div>
+            <div class="col-lg-8">
+                {{ form_widget(form.difficulty, { 'attr' : {'class' : 'form-control'} }) }}
+                {{ form_errors(form.difficulty) }}
+            </div>
+        </div>  
+
+        <div class="form-group">
+            <div class="col-lg-3 control-label">
+                {{ form_label(form.preparation) }}
+             </div>
+            <div class="col-lg-8">       
+                {{ form_widget(form.preparation, { 'attr' : {'class' : 'form-control'} }) }}
+                {{ form_errors(form.preparation) }}
+          </div>
+        </div>  
+
+        <div class="form-group">
+            <div class="col-lg-3 control-label">
+                {{ form_label(form.ingredients) }}
+            </div>
+            <div class="col-lg-8">
+                {{ form_widget(form.ingredients) }}
+                {{ form_errors(form.ingredients) }}
+            </div>
+        </div>
             
-      {#      {{ form_widget(form) }}       #}
-            
-      {# Ajout d'un lien pour ajouter un ingredient supplémentaire. #}
-      <a href="#" id="add_ingredient" class="btn">Ajouter un ingredient</a><br /><br />
-      <div class="form-actions">
-        <input type="submit" class="btn btn-primary btn-large" value="Envoyer la recette"/>
-      </div>
+        {{ form_rest(form) }}
+        
+        <div class="form-group">
+            <div class="col-lg-5  control-label">
+                <a href="#" id="add_ingredient" class="btn btn-success btn-sm">Ajouter un ingredient</a><br /><br />
+            </div>
+        </div>
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary" value="Envoyer la recette"/>
+        </div>
     </form>
-{#</div>#}
+    
 
 
 <script type="text/javascript">
@@ -83,12 +84,21 @@
                 var $sub_container = $container.attr('data-prototype').replace(/__name__label__/g, 'Label'+index);
                 $sub_container = $sub_container.replace('<label class="required">Label' + index + '</label>', '');
                 $sub_container = $sub_container.replace(/__name__/g, index);
-                $container.append($($sub_container));
-        
-                //$container.append($($container.attr('data-prototype').replace(/__name__/g, index)));
+                var $html = $.parseHTML($sub_container);
                 
+                //
+                // Bootstrap 3 adaptations
+                $('div#fd_livrederecettesbundle_recipetype_ingredients_'+index+' div', $html).addClass('form-group');
+                $('#fd_livrederecettesbundle_recipetype_ingredients_'+index+' div input', $html).addClass('form-control');
+                $('#fd_livrederecettesbundle_recipetype_ingredients_'+index+' div select', $html).addClass('form-control');
+                $('#fd_livrederecettesbundle_recipetype_ingredients_'+index+' div label', $html).wrap('<div class="col-lg-3 control-label"></div>');
+                $('#fd_livrederecettesbundle_recipetype_ingredients_'+index+' div input', $html).wrap('<div class="col-lg-5" style:width:auto; display:inline"></div>');
+                $('#fd_livrederecettesbundle_recipetype_ingredients_'+index+' div select', $html).wrap('<div class="col-lg-5" style:width:auto; display:inline"></div>');
+                
+                $container.append($($html));
+
                 // On ajoute également un bouton pour pouvoir supprimer l'ingredient
-                $container.append($('<a href="#" id="delete_ingredient_' + index +'" class="btn btn-danger">Supprimer ingredient</a><br /><br />'));
+                $container.append($('<div id="delete_ingredient_' + index +'" class="form-group"><div class="col-lg-3 control-label"><a href="#" class="btn btn-danger btn-sm">Supprimer ingredient</a><br /><br /></div></div>'));
 
                 // On supprime le champ à chaque clic sur le lien de suppression
                 $('#delete_ingredient_' + index).click(function() {

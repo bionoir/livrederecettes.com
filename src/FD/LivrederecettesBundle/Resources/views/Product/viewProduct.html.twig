@@ -7,23 +7,23 @@
  
 {% block fdalivrederecettes_body %}
  
-  <h2>{{ product.name }}</h2>
+  <h4>{{ product.name }}</h4>
   
   <div class="well">
-    Produit de type {{ product.type.value }} dont la saison va du {{ product.seasonStart|date("j F") }} au {{ product.seasonEnd|date("j F") }}.
+    Produit de type {{ product.productType.value }} dont la saison va du {{ product.seasonStart|date("j F") }} au {{ product.seasonEnd|date("j F") }}.
   </div>
   
   <p>
-    <a href="{{ path('livrederecettes_listProducts') }}" class="btn">
-      <i class="icon-chevron-left"></i>
+    <a href="{{ path('livrederecettes_listProducts') }}" class="btn btn-default btn-sm">
+      <i class="glyphicon glyphicon-chevron-left"></i>
       Retour à la liste
     </a>
-    <a href="{{ path('livrederecettes_modifyProduct', {'id': product.id}) }}" class="btn">
-      <i class="icon-edit"></i>
+    <a href="{{ path('livrederecettes_modifyProduct', {'id': product.id}) }}" class="btn btn-primary btn-sm">
+      <i class="glyphicon glyphicon-edit"></i>
       Modifier le produit
     </a>
-    <a href="{{ path('livrederecettes_deleteProduct', {'id': product.id}) }}" class="btn">
-      <i class="icon-trash"></i>
+    <a href="{{ path('livrederecettes_deleteProduct', {'id': product.id}) }}" class="btn btn-danger btn-sm">
+      <i class="glyphicon glyphicon-trash"></i>
       Supprimer le produit
     </a>
   </p>

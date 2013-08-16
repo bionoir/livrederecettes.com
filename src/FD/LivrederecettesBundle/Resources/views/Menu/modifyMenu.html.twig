@@ -6,13 +6,11 @@
 {% endblock %}
     
 {% block fdalivrederecettes_body %}
-    <h3>Modification d'un menu</h3>
-    
+    <h4>Modification d'un menu</h4>
     {% include "FDLivrederecettesBundle:Menu:formModMenu.html.twig" %}
-       
     <p>
-        <a href="{{ path('livrederecettes_viewMenu', {'id': menu.id}) }}" class="btn">
-        <i class="icon-chevron-left"></i>
+        <a href="{{ path('livrederecettes_viewMenu', {'id': menu.id}) }}" class="btn btn-default">
+        <i class="glyphicon glyphicon-chevron-left"></i>
         Retour à la fiche du menu
         </a>
     </p>

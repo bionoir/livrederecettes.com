@@ -89,7 +89,7 @@ class MealTypeController extends Controller
         return $this->render('FDLivrederecettesBundle:MealType:addMealType.html.twig', array('form' => $form->createView(), 'mealType' => null ,'url_cancel' => $url_cancel));
     }
     
-    public function modifyTypeAction($id)
+    public function modifyMealTypeAction($id)
     {
         $typeRepository = $this->getDoctrine()->getManager()->getRepository('FDLivrederecettesBundle:MealType');
         $mealType = $typeRepository->find($id);
@@ -121,7 +121,7 @@ class MealTypeController extends Controller
         return $this->render('FDLivrederecettesBundle:MealType:modifyMealType.html.twig', array('form' => $form->createView(), 'mealType' => $mealType, 'url_cancel' => $url_cancel));
     }
     
-    public function deleteTypeAction($id)
+    public function deleteMealTypeAction($id)
     {
         $typeRepository = $this->getDoctrine()->getManager()->getRepository('FDLivrederecettesBundle:MealType');
         $mealType = $typeRepository->find($id);

@@ -7,23 +7,23 @@
  
 {% block fdalivrederecettes_body %}
  
-  <h2>{{ unit.name }}</h2>
+  <h4>{{ unit.name }}</h4>
  
   <div class="well">
     {{ unit.value }}
   </div>
  
   <p>
-    <a href="{{ path('livrederecettes_listUnits') }}" class="btn">
-      <i class="icon-chevron-left"></i>
+    <a href="{{ path('livrederecettes_listUnits') }}" class="btn btn-default btn-sm">
+      <i class="glyphicon glyphicon-chevron-left"></i>
       Retour à la liste
     </a>
-    <a href="{{ path('livrederecettes_modifyUnit', {'id': unit.id}) }}" class="btn">
-      <i class="icon-edit"></i>
+    <a href="{{ path('livrederecettes_modifyUnit', {'id': unit.id}) }}" class="btn btn-primary btn-sm">
+      <i class="glyphicon glyphicon-edit"></i>
       Modifier l'unité
     </a>
-    <a href="{{ path('livrederecettes_deleteUnit', {'id': unit.id}) }}" class="btn">
-      <i class="icon-trash"></i>
+    <a href="{{ path('livrederecettes_deleteUnit', {'id': unit.id}) }}" class="btn btn-danger btn-sm">
+      <i class="glyphicon glyphicon-trash"></i>
       Supprimer l'unité
     </a>
   </p>

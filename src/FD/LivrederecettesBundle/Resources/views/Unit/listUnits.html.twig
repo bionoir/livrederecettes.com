@@ -6,7 +6,7 @@
 {% endblock %}
     
 {% block fdalivrederecettes_body %}
-    <h3>Liste des unités de mesure présentes dans le système.</h3>
+    <h4>Liste des unités de mesure présentes dans le système.</h4>
     <ul>
         {% for unit in units_list %}
             <li>
@@ -17,5 +17,7 @@
         {% endfor %}
     </ul>
     
-    <a class="btn btn-small btn-primary" href="{{ path('livrederecettes_addUnit') }}"><i class="icon-plus"></i> Ajouter une unité de mesure</a>
+    <a class="btn btn-small btn-primary" href="{{ path('livrederecettes_addUnit') }}">
+        <i class="glyphicon glyphicon-plus"></i> Ajouter une unité de mesure
+    </a>
 {% endblock %}

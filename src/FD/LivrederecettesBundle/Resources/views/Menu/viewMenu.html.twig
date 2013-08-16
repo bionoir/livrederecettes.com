@@ -7,7 +7,7 @@
  
 {% block fdalivrederecettes_body %}
  
-  <h2>{{ menu.title }}</h2>
+  <h4>{{ menu.title }}</h4>
   
   <div class="well">
     {% if menu.dated == true %}
@@ -27,23 +27,23 @@
   </div>
    
   <p>
-    <a href="{{ path('livrederecettes_listMenus') }}" class="btn">
-      <i class="icon-chevron-left"></i>
+    <a href="{{ path('livrederecettes_listMenus') }}" class="btn btn-default btn-sm">
+      <i class="glyphicon glyphicon-chevron-left"></i>
       Retour à la liste
     </a>
-    <a href="{{ path('livrederecettes_modifyMenu', {'id': menu.id}) }}" class="btn">
-      <i class="icon-edit"></i>
+    <a href="{{ path('livrederecettes_modifyMenu', {'id': menu.id}) }}" class="btn btn-primary btn-sm">
+      <i class="glyphicon glyphicon-edit"></i>
       Modifier le menu
     </a>
-    <a href="{{ path('livrederecettes_deleteMenu', {'id': menu.id}) }}" class="btn">
-      <i class="icon-trash"></i>
+    <a href="{{ path('livrederecettes_deleteMenu', {'id': menu.id}) }}" class="btn btn-danger btn-sm">
+      <i class="glyphicon glyphicon-trash"></i>
       Supprimer le menu
     </a>
   </p>
   
   <p>
-      <a href="{{ path('livrederecettes_generateShoppingList', {'menuId': menu.id}) }}" class="btn">
-          <i class="icon-shopping-cart"></i>
+      <a href="{{ path('livrederecettes_generateShoppingList', {'menuId': menu.id}) }}" class="btn btn-success btn-sm">
+          <i class="glyphicon glyphicon-shopping-cart"></i>
           Génération liste course
       </a>  
   </p>

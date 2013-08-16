@@ -6,7 +6,12 @@
 {% endblock %}
     
 {% block fdalivrederecettes_body %}
-    <h3>Formulaire pour l'ajout d'un nouveau menu</h3>
-    
+    <h4>Formulaire pour l'ajout d'un nouveau menu</h4>
     {% include "FDLivrederecettesBundle:Menu:formAddMenu.html.twig" %}
+    <p>
+        <a href="{{ path('livrederecettes_listMenus') }}" class="btn btn-default">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Retour à la liste des menus
+        </a>
+    </p>
 {% endblock %}

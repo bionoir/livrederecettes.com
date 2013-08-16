@@ -6,13 +6,13 @@
 {% endblock %}
     
 {% block fdalivrederecettes_body %}
-    <h3>Modification d'une recette</h3>
+    <h4>Modification d'une recette</h4>
     
     {% include "FDLivrederecettesBundle:Recipe:formModRecipe.html.twig" %}
        
     <p>
-        <a href="{{ path('livrederecettes_viewRecipe', {'id': recipe.id}) }}" class="btn">
-        <i class="icon-chevron-left"></i>
+        <a href="{{ path('livrederecettes_viewRecipe', {'id': recipe.id}) }}" class="btn btn-default">
+        <i class="glyphicon glyphicon-chevron-left"></i>
         Retour à la fiche de la recette
         </a>
     </p>

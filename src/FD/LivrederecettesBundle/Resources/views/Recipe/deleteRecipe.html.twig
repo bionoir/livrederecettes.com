@@ -10,8 +10,8 @@
     <p> Voulez-vous vraiment supprimer la recette "{{ recipe.title }}" ? </p>
     <p>
         <form action="{{ path('livrederecettes_deleteRecipe', {'id': recipe.id}) }}" method="post">
-            <a href="{{ path('livrederecettes_viewRecipe', {'id': recipe.id}) }}" class="btn">
-                <i class="icon-chevron-left"></i>
+            <a href="{{ path('livrederecettes_viewRecipe', {'id': recipe.id}) }}" class="btn btn-default">
+                <i class="glyphicon glyphicon-chevron-left"></i>
                 Retour à la fiche de la recette
             </a>
             <input type="submit" value="Supprimer" class="btn btn-danger" />

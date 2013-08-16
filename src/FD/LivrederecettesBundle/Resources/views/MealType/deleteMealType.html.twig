@@ -11,8 +11,8 @@
     
     <p>
         <form action="{{ path('livrederecettes_deleteMealType', {'id': mealType.id}) }}" method="post">
-            <a href="{{ path('livrederecettes_viewMealType', {'id': mealType.id}) }}" class="btn">
-                <i class="icon-chevron-left"></i>
+            <a href="{{ path('livrederecettes_viewMealType', {'id': mealType.id}) }}" class="btn btn-default">
+                <i class="glyphicon glyphicon-chevron-left"></i>
                 Retour à la fiche du type de repas
             </a>
             <input type="submit" value="Supprimer" class="btn btn-danger" />

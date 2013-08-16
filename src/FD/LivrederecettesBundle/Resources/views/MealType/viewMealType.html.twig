@@ -6,20 +6,18 @@
 {% endblock %}
  
 {% block fdalivrederecettes_body %}
- 
-  <h2>{{ mealType.name }}</h2>
-    
+  <h4>{{ mealType.name }}</h4>
   <p>
-    <a href="{{ path('livrederecettes_listMealTypes') }}" class="btn">
-      <i class="icon-chevron-left"></i>
+    <a href="{{ path('livrederecettes_listMealTypes') }}" class="btn btn-default btn-sm">
+      <i class="glyphicon glyphicon-chevron-left"></i>
       Retour à la liste
     </a>
-    <a href="{{ path('livrederecettes_modifyMealType', {'id': mealType.id}) }}" class="btn">
-      <i class="icon-edit"></i>
+    <a href="{{ path('livrederecettes_modifyMealType', {'id': mealType.id}) }}" class="btn btn-primary btn-sm">
+      <i class="glyphicon glyphicon-edit"></i>
       Modifier le type de repas
     </a>
-    <a href="{{ path('livrederecettes_deleteMealType', {'id': mealType.id}) }}" class="btn">
-      <i class="icon-trash"></i>
+    <a href="{{ path('livrederecettes_deleteMealType', {'id': mealType.id}) }}" class="btn btn-danger btn-sm">
+      <i class="glyphicon glyphicon-trash"></i>
       Supprimer le type de repas
     </a>
   </p>
