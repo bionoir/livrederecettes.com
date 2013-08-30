@@ -4,12 +4,15 @@ namespace FD\LivrederecettesBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\ExecutionContextInterface;
 
 /**
  * Recipe
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="FD\LivrederecettesBundle\Entity\RecipeRepository")
+ * @Assert\Callback(methods={"difficultyValid"})
  */
 class Recipe
 {
@@ -26,6 +29,7 @@ class Recipe
      * @var string
      *
      * @ORM\Column(name="Title", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $title;
 
@@ -33,6 +37,7 @@ class Recipe
      * @var string
      *
      * @ORM\Column(name="Description", type="text")
+     * @Assert\NotBlank()
      */
     private $description;
 
@@ -47,6 +52,7 @@ class Recipe
      * @var \DateTime
      *
      * @ORM\Column(name="Preparation", type="time")
+     * @Assert\DateTime()
      */
     private $preparation;
 
@@ -58,10 +64,20 @@ class Recipe
     private $ingredients;
     
     
+    /**
+     * @ORM\OneToOne(targetEntity="FD\LivrederecettesBundle\Entity\Document", cascade={"persist", "remove"})
+    */
+    private $document;
+    
+    
     public function __construct() {
         $this->ingredients = new ArrayCollection();
     }
     
+    /**
+     * 
+     * @param \FD\LivrederecettesBundle\Entity\Ingredient $ingredient
+     */
     public function addIngredient(\FD\LivrederecettesBundle\Entity\Ingredient $ingredient) {
         $ingredient->setRecipe($this);
         
@@ -75,11 +91,11 @@ class Recipe
      *
      * @param \FD\LivrederecettesBundle\Entity\Ingredient $ingredient
      */
-    public function removeIngredient(\FD\LivrederecettesBundle\Entity\Ingredient $ingredient)
-    {
-        $this->ingredients->removeElement($ingredient);
+    public function removeIngredient(\FD\LivrederecettesBundle\Entity\Ingredient $ingredient) {
+        if ($this->ingredients->contains($ingredient)) {
+            $this->ingredients->removeElement($ingredient);
+        }
     }
-    
     
     /**
      * 
@@ -88,7 +104,7 @@ class Recipe
     public function getIngredients() {
         return $this->ingredients;
     }
-    
+       
     /**
      * Get id
      *
@@ -192,6 +208,21 @@ class Recipe
     }
     
     /**
+     * @param FD\LivrederecettesBundle\Entity\Document $document
+     * @return Recipe
+    */
+    public function setDocument(\FD\LivrederecettesBundle\Entity\Document $document = null) {
+        $this->document = $document;
+        return $this;
+    }
+    /**
+    * @return FD\LivrederecettesBundle\Entity\Document
+    */
+    public function getDocument() {
+        return $this->document;
+    }
+    
+    /**
      * 
      * @return \FD\LivrederecettesBundle\Entity\Recipe
      */
@@ -228,5 +259,18 @@ class Recipe
         }
                 
         return $ingredient_found;
+    }
+    
+    /**
+     * 
+     * @param \Symfony\Component\Validator\ExecutionContextInterface $context
+     */
+    public function difficultyValid(ExecutionContextInterface $context) {
+        
+        $difficulty_levels = array('FACILE','MOYENNE','DIFFICILE','MASTER CHEF');
+        
+        if (!in_array(strtoupper($this->getDifficulty()), $difficulty_levels)) {
+            $context->addViolationAt('difficulty', 'La difficulté doit être une des suivantes: Facile, Moyenne, Difficile ou Master Chef', array(), null);
+        }
     }
 }

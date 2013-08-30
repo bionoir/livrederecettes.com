@@ -3,6 +3,7 @@
 namespace FD\LivrederecettesBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Product
@@ -25,6 +26,7 @@ class Product
      * @var string
      *
      * @ORM\Column(name="Name", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $name;
 
@@ -32,6 +34,7 @@ class Product
      * @var \DateTime
      *
      * @ORM\Column(name="Season_start", type="date")
+     * @Assert\DateTime()
      */
     private $seasonStart;
 
@@ -39,6 +42,7 @@ class Product
      * @var \DateTime
      *
      * @ORM\Column(name="Season_end", type="date")
+     * @Assert\DateTime()
      */
     private $seasonEnd;
     

@@ -9,6 +9,19 @@
  
   <h4>{{ recipe.title }}</h4>
   
+  {% if recipe.document is empty %}
+    <div>
+        <h4> Pas d'image disponible </h4>
+    </div>
+  {% else %}
+    <div>
+        <img 
+            src="{{ asset(recipe.document.webPath) }}"
+            alt="{{ recipe.document.alt }}"
+        />
+    </div>
+  {% endif %}
+  
   <div class="well">
     {{ recipe.description }}
   </div>

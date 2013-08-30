@@ -24,26 +24,26 @@ security:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
-        login:
-            pattern:  ^/(login$|register|resetting)
-            anonymous: true
-            
+        
+        cons:
+            pattern: ^/console
+            security: false
+        
         main:
-          pattern: ^/
-          anonymous: false
-          form_login:
-              provider: fos_userbundle
-              csrf_provider: form.csrf_provider
-              remember_me: true
-          logout: 
-              path: /logout
-              invalidate_session: true
-          remember_me:
-              key: %secret%
+            pattern:  .*
+            form_login:
+                provider:       fos_userbundle
+                login_path:     /login
+                check_path:     /login_check
+                csrf_provider:  form.csrf_provider
+            logout:
+                path:   /logout
+                target: /
+            anonymous:    true
         
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/, role: ROLE_USER }

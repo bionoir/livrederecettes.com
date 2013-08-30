@@ -18,6 +18,7 @@ class RecipeType extends AbstractType
             ->add('preparation', 'time', array('label' => 'Temps de préparation',
                                                 'widget' => 'single_text'
                                                 ))
+            ->add('document', new DocumentType())
             ->add('ingredients', 'collection', array('label' => 'Liste d\'ingredients',
                                                      'type'=> new IngredientType(),
                                                      'allow_add' => true,

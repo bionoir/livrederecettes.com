@@ -3,6 +3,7 @@
 namespace FD\LivrederecettesBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Type
@@ -25,6 +26,7 @@ class ProductType
      * @var string
      *
      * @ORM\Column(name="Value", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $value;
 
@@ -32,6 +34,7 @@ class ProductType
      * @var string
      *
      * @ORM\Column(name="Description", type="text")
+     * @Assert\NotBlank()
      */
     private $description;
     

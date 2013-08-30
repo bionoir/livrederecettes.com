@@ -9,7 +9,18 @@
     {# On définit un sous-titre commun à toutes les pages du bundle, par exemple #}
            
     {# On définit un nouveau block, que les vues du bundle pourront remplir #}
+    
+    <div id="content" class="col-lg-10">
+        {% for typeMessage, flashMessages in app.session.flashbag.all() %}
+            {% for flashMessage in flashMessages %}
+                <div class="alert alert-{{ typeMessage }}">
+                    {{ flashMessage|trans }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    
 
-    {% block fdalivrederecettes_body %}
-    {% endblock %}
+        {% block fdalivrederecettes_body %}
+        {% endblock %}
+    </div>
 {% endblock %}

@@ -4,6 +4,7 @@ namespace FD\LivrederecettesBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Menu
@@ -26,6 +27,7 @@ class Menu
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $title;
 
@@ -33,6 +35,7 @@ class Menu
      * @var boolean
      *
      * @ORM\Column(name="dated", type="boolean")
+     * @Assert\Type(type="bool", message="La valeur {{ value }} n'est pas un type {{ type }} valide.")
      */
     private $dated;
 
@@ -40,6 +43,7 @@ class Menu
      * @var \DateTime
      *
      * @ORM\Column(name="date_from", type="date", nullable=true)
+     * @Assert\DateTime()
      */
     private $dateFrom;
 
@@ -47,6 +51,7 @@ class Menu
      * @var \DateTime
      *
      * @ORM\Column(name="date_to", type="date", nullable=true)
+     * @Assert\DateTime()
      */
     private $dateTo;
     
