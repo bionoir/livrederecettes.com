@@ -11,7 +11,7 @@ class IngredientType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('quantity', 'number', array('label' => 'Quantité'))
+            ->add('quantity', 'number', array('label' => 'Quantité' ))
             ->add('product', 'entity', array(
                     'class' => 'FDLivrederecettesBundle:Product',
                     'property' => 'name',

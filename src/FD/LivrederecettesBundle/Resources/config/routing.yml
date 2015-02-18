@@ -78,6 +78,18 @@ livrederecettes_addRecipe:
     pattern:  /addRecipe
     defaults: { _controller: FDLivrederecettesBundle:Recipe:addRecipe }
 
+livrederecettes_addProductViaRecipe:
+    pattern: /addProductViaRecipe
+    defaults: { _controller: FDLivrederecettesBundle:Recipe:addProductViaRecipe }
+    requirements:
+        _method : POST
+
+livrederecettes_addUnitViaRecipe:
+    pattern: /addUnitViaRecipeAction
+    defaults: { _controller: FDLivrederecettesBundle:Recite:addProductViaRecipe }
+    requirements:
+        _method : POST
+
 livrederecettes_modifyRecipe:
     pattern:  /modifyRecipe/{id}
     defaults: { _controller: FDLivrederecettesBundle:Recipe:modifyRecipe }

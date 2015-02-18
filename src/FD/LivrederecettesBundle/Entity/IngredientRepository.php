@@ -27,7 +27,7 @@ class IngredientRepository extends EntityRepository
         $queryBuilder = $this->createQueryBuilder('i');
         
         $queryBuilder->where('i.product = :v_product')
-                ->setParameter('v_unit', $product_id);
+                ->setParameter('v_product', $product_id);
         
         return $queryBuilder->getQuery()->getResult();
     }

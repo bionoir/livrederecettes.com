@@ -53,8 +53,11 @@
                     <div class="col-lg-3 control-label">
                         {{ form_label(form.document.file) }}
                     </div>
-                    <div class="col-lg-9">
+                    <div class="col-lg-3">
                         {{ form_widget(form.document.file, { 'attr' : {'style' : 'width: 100%; height: 34px; padding: 6px 12px; font-size: 14px; line-height: 1.428571429; color: #555555;  vertical-align: middle;' } }) }}
+                    </div>
+                    <div id="previewImage" class="col-lg-3" >
+                        <img style="width: 64px; height: auto;" src="{{ asset(recipe.document.webPath) }}" alt="{{ recipe.document.alt }}" />
                     </div>
                  </div>
                 {{ form_errors(form.document) }}
@@ -173,6 +176,48 @@
             
             $('#file_button').click(function(){
                 $("#fd_livrederecettesbundle_recipetype_document_file").click();
+            });
+            
+            
+            var allowedTypes = ['png', 'jpg', 'jpeg', 'gif'],
+                $fileInput = $('#fd_livrederecettesbundle_recipetype_document_file'),
+                $prev = $('#previewImage');
+            
+            function createPreviewThumbnail(file) {
+                
+                var reader = new FileReader();
+                
+                reader.onload = function() {
+                    var imgElement = document.createElement('img');
+                    imgElement.style.width = '64px';
+                    imgElement.style.height = 'auto';
+                    imgElement.src = this.result;
+                    
+                    $('#previewImage img').remove();
+                    
+                    $prev.append(imgElement);
+                }
+                
+                reader.readAsDataURL(file);
+            }
+            
+            $fileInput.change( function() {
+                
+                var files = this.files;
+                var filesLen = files.length;
+                var imgType;
+
+                for (var i = 0 ; i < filesLen ; i++) {
+
+                    imgType = files[i].name.split('.');
+                    imgType = imgType[imgType.length - 1];
+
+                    if(allowedTypes.indexOf(imgType) !== -1) {
+                        createPreviewThumbnail(files[i]);
+                    }
+
+                }
+
             });
         }
     );

@@ -4,6 +4,7 @@ namespace FD\LivrederecettesBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use FD\LivrederecettesBundle\Entity\Product;
 use FD\LivrederecettesBundle\Form\ProductType;
 
@@ -58,28 +59,26 @@ class ProductController extends Controller
         return $this->render('FDLivrederecettesBundle:Product:viewProduct.html.twig', array('product' => $product));
     }
     
-    public function addProductAction()
+    public function addProductAction(Request $request)
     {
-        $product = new Product;
+        $product = new Product();
         
-        $form = $this->createForm(new ProductType(), $product );
+        $form = $this->createForm(new ProductType(), $product, array('attr' => array('normalWindow' => true)));
         
-        $request = $this->get('request');
+        $form->handleRequest($request);
         
-        if ($request->getMethod() == 'POST') {
-            
-            $form->bind($request);
+        if ($form->isSubmitted()) {
             
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($product);
                 $em->flush();
-                
+
                 return $this->redirect($this->generateUrl('livrederecettes_viewProduct',array('id' => $product->getId() )));
             } else
             {
                 $errors = $this->getErrorMessages($form);
-                
+
                 return new Response(print_r($errors, true));
             }
         }
@@ -89,18 +88,16 @@ class ProductController extends Controller
         return $this->render('FDLivrederecettesBundle:Product:addProduct.html.twig', array('form' => $form->createView(), 'product' => null ,'url_cancel' => $url_cancel));
     }
     
-    public function modifyProductAction($id)
+    public function modifyProductAction($id, Request $request)
     {
         $productRepository = $this->getDoctrine()->getManager()->getRepository('FDLivrederecettesBundle:Product');
         $product = $productRepository->find($id);
         
-        $form = $this->createForm(new ProductType(), $product);
+        $form = $this->createForm(new ProductType(), $product, array('attr' => array('normalWindow' => true)));
         
-        $request = $this->get('request');
+        $form->handleRequest($request);
         
-        if ($request->getMethod() == 'POST') {
-            
-            $form->bind($request);
+        if ($form->isSubmitted()) {
             
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
@@ -138,9 +135,9 @@ class ProductController extends Controller
         
         $request = $this->getRequest();
         
-        if ($request->getMethod() == 'POST')
-        {
-            $form->bind($request);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted()) {
             
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
@@ -150,6 +147,11 @@ class ProductController extends Controller
                 $this->get('session')->getFlashBag()->add('info', 'Le produit a été bien supprimé');
                 // Puis on redirige vers la liste des types de produit
                 return $this->redirect( $this->generateUrl('livrederecettes_listProducts'));
+            } else
+            {
+                $errors = $this->getErrorMessages($form);
+                
+                return new Response(print_r($errors, true));
             }
         }
         

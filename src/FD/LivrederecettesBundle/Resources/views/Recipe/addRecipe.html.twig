@@ -10,3 +10,7 @@
     
     {% include "FDLivrederecettesBundle:Recipe:formAddRecipe.html.twig" %}
 {% endblock %}
+
+{% block javascriptsend %}
+    <script type="text/javascript" src="{{ asset('bundles/fdlivrederecettes/js/formRecipeScripts.js') }}"></script>
+{% endblock %}

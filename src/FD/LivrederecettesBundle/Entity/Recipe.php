@@ -65,7 +65,7 @@ class Recipe
     
     
     /**
-     * @ORM\OneToOne(targetEntity="FD\LivrederecettesBundle\Entity\Document", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="FD\LivrederecettesBundle\Entity\Document", cascade={"persist", "remove", "merge"})
     */
     private $document;
     
@@ -234,6 +234,7 @@ class Recipe
         $copyRecipe->setDifficulty($this->getDifficulty());
         $copyRecipe->setPreparation($this->getPreparation());
         $copyRecipe->setTitle($this->getTitle());
+        $copyRecipe->setDocument(clone $this->getDocument());
                 
         foreach ($this->getIngredients() as $ingredient) {
             $copyRecipe->addIngredient(clone $ingredient);

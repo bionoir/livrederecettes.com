@@ -4,6 +4,7 @@
 <div class="well">
     
   <form class="form-horizontal"  method="post" {{ form_enctype(form) }} >
+      {{ form_start(form) }}
         <div class="form-group">
             <div class="col-lg-2 control-label">
                 {{ form_label(form.name) }}
@@ -47,46 +48,24 @@
                 {{ form_errors(form.productType) }}
             </div>
         </div>
+
+        {{ form_widget(form._token) }}
           
-        {{ form_rest(form) }}
+        <div class="form-group">
+            <div class="col-lg-1">
+                {{ form_widget(form.save, { 'attr' : {'class' : 'btn btn-primary'} }) }}
+            </div>
+            <div class="col-lg-1">
+                {% if product is null %}
+                    <a href="{{ path(url_cancel) }}"><input type="button" class="btn btn-default" value="Annuler" /></a>
+                {% else %}
+                    <a href="{{ path(url_cancel, {'id': product.id}) }}"><input type="button" class="btn btn-default" value="Annuler" /></a>
+                {% endif %}
+            </div>
+        </div
         
-        <input type="submit" class="btn btn-primary" />
-        {% if product is null %}
-            <a href="{{ path(url_cancel) }}"><input type="button" class="btn btn-default" value="Annuler" /></a>
-        {% else %}
-            <a href="{{ path(url_cancel, {'id': product.id}) }}"><input type="button" class="btn btn-default" value="Annuler" /></a>
-        {% endif %}
+        {{ form_end(form) }}
+        
   </form>
-    
-  {#<form method="post" {{ form_enctype(form) }}>
-    {{ form_label(form.name, 'Nom du produit') }}
-    {{ form_widget(form.name) }}
-    {{ form_errors(form.name) }}
-    
-    {{ form_label(form.seasonStart, 'Début saison') }}
-    {{ form_widget(form.seasonStart.year, { 'attr': {'style': 'display:none'} }) }}
-    {{ form_widget(form.seasonStart.day) }}
-    {{ form_widget(form.seasonStart.month) }}
-    {{ form_errors(form.seasonStart) }}
-    
-    {{ form_label(form.seasonEnd, 'Fin saison') }}
-    {{ form_widget(form.seasonEnd.year, { 'attr': {'style': 'display:none'} }) }}
-    {{ form_widget(form.seasonEnd.day) }}
-    {{ form_widget(form.seasonEnd.month) }}
-    {{ form_errors(form.seasonEnd) }}
-    
-    {{ form_label(form.productType, 'Type de produit') }}
-    {{ form_widget(form.productType) }}
-    {{ form_errors(form.productType) }}     
-          
-    {{ form_rest(form) }}
-    <br/>
-    
-    <input type="submit" class="btn btn-primary" />
-    {% if product is null %}
-        <a href="{{ path(url_cancel) }}"><input type="button" class="btn btn-default" value="Annuler" /></a>
-    {% else %}
-        <a href="{{ path(url_cancel, {'id': product.id}) }}"><input type="button" class="btn btn-default" value="Annuler" /></a>
-    {% endif %}
-  </form>#}
+   
 </div>

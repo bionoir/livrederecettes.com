@@ -33,15 +33,4 @@
         {% endif %}
   </form>  
   
-  {#
-    <form class="form-horizontal" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <input type="submit" class="btn btn-primary btn-large" />
-    {% if unit is null %}
-        <a href="{{ path(url_cancel) }}"><input type="button" class="btn-large" value="Annuler" /></a>
-    {% else %}
-        <a href="{{ path(url_cancel, {'id': unit.id}) }}"><input type="button" class="btn-large" value="Annuler" /></a>
-    {% endif %}
-  </form>
-    #}
 </div>

@@ -22,6 +22,10 @@ class ProductType extends AbstractType
                     'label' => 'Type de produit',
                     'empty_value' => 'Sélectionner le type du produit'))
         ;
+        
+        if (isset($options['attr']['normalWindow'])) {
+            $builder->add('save', 'submit', array('attr' => array('class' => 'btn btn-primary')));
+        }
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

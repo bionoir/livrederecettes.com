@@ -4,9 +4,18 @@ namespace FD\LivrederecettesBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 use FD\LivrederecettesBundle\Entity\Recipe;
 use FD\LivrederecettesBundle\Form\RecipeType;
+
+use FD\LivrederecettesBundle\Entity\Product;
+use FD\LivrederecettesBundle\Form\ProductType;
+
+use FD\LivrederecettesBundle\Entity\Unit;
+use FD\LivrederecettesBundle\Form\UnitType;
+
+use FD\LivrederecettesBundle\Form\IngredientType;
 
 class RecipeController extends Controller
 {
@@ -63,34 +72,111 @@ class RecipeController extends Controller
     
     public function addRecipeAction() {
         
-        $recipe = new Recipe;
+        $recipe = new Recipe();
+        $product = new Product();
+        $unit = new Unit();
+        
+        $request = $this->getRequest();
         
         $form = $this->createForm(new RecipeType(), $recipe );
         
-        $request = $this->get('request');
+        $formProduct = $this->createForm(new ProductType(), $product);
+        $formUnit = $this->createForm(new UnitType(), $unit);
         
-        if ($request->getMethod() == 'POST') {
-            
-            $form->bind($request);
-            
-            if ($form->isValid()) {
-                foreach($recipe->getIngredients() as $ingredient) {
-                    $ingredient->setRecipe($recipe);
-                }
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($recipe);
-                $em->flush();
-                
-                return $this->redirect($this->generateUrl('livrederecettes_viewRecipe',array('id' => $recipe->getId() )));
-            } else
-            {
-                $errors = $this->getErrorMessages($form);
-                
-                return new Response(print_r($errors, true));
+        $form->handleRequest($request);
+        $formProduct->handleRequest($request);
+        $formUnit->handleRequest($request);
+        
+        if ($form->isValid()){
+            foreach($recipe->getIngredients() as $ingredient) {
+                $ingredient->setRecipe($recipe);
             }
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($recipe);
+            $em->flush();
+            
+            return $this->redirect($this->generateUrl('livrederecettes_viewRecipe',array('id' => $recipe->getId() )));
         }
         
-        return $this->render('FDLivrederecettesBundle:Recipe:addRecipe.html.twig', array('form' => $form->createView()));
+        
+        return $this->render('FDLivrederecettesBundle:Recipe:addRecipe.html.twig', array('form' => $form->createView(),
+                                                                                         'formProduct' => $formProduct->createView(),
+                                                                                         'formUnit' => $formUnit->createView()
+                                                                                         ));
+    }
+    
+    public function addProductViaRecipeAction() {
+        
+        $product = new Product();
+        $response = new Response();
+        $output = '';
+        $request = $this->getRequest();
+        
+        $formProduct = $this->createForm(new ProductType(), $product);
+        $formProduct->handleRequest($request);
+        
+        if ($formProduct->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($product);
+            $em->flush();
+            
+            $allProducts = $em->getRepository('FDLivrederecettesBundle:Product')->findAll();
+            
+            $allJsonProducts = array();
+            foreach($allProducts as $p) {
+                $allJsonProducts[] = array('id' => $p->getId(), 'name' => $p->getName());
+            }
+            
+            $output = array('success' => TRUE, 'message' => 'All worked!', 'products' => $allJsonProducts, 'lastAdded' => $product->getId());
+        } else {
+            $output = array('success' => FALSE, 'message' => 'Problem in product form validation!');
+        }
+        
+        if($request->isXmlHttpRequest()) {
+            $response->headers->set('Content-Type', 'application/json');
+            $response->setContent(json_encode($output));     
+            return $response;    
+        }
+            
+            
+        
+    }
+    
+    public function addUnitViaRecipeAction() {
+        
+        $unit = new Unit();
+        $response = new Response();
+        $output = '';
+        $request = $this->getRequest();
+        
+        $formUnit = $this->createForm(new UnitType(), $unit);
+        $formUnit->handleRequest($request);
+        
+        if ($formUnit->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($unit);
+            $em->flush();
+            
+            $allUnits= $em->getRepository('FDLivrederecettesBundle:Unit')->findAll();
+            
+            $allJsonUnits = array();
+            foreach($allUnits as $u) {
+                $allJsonUnits[] = array('id' => $u->getId(), 'name' => $u->getName());
+            }
+            
+            $output = array('success' => TRUE, 'message' => 'All worked!', 'units' => $allJsonUnits, 'lastAdded' => $unit->getId());
+        } else {
+            $output = array('success' => FALSE, 'message' => 'Problem in unit form validation!');
+        }
+        
+        if($request->isXmlHttpRequest()) {
+            $response->headers->set('Content-Type', 'application/json');
+            $response->setContent(json_encode($output));     
+            return $response;    
+        }
+            
+            
+        
     }
     
     public function modifyRecipeAction($id) {
@@ -137,6 +223,7 @@ class RecipeController extends Controller
                 $em->flush();
                 
                 return $this->redirect($this->generateUrl('livrederecettes_viewRecipe',array('id' => $recipe->getId() )));
+                
             } else
             {
                 $errors = $this->getErrorMessages($form);

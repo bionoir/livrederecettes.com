@@ -18,12 +18,13 @@ class RecipeType extends AbstractType
             ->add('preparation', 'time', array('label' => 'Temps de préparation',
                                                 'widget' => 'single_text'
                                                 ))
-            ->add('document', new DocumentType())
+            ->add('document', new DocumentType(), array('required' => false))
             ->add('ingredients', 'collection', array('label' => 'Liste d\'ingredients',
                                                      'type'=> new IngredientType(),
                                                      'allow_add' => true,
                                                      'allow_delete' => true,
-                                                     'by_reference' => false))
+                                                     'by_reference' => false ))
+            //->add('submit', 'submit')
         ;
     }
 

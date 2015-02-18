@@ -53,8 +53,11 @@
                     <div class="col-lg-3 control-label">
                         {{ form_label(form.document.file) }}
                     </div>
-                    <div class="col-lg-9">
+                    <div class="col-lg-3">
                         {{ form_widget(form.document.file, { 'attr' : {'style' : 'width: 100%; height: 34px; padding: 6px 12px; font-size: 14px; line-height: 1.428571429; color: #555555;  vertical-align: middle;' } }) }}
+                    </div>
+                    <div id="previewImage" class="col-lg-3" >
+                        <i class="glyphicon glyphicon-picture" style="font-size:29px;"></i>
                     </div>
                  </div>
                 {{ form_errors(form.document) }}
@@ -79,71 +82,111 @@
             </div>
         </div>
         <div class="form-actions">
-            <input type="submit" class="btn btn-primary" value="Envoyer la recette"/>
+              <input type="submit" class="btn btn-primary" value="Envoyer la recette"/>
         </div>
     </form>
     
 
+    <div class="modal fade" id="dialog-formProduct" tabindex="-1" role="dialog" aria-labelledby="dialog-formProductLabel" aria-hidden="true"> 
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title" id="dialog-formProductLabel">Ajouter un produit</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="myFormProduct" class="well form-horizontal" action="{{ path('livrederecettes_addProductViaRecipe') }}" method="post" {{ form_enctype(formProduct) }}>
+                        <div class="form-group">
+                            <div class="col-lg-2 control-label">
+                                {{ form_label(formProduct.name) }}
+                            </div>
+                            <div class="col-lg-5">
+                                {{ form_widget(formProduct.name, { 'attr' : {'class' : 'form-control'} }) }}
+                                {{ form_errors(formProduct.name) }}
+                            </div>
+                        </div>
 
-<script type="text/javascript">
+                        <div class="form-group">
+                            <div class="col-lg-2 control-label">
+                                {{ form_label(formProduct.seasonStart) }}
+                            </div>
+                            <div class="col-lg-5">
+                                {{ form_widget(formProduct.seasonStart.year, { 'attr': {'style': 'display:none'} }) }}
+                                {{ form_widget(formProduct.seasonStart.day, { 'attr' : {'class' : 'form-control', 'style' : 'width:auto; display:inline'} }) }}
+                                {{ form_widget(formProduct.seasonStart.month, { 'attr' : {'class' : 'form-control', 'style' : 'width:auto; display:inline'} }) }}
+                                {{ form_errors(formProduct.seasonStart) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-2 control-label">
+                                {{ form_label(formProduct.seasonEnd) }}
+                            </div>
+                            <div class="col-lg-5">
+                                {{ form_widget(formProduct.seasonEnd.year, { 'attr': {'style': 'display:none'} }) }}
+                                {{ form_widget(formProduct.seasonEnd.day, { 'attr' : {'class' : 'form-control', 'style' : 'width:auto; display:inline'} }) }}
+                                {{ form_widget(formProduct.seasonEnd.month, { 'attr' : {'class' : 'form-control', 'style' : 'width:auto; display:inline'} }) }}
+                                {{ form_errors(formProduct.seasonEnd) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-2 control-label">
+                                {{ form_label(formProduct.productType) }}
+                            </div>
+                            <div class="col-lg-5">
+                                {{ form_widget(formProduct.productType, { 'attr' : {'class' : 'form-control'} }) }}
+                                {{ form_errors(formProduct.productType) }}
+                            </div>
+                        </div>
+
+                        {{ form_rest(formProduct) }}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="closeProductModal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="formProduct-submit" type="button" class="btn btn-primary">Sauvegarder</button>
+                </div>
+            </div>
+        </div>
+    </div>
     
-    $(document).ready(function(){
-            // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse
-            var $container = $('#fd_livrederecettesbundle_recipetype_ingredients');
+    <div class="modal fade" id="dialog-formUnit" tabindex="-1" role="dialog" aria-labelledby="dialog-formUnitLabel" aria-hidden="true"> 
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title" id="dialog-formUnitLabel">Ajouter une unité de mesure</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="myFormUnit" class="well form-horizontal" action="{{ path('livrederecettes_addUnitViaRecipe') }}" method="post" {{ form_enctype(formUnit) }}>
+                        <div class="form-group">
+                            <div class="col-lg-2 control-label">
+                                {{ form_label(formUnit.name) }}
+                            </div>
+                            <div class="col-lg-5">
+                                {{ form_widget(formUnit.name, { 'attr' : {'class' : 'form-control'} }) }}
+                                {{ form_errors(formUnit.name) }}
+                            </div>
+                        </div>
 
-            // On définit une fonction qui va ajouter un champ
-            function add_ingredient() {
-                // On définit le numéro du champ (en comptant le nombre de champs déjà ajoutés)
-                index = $container.children().length;
+                        <div class="form-group">
+                            <div class="col-lg-2 control-label">
+                                {{ form_label(formUnit.value) }}
+                            </div>
+                            <div class="col-lg-5">
+                                {{ form_widget(formUnit.value, { 'attr' : {'class' : 'form-control'} }) }}
+                                {{ form_errors(formUnit.value) }}
+                            </div>
+                        </div>
 
-                // On ajoute à la fin de la balise <div> le contenu de l'attribut « data-prototype »
-                // Après avoir remplacé la variable __name__ qu'il contient par le numéro du champ
-                var $sub_container = $container.attr('data-prototype').replace(/__name__label__/g, 'Label'+index);
-                $sub_container = $sub_container.replace('<label class="required">Label' + index + '</label>', '');
-                $sub_container = $sub_container.replace(/__name__/g, index);
-                var $html = $.parseHTML($sub_container);
-                
-                //
-                // Bootstrap 3 adaptations
-                $('div#fd_livrederecettesbundle_recipetype_ingredients_'+index+' div', $html).addClass('form-group');
-                $('#fd_livrederecettesbundle_recipetype_ingredients_'+index+' div input', $html).addClass('form-control');
-                $('#fd_livrederecettesbundle_recipetype_ingredients_'+index+' div select', $html).addClass('form-control');
-                $('#fd_livrederecettesbundle_recipetype_ingredients_'+index+' div label', $html).wrap('<div class="col-lg-3 control-label"></div>');
-                $('#fd_livrederecettesbundle_recipetype_ingredients_'+index+' div input', $html).wrap('<div class="col-lg-5" style:width:auto; display:inline"></div>');
-                $('#fd_livrederecettesbundle_recipetype_ingredients_'+index+' div select', $html).wrap('<div class="col-lg-5" style:width:auto; display:inline"></div>');
-                
-                $container.append($($html));
-
-                // On ajoute également un bouton pour pouvoir supprimer l'ingredient
-                $container.append($('<div id="delete_ingredient_' + index +'" class="form-group"><div class="col-lg-3 control-label"><a href="#" class="btn btn-danger btn-sm">Supprimer ingredient</a><br /><br /></div></div>'));
-
-                // On supprime le champ à chaque clic sur le lien de suppression
-                $('#delete_ingredient_' + index).click(function() {
-                        $(this).prev().remove(); // $(this).prev() est le template ajouté
-                        $(this).remove(); // $(this) est le lien de suppression
-                        return false;
-                });
-            }
-
-            // On ajoute un premier champ directement s'il n'en existe pas déjà un (cas d'un nouvelle recette par exemple)
-            if($container.children().length === 0) {
-                add_ingredient();
-            }
-
-            // On ajoute un nouveau champ à chaque clic sur le lien d'ajout
-            $('#add_ingredient').click(
-                function() {
-                    add_ingredient();
-                    return false;
-                }
-            );
-            
-            $('#fd_livrederecettesbundle_recipetype_document_file').after('<button id="file_button" class="btn btn-primary">Choisir fichier</button>');
-            $('#fd_livrederecettesbundle_recipetype_document_file').css('display', 'none');
-            
-            $('#file_button').click(function(){
-                $("#fd_livrederecettesbundle_recipetype_document_file").click();
-            });
-        }
-    );
-</script>
+                        {{ form_rest(formUnit) }}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="closeUnitModal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="formUnit-submit" type="button" class="btn btn-primary">Sauvegarder</button>
+                </div>
+            </div>
+        </div>
+    </div>
