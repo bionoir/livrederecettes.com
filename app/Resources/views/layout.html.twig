@@ -19,6 +19,7 @@
     </head>
     
     <body>
+        
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
               <!-- Brand and toggle get grouped for better mobile display -->
@@ -48,14 +49,16 @@
                       <li class="divider"></li>
                       <li><a href="#">One more separated link</a></li>
                     </ul>
-                  </li>
+                  </li> 
                 </ul>
+                         
                 <form class="navbar-form navbar-left" role="search">
                   <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search">
                   </div>
                   <button type="submit" class="btn btn-default">Submit</button>
                 </form>
+                      
                 <ul class="nav navbar-nav navbar-right">
                   <li><a href="#">Link</a></li>
                   <li class="dropdown">
@@ -68,7 +71,17 @@
                       <li><a href="#">Separated link</a></li>
                     </ul>
                   </li>
+                  {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <li><a href="{{ path('fos_user_profile_show') }}">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}</a></li>
+                    <li><a href="{{ path('fos_user_security_logout') }}">
+                        {{ 'layout.logout'|trans([], 'FOSUserBundle') }}
+                        </a></li>
+                  {% else %}
+                    <li><a class="btn btn-primary" href="{{ path('fos_user_security_login') }}">Connexion</a></li>
+                    <li><a class="btn btn-primary" href="{{ path('fos_user_registration_register') }}">S'inscrire</a></li>
+                  {% endif %}
                 </ul>
+                      
               </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
           </nav>
@@ -116,16 +129,7 @@
                 <p>
                     Texte description 1
                 </p>
-
-                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                    <a href="{{ path('fos_user_profile_show') }}">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}</a> |
-                    <a href="{{ path('fos_user_security_logout') }}">
-                        {{ 'layout.logout'|trans([], 'FOSUserBundle') }}
-                    </a>
-                {% else %}
-                    <a class="btn btn-primary" href="{{ path('fos_user_security_login') }}">Connexion</a>
-                    <a class="btn btn-primary" href="{{ path('fos_user_registration_register') }}">S'inscrire</a>
-                {% endif %}
+                
             </div>
             
             <div class="body-content">
@@ -155,7 +159,7 @@
                 </footer>
             </div>
         </div>
-
+        
         {% block javascriptsend %}
         {% endblock %}
     </body>
