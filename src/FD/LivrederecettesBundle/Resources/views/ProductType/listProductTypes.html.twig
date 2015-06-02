@@ -5,8 +5,11 @@
     {{ parent() }} - Liste des types de produit
 {% endblock %}
     
+ {% block fdalivrederecettes_head %}
+    <h4 class="panel-title">Liste des types de produit présents dans le système</h4>
+{% endblock %}    
+    
 {% block fdalivrederecettes_body %}
-    <h4>Liste des types de produit présents dans le système.</h4>
     <ul>
         {% for productType in productTypes_list %}
             <li>

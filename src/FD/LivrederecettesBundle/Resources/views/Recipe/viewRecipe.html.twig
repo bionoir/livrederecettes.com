@@ -4,10 +4,12 @@
 {% block title %}
     {{ parent() }} - Détail d'une recette
 {% endblock %}
- 
+    
+ {% block fdalivrederecettes_head %}
+    <h4 class="panel-title">{{ recipe.title }}</h4>
+{% endblock %} 
+    
 {% block fdalivrederecettes_body %}
- 
-  <h4>{{ recipe.title }}</h4>
   
   {% if recipe.document is empty %}
     <div>

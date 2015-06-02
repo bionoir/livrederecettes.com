@@ -113,6 +113,13 @@ class ProductController extends Controller
             }
         }
         
+        /*if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($product);
+            $em->flush();
+            return $this->redirect($this->generateUrl('livrederecettes_viewProduct',array('id' => $product->getId() )));
+        }*/
+        
         $url_cancel = 'livrederecettes_viewProduct';
         
         return $this->render('FDLivrederecettesBundle:Product:modifyProduct.html.twig', array('form' => $form->createView(), 'product' => $product, 'url_cancel' => $url_cancel));

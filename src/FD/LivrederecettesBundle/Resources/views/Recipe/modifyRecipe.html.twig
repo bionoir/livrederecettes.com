@@ -5,8 +5,11 @@
     {{ parent() }} - Modifier la recette
 {% endblock %}
     
+{% block fdalivrederecettes_head %}
+    <h4 class="panel-title">Modification d'une recette</h4>
+{% endblock %}    
+    
 {% block fdalivrederecettes_body %}
-    <h4>Modification d'une recette</h4>
     
     {% include "FDLivrederecettesBundle:Recipe:formModRecipe.html.twig" %}
        

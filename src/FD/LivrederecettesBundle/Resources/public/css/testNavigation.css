@@ -1,0 +1,20 @@
+/* 
+    Document   : testNavigation
+    Created on : 2 mars 2015, 15:40:18
+    Author     : fda
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+div ul li a.current, div ul li a.current:hover{
+	color: #554e70;
+	background: url(../images/arrow_p13.png) no-repeat right
+}
+
+/*div ul li a.current{
+    content:"\2b";
+    font-family:"Glyphicons Halflings";
+    line-height:1;
+    margin:10px;
+    display:inline-block;
+}*/

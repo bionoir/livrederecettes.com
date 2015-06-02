@@ -4,9 +4,12 @@
 {% block title %}
     {{ parent() }} - Détail d'un type de repas
 {% endblock %}
- 
-{% block fdalivrederecettes_body %}
-  <h4>{{ mealType.name }}</h4>
+
+{% block fdalivrederecettes_head %}
+    <h4 class="panel-title">{{ mealType.name }}</h4>
+{% endblock %} 
+    
+{% block fdalivrederecettes_body %}  
   <p>
     <a href="{{ path('livrederecettes_listMealTypes') }}" class="btn btn-default btn-sm">
       <i class="glyphicon glyphicon-chevron-left"></i>

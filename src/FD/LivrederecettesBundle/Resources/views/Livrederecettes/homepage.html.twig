@@ -5,8 +5,12 @@
     {{ parent() }} - Accueil
 {% endblock %}
     
+{% block fdalivrederecettes_head %}
+    <h4 class="panel-title">Liste des recettes</h4>
+{% endblock %}
+    
 {% block fdalivrederecettes_body %}
-    <h4>Liste des recettes</h4>
+    
     <ul>
         {% for recette in liste_recettes %}
             <li>

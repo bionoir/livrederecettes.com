@@ -7,28 +7,28 @@
 {% endblock %}
     
 {% block body %}
-    <div id="content" class="col-lg-10">
-        {% block fdalivrederecettes_body %}
-            {#{% for key, messages in app.session.flashBag.all() %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ key }}">
-                        {{ message|trans({}, 'FOSUserBundle') }}
-                    </div>
-                {% endfor %}
-            {% endfor %}#}
 
-            {% for type, messages in app.session.flashbag.all() %}
-                {% for key, message in messages %}
-                    <div class="alert alert-{{ type }}">
-                        {{ message|trans({}, 'FOSUserBundle') }}
-                    </div>
-                {% endfor %}
-            {% endfor %}
-
-            <div>
-                {% block fos_user_content %}
-                {% endblock fos_user_content %}
+    <div class="row">
+    {% for type, messages in app.session.flashbag.all() %}
+        {% for key, message in messages %}
+            <div class="alert alert-{{ type }}">
+                {{ message|trans({}, 'FOSUserBundle') }}
             </div>
-        {% endblock %}
+        {% endfor %}
+    {% endfor %}
     </div>
+
+    <div class="row">
+        <div id="menu" class="col-lg-2">
+            <span></span>
+        </div>
+        
+        <div id="menu" class="col-lg-10">
+            {% block fos_user_content %}
+            {% endblock fos_user_content %}
+        </div>
+    </div>
+            
 {% endblock %}
+    
+

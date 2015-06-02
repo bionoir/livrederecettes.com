@@ -5,9 +5,11 @@
     {{ parent() }} - Ajouter une recette
 {% endblock %}
     
-{% block fdalivrederecettes_body %}
-    <h4>Formulaire pour l'ajout d'une nouvelle recette</h4>
+{% block fdalivrederecettes_head %}
+    <h4 class="panel-title">Formulaire pour l'ajout d'une nouvelle recette</h4>
+{% endblock %}     
     
+{% block fdalivrederecettes_body %}
     {% include "FDLivrederecettesBundle:Recipe:formAddRecipe.html.twig" %}
 {% endblock %}
 

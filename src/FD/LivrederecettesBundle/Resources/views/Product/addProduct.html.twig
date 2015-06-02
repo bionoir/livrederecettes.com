@@ -5,8 +5,10 @@
     {{ parent() }} - Ajouter un produit
 {% endblock %}
     
-{% block fdalivrederecettes_body %}
-    <h4>Formulaire pour l'ajout d'un nouveau produit</h4>
+{% block fdalivrederecettes_head %}
+    <h4 class="panel-title">Formulaire pour l'ajout d'un nouveau produit</h4>
+{% endblock %}     
     
+{% block fdalivrederecettes_body %}
     {% include "FDLivrederecettesBundle:Product:formProduct.html.twig" %}
 {% endblock %}

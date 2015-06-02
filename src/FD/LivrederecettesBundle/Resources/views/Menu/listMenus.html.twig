@@ -4,9 +4,12 @@
 {% block title %}
     {{ parent() }} - Liste des menus enregistrés dans le système
 {% endblock %}
+
+{% block fdalivrederecettes_head %}
+    <h4 class="panel-title">Liste des menus présents dans le système</h4>
+{% endblock %} 
     
 {% block fdalivrederecettes_body %}
-    <h4>Liste des menus présents dans le système.</h4>
     <ul>
         {% for menu in listMenus %}
             <li>

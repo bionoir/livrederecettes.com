@@ -4,11 +4,12 @@
 {% block title %}
     {{ parent() }} - Détail d'un produit
 {% endblock %}
- 
-{% block fdalivrederecettes_body %}
- 
-  <h4>{{ product.name }}</h4>
-  
+    
+{% block fdalivrederecettes_head %}
+    <h4 class="panel-title">{{ product.name }}</h4>
+{% endblock %}  
+    
+{% block fdalivrederecettes_body %}  
   <div class="well">
     Produit de type {{ product.productType.value }} dont la saison va du {{ product.seasonStart|date("j F") }} au {{ product.seasonEnd|date("j F") }}.
   </div>

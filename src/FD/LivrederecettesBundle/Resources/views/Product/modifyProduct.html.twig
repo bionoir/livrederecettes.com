@@ -4,9 +4,11 @@
 {% block title %}
     {{ parent() }} - Modifier le produit
 {% endblock %}
+{% block fdalivrederecettes_head %}
+    <h4 class="panel-title">Modifier le produit</h4>
+{% endblock %}     
     
 {% block fdalivrederecettes_body %}
-    <h4>Modifier le produit</h4>
     
     {% include "FDLivrederecettesBundle:Product:formProduct.html.twig" %}
     

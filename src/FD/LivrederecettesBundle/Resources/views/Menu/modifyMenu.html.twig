@@ -5,8 +5,11 @@
     {{ parent() }} - Modifier le menu
 {% endblock %}
     
+{% block fdalivrederecettes_head %}
+    <h4 class="panel-title">Modification d'un menu</h4>
+{% endblock %}
+    
 {% block fdalivrederecettes_body %}
-    <h4>Modification d'un menu</h4>
     {% include "FDLivrederecettesBundle:Menu:formModMenu.html.twig" %}
     <p>
         <a href="{{ path('livrederecettes_viewMenu', {'id': menu.id}) }}" class="btn btn-default">

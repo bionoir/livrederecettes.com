@@ -4,9 +4,12 @@
 {% block title %}
     {{ parent() }} - Ajouter un menu
 {% endblock %}
+ 
+{% block fdalivrederecettes_head %}
+    <h4 class="panel-title">Formulaire pour l'ajout d'un nouveau menu</h4>
+{% endblock %} 
     
 {% block fdalivrederecettes_body %}
-    <h4>Formulaire pour l'ajout d'un nouveau menu</h4>
     {% include "FDLivrederecettesBundle:Menu:formAddMenu.html.twig" %}
     <p>
         <a href="{{ path('livrederecettes_listMenus') }}" class="btn btn-default">

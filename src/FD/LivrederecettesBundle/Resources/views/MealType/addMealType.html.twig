@@ -4,9 +4,11 @@
 {% block title %}
     {{ parent() }} - Ajouter un type de repas
 {% endblock %}
+
+{% block fdalivrederecettes_head %}
+    <h4 class="panel-title">Formulaire pour l'ajout d'un nouveau type de repas</h4>
+{% endblock %}
     
 {% block fdalivrederecettes_body %}
-    <h4>Formulaire pour l'ajout d'un nouveau type de repas</h4>
-    
     {% include "FDLivrederecettesBundle:MealType:formMealType.html.twig" %}
 {% endblock %}

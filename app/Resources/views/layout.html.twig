@@ -9,6 +9,8 @@
             <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap-theme.min.css') }}" type="text/css" />
             <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap-glyphicons.css') }}" type="text/css" />
             <link rel="stylesheet" href="{{ asset('bundles/fdlivrederecettes/css/jquery-ui-1.10.4.min.css') }}" type="text/css" />
+            <link rel="stylesheet" href="{{ asset('bundles/fdlivrederecettes/css/bootstrap3_vertical_offset.css') }}" type="text/css" />
+            <link rel="stylesheet" href="{{ asset('bundles/fdlivrederecettes/css/testNavigation.css') }}" type="text/css" />
         {% endblock %}
         {% block javascripts %}
             {# Ajoutez ces javascripts si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
@@ -85,79 +87,19 @@
               </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
           </nav>
-        <!-- <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="#">Project name</a>
-              <div class="nav-collapse collapse">
-                <ul class="nav navbar-nav">
-                  <li class="active"><a href="#">Home</a></li>
-                  <li><a href="#about">About</a></li>
-                  <li><a href="#contact">Contact</a></li>
-                  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                      <li><a href="#">Action</a></li>
-                      <li><a href="#">Another action</a></li>
-                      <li><a href="#">Something else here</a></li>
-                      <li class="divider"></li>
-                      <li class="nav-header">Nav header</li>
-                      <li><a href="#">Separated link</a></li>
-                      <li><a href="#">One more separated link</a></li>
-                    </ul>
-                  </li>
-                </ul>
-                {#
-                    <form class="navbar-form form-inline pull-right">
-                    <input type="text" placeholder="Email">
-                    <input type="password" placeholder="Password">
-                    <button type="submit" class="btn">Sign in</button>
-                    </form>
-                #}
-              </div>
-            </div>
-        </div> -->
         
         <div class="container">
-            
+        
+            <!-- Titre principal, inchangé le long de la navigation -->
             <div class="jumbotron">
                 <h1>On teste ^^</h1>
                 <p>
-                    Texte description 1
+                    Collection de recettes permettant la consultation, insertion, création de menus et liste pour achat.
                 </p>
-                
-            </div>
-            
-            <div class="body-content">
-                <div class="row">
-                    <div id="menu" class="col-lg-2">
-                        <ul class="nav nav-pills nav-stacked">
-                            <li class="nav-header"><h4>Navigation</h4></li>
-                            <li><a href="{{ path('livrederecettes_homepage') }}">Accueil</a></li>
-                            <li><a href="{{ path('livrederecettes_listMenus') }}">Menus</a></li>
-                            <li><a href="{{ path('livrederecettes_listRecipies') }}">Recettes</a></li>
-                            <li><a href="{{ path('livrederecettes_listProducts') }}">Produits</a></li>
-                            <li><a href="{{ path('livrederecettes_listUnits') }}">Unités de mesure</a></li>
-                            <li><a href="{{ path('livrederecettes_listProductTypes') }}">Types de produit</a></li>
-                            <li><a href="{{ path('livrederecettes_listMealTypes') }}">Types de repas</a></li>
-                            <li class="divider"></li>
-                        </ul>
-                        {{ render(controller('FDLivrederecettesBundle:Livrederecettes:menu')) }}
-                    </div>
 
-                    {% block body %}
-                    {% endblock %}
-                </div>
-
-                <hr>
-                <footer>
-                    <p class="text-center"><small>Dalmasso productions © 2013 and beyond.</small></p>
-                </footer>
             </div>
+            {% block body %}
+            {% endblock %}
         </div>
         
         {% block javascriptsend %}

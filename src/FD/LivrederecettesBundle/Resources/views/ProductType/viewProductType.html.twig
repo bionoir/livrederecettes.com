@@ -4,10 +4,12 @@
 {% block title %}
     {{ parent() }} - Détail d'un type de produit
 {% endblock %}
- 
+    
+{% block fdalivrederecettes_head %}
+    <h4 class="panel-title">{{ productType.value }}</h4>
+{% endblock %}  
+    
 {% block fdalivrederecettes_body %}
- 
-  <h4>{{ productType.value }}</h4>
   
   <div class="well">
     {{ productType.description }}

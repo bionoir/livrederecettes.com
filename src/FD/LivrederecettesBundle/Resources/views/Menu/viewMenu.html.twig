@@ -4,11 +4,12 @@
 {% block title %}
     {{ parent() }} - Détail d'un menu
 {% endblock %}
- 
+    
+{% block fdalivrederecettes_head %}
+    <h4 class="panel-title">{{ menu.title }}</h4>
+{% endblock %}
+    
 {% block fdalivrederecettes_body %}
- 
-  <h4>{{ menu.title }}</h4>
-  
   <div class="well">
     {% if menu.dated == true %}
           Menu daté du {{ menu.dateFrom }} au {{ menu.dateTo }}.
