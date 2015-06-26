@@ -57,7 +57,9 @@
                         {{ form_widget(form.document.file, { 'attr' : {'style' : 'width: 100%; height: 34px; padding: 6px 12px; font-size: 14px; line-height: 1.428571429; color: #555555;  vertical-align: middle;' } }) }}
                     </div>
                     <div id="previewImage" class="col-lg-3" >
-                        <img style="width: 64px; height: auto;" src="{{ asset(recipe.document.webPath) }}" alt="{{ recipe.document.alt }}" />
+                        {% if recipe.document is not null %}
+                            <img style="width: 64px; height: auto;" src="{{ asset(recipe.document.webPath) }}" alt="{{ recipe.document.alt }}" />
+                            {% endif %}
                     </div>
                  </div>
                 {{ form_errors(form.document) }}
@@ -80,7 +82,7 @@
         
         <div class="form-group">
             <div class="col-lg-5  control-label">
-                <a href="#" id="add_ingredient" class="btn btn-success">Ajouter un ingredient</a><br /><br />
+                <a href="#" id="add_ingredient" class="btn btn-success btn-sm">Ajouter un ingredient</a><br /><br />
             </div>
         </div>
         <div class="form-actions">
@@ -88,7 +90,113 @@
         </div>
     </form>
     
+    
+    <div class="modal fade" id="dialog-formProduct" tabindex="-1" role="dialog" aria-labelledby="dialog-formProductLabel" aria-hidden="true"> 
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title" id="dialog-formProductLabel">Ajouter un produit</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="myFormProduct" class="well form-horizontal" action="{{ path('livrederecettes_addProductViaRecipe') }}" method="post" {{ form_enctype(formProduct) }}>
+                        <div class="form-group">
+                            <div class="col-lg-2 control-label">
+                                {{ form_label(formProduct.name) }}
+                            </div>
+                            <div class="col-lg-5">
+                                {{ form_widget(formProduct.name, { 'attr' : {'class' : 'form-control'} }) }}
+                                {{ form_errors(formProduct.name) }}
+                            </div>
+                        </div>
 
+                        <div class="form-group">
+                            <div class="col-lg-2 control-label">
+                                {{ form_label(formProduct.seasonStart) }}
+                            </div>
+                            <div class="col-lg-5">
+                                {{ form_widget(formProduct.seasonStart.year, { 'attr': {'style': 'display:none'} }) }}
+                                {{ form_widget(formProduct.seasonStart.day, { 'attr' : {'class' : 'form-control', 'style' : 'width:auto; display:inline'} }) }}
+                                {{ form_widget(formProduct.seasonStart.month, { 'attr' : {'class' : 'form-control', 'style' : 'width:auto; display:inline'} }) }}
+                                {{ form_errors(formProduct.seasonStart) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-2 control-label">
+                                {{ form_label(formProduct.seasonEnd) }}
+                            </div>
+                            <div class="col-lg-5">
+                                {{ form_widget(formProduct.seasonEnd.year, { 'attr': {'style': 'display:none'} }) }}
+                                {{ form_widget(formProduct.seasonEnd.day, { 'attr' : {'class' : 'form-control', 'style' : 'width:auto; display:inline'} }) }}
+                                {{ form_widget(formProduct.seasonEnd.month, { 'attr' : {'class' : 'form-control', 'style' : 'width:auto; display:inline'} }) }}
+                                {{ form_errors(formProduct.seasonEnd) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-2 control-label">
+                                {{ form_label(formProduct.productType) }}
+                            </div>
+                            <div class="col-lg-5">
+                                {{ form_widget(formProduct.productType, { 'attr' : {'class' : 'form-control'} }) }}
+                                {{ form_errors(formProduct.productType) }}
+                            </div>
+                        </div>
+
+                        {{ form_rest(formProduct) }}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="closeProductModal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="formProduct-submit" type="button" class="btn btn-primary">Sauvegarder</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="dialog-formUnit" tabindex="-1" role="dialog" aria-labelledby="dialog-formUnitLabel" aria-hidden="true"> 
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title" id="dialog-formUnitLabel">Ajouter une unité de mesure</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="myFormUnit" class="well form-horizontal" action="{{ path('livrederecettes_addUnitViaRecipe') }}" method="post" {{ form_enctype(formUnit) }}>
+                        <div class="form-group">
+                            <div class="col-lg-2 control-label">
+                                {{ form_label(formUnit.name) }}
+                            </div>
+                            <div class="col-lg-5">
+                                {{ form_widget(formUnit.name, { 'attr' : {'class' : 'form-control'} }) }}
+                                {{ form_errors(formUnit.name) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-2 control-label">
+                                {{ form_label(formUnit.value) }}
+                            </div>
+                            <div class="col-lg-5">
+                                {{ form_widget(formUnit.value, { 'attr' : {'class' : 'form-control'} }) }}
+                                {{ form_errors(formUnit.value) }}
+                            </div>
+                        </div>
+
+                        {{ form_rest(formUnit) }}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="closeUnitModal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="formUnit-submit" type="button" class="btn btn-primary">Sauvegarder</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<!--
 <script type="text/javascript">
     
     $(document).ready(function(){
@@ -222,3 +330,4 @@
         }
     );
 </script>
+-->

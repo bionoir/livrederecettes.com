@@ -4,6 +4,7 @@ namespace FD\LivrederecettesBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use FD\LivrederecettesBundle\Entity\MealType;
 use FD\LivrederecettesBundle\Form\MealTypeType;
 
@@ -58,13 +59,13 @@ class MealTypeController extends Controller
         return $this->render('FDLivrederecettesBundle:MealType:viewMealType.html.twig', array('mealType' => $mealType));
     }
     
-    public function addMealTypeAction()
+    public function addMealTypeAction(Request $request)
     {
         $mealType = new MealType;
         
         $form = $this->createForm(new MealTypeType(), $mealType );
         
-        $request = $this->get('request');
+        /*$request = $this->get('request');*/
         
         if ($request->getMethod() == 'POST') {
             
@@ -89,14 +90,14 @@ class MealTypeController extends Controller
         return $this->render('FDLivrederecettesBundle:MealType:addMealType.html.twig', array('form' => $form->createView(), 'mealType' => null ,'url_cancel' => $url_cancel));
     }
     
-    public function modifyMealTypeAction($id)
+    public function modifyMealTypeAction($id, Request $request)
     {
         $typeRepository = $this->getDoctrine()->getManager()->getRepository('FDLivrederecettesBundle:MealType');
         $mealType = $typeRepository->find($id);
         
         $form = $this->createForm(new MealTypeType(), $mealType);
         
-        $request = $this->get('request');
+        //$request = $this->get('request');
         
         if ($request->getMethod() == 'POST') {
             
@@ -121,7 +122,7 @@ class MealTypeController extends Controller
         return $this->render('FDLivrederecettesBundle:MealType:modifyMealType.html.twig', array('form' => $form->createView(), 'mealType' => $mealType, 'url_cancel' => $url_cancel));
     }
     
-    public function deleteMealTypeAction($id)
+    public function deleteMealTypeAction($id, Request $request)
     {
         $typeRepository = $this->getDoctrine()->getManager()->getRepository('FDLivrederecettesBundle:MealType');
         $mealType = $typeRepository->find($id);
@@ -137,7 +138,7 @@ class MealTypeController extends Controller
         
         $form = $this->createFormBuilder()->getForm();
         
-        $request = $this->getRequest();
+        //$request = $this->getRequest();
         
         if ($request->getMethod() == 'POST')
         {

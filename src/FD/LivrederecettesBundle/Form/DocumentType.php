@@ -4,8 +4,7 @@
 namespace FD\LivrederecettesBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DocumentType extends AbstractType
 {
@@ -15,8 +14,11 @@ class DocumentType extends AbstractType
         ;
     }
     
-    public function setDefaultOptions(OptionsResolverInterface $resolver) {
-        $resolver->setDefaults(array('data_class' => 'FD\LivrederecettesBundle\Entity\Document'));
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'FD\LivrederecettesBundle\Entity\Document'
+        ));
     }
     
     public function getName() {

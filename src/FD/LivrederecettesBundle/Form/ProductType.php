@@ -4,7 +4,7 @@ namespace FD\LivrederecettesBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProductType extends AbstractType
 {
@@ -18,7 +18,7 @@ class ProductType extends AbstractType
                                                 'label' => 'Fin saison'))
             ->add('productType', 'entity', array(
                     'class' => 'FDLivrederecettesBundle:ProductType',
-                    'property' => 'value',
+                    'choice_label' => 'value',
                     'label' => 'Type de produit',
                     'empty_value' => 'Sélectionner le type du produit'))
         ;
@@ -27,8 +27,8 @@ class ProductType extends AbstractType
             $builder->add('save', 'submit', array('attr' => array('class' => 'btn btn-primary')));
         }
     }
-
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'FD\LivrederecettesBundle\Entity\Product'

@@ -5,7 +5,7 @@ namespace FD\LivrederecettesBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\ExecutionContextInterface;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Recipe
@@ -234,7 +234,11 @@ class Recipe
         $copyRecipe->setDifficulty($this->getDifficulty());
         $copyRecipe->setPreparation($this->getPreparation());
         $copyRecipe->setTitle($this->getTitle());
-        $copyRecipe->setDocument(clone $this->getDocument());
+        
+        if (!is_null($this->getDocument()))
+        {
+            $copyRecipe->setDocument(clone $this->getDocument());
+        }
                 
         foreach ($this->getIngredients() as $ingredient) {
             $copyRecipe->addIngredient(clone $ingredient);
@@ -271,7 +275,10 @@ class Recipe
         $difficulty_levels = array('FACILE','MOYENNE','DIFFICILE','MASTER CHEF');
         
         if (!in_array(strtoupper($this->getDifficulty()), $difficulty_levels)) {
-            $context->addViolationAt('difficulty', 'La difficulté doit être une des suivantes: Facile, Moyenne, Difficile ou Master Chef', array(), null);
+            $context->buildViolation('La difficulté doit être une des suivantes: Facile, Moyenne, Difficile ou Master Chef')
+                    ->atPath('difficulty')
+                    ->addViolation();
+            //addViolationAt('difficulty', 'La difficulté doit être une des suivantes: Facile, Moyenne, Difficile ou Master Chef', array(), null);
         }
     }
 }

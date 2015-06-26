@@ -163,7 +163,7 @@ class MenuController extends Controller {
         }
         
         // Si la requête est en GET, on affiche une page de confirmation avant de supprimer
-        return $this->render('FDLivrederecettesBundle:Recipe:deleteRecipe.html.twig', array('menu' => $menu, 'form' => $form->createView()));
+        return $this->render('FDLivrederecettesBundle:Menu:deleteMenu.html.twig', array('menu' => $menu, 'form' => $form->createView()));
     }
     
 }

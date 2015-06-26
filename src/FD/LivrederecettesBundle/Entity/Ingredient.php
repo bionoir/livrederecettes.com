@@ -5,7 +5,7 @@ namespace FD\LivrederecettesBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\ExecutionContextInterface;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Ingredient
@@ -162,7 +162,10 @@ class Ingredient
     public function quantityValid(ExecutionContextInterface $context) {
         
         if ( $this->getQuantity() <= 0.0 ) {
-            $context->addViolationAt('quantity', 'Quantité invalide: elle doit être plus grande que zéro', array(), null);
+            $context->buildViolation('Quantité invalide: elle doit être plus grande que zéro')
+                    ->atPath('quantity')
+                    ->addViolation();
+            //$context->addViolationAt('quantity', 'Quantité invalide: elle doit être plus grande que zéro', array(), null);
         }
     }
 }

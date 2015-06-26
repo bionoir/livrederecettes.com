@@ -179,8 +179,71 @@ class RecipeController extends Controller
         
     }
     
-    public function modifyRecipeAction($id) {
+    public function modifyRecipeAction($id, Request $request) {
         
+        $recipeRepository = $this->getDoctrine()->getManager()->getRepository('FDLivrederecettesBundle:Recipe');
+        $recipe = $recipeRepository->find($id);
+
+        if (!$recipe) {
+            throw $this->createNotFoundException('Recette avec ID {'.$id.'} non trouvée!');
+        }
+        $originalRecipe = new Recipe();
+        $originalRecipe = $recipe->createCopy();
+        $product = new Product();
+        $unit = new Unit();
+        
+        //$request = $this->getRequest();
+        
+        $form = $this->createForm(new RecipeType(), $recipe );
+        $formProduct = $this->createForm(new ProductType(), $product);
+        $formUnit = $this->createForm(new UnitType(), $unit);
+        
+        $form->handleRequest($request);
+        $formProduct->handleRequest($request);
+        $formUnit->handleRequest($request);
+        
+        if ($request->getMethod() == 'POST') {
+            
+            /*$form->bind($request);
+        */    
+            if ($form->isValid()){
+                $em = $this->getDoctrine()->getManager();
+                
+                /* 
+                 * On compare la liste des ingredients existant avant modifications et ceux 
+                 * qui ne sont plus présent dans la nouvelle recette sont éliminés
+                 */
+                foreach ($originalRecipe->getIngredients() as $ingredient) {
+                    $ingr_id = $ingredient->getId();
+                    
+                    if (!$recipe->containsIngredient($ingr_id)){
+                        
+                        $ingredientRepository = $this->getDoctrine()->getManager()->getRepository('FDLivrederecettesBundle:Ingredient');
+                        $ingredientToRemove = $ingredientRepository->find($ingr_id);
+                        $em->remove($ingredientToRemove);
+                    }
+
+                }
+                               
+                $em->persist($recipe);
+                $em->flush();
+                
+                return $this->redirect($this->generateUrl('livrederecettes_viewRecipe',array('id' => $recipe->getId() )));
+                
+            } /*else
+            {
+                $errors = $this->getErrorMessages($form);
+                
+                return new Response(print_r($errors, true));
+            }*/
+        }
+         
+        return $this->render('FDLivrederecettesBundle:Recipe:modifyRecipe.html.twig', array('form' => $form->createView(),
+                                                                                         'formProduct' => $formProduct->createView(),
+                                                                                         'formUnit' => $formUnit->createView(),
+                                                                                          'recipe' => $recipe));
+        
+        /*
         $recipeRepository = $this->getDoctrine()->getManager()->getRepository('FDLivrederecettesBundle:Recipe');
         $recipe = $recipeRepository->find($id);
 
@@ -206,7 +269,7 @@ class RecipeController extends Controller
                 /* 
                  * On compare la liste des ingredients existant avant modifications et ceux 
                  * qui ne sont plus présent dans la nouvelle recette sont éliminés
-                 */
+                 *
                 foreach ($originalRecipe->getIngredients() as $ingredient) {
                     $ingr_id = $ingredient->getId();
                     
@@ -233,7 +296,10 @@ class RecipeController extends Controller
         }
          
         return $this->render('FDLivrederecettesBundle:Recipe:modifyRecipe.html.twig', array('form' => $form->createView(), 'recipe' => $recipe));
+         * 
+         */
     }
+
     
     public function deleteRecipeAction($id) {
         
